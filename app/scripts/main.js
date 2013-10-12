@@ -11,7 +11,7 @@ require.config({
     }
 });
 
-require(["app", "entity", "jquery", "bootstrap"], function (App, Entity, $) {
+require(["app", "entity", "component", "jquery", "bootstrap"], function (App, Entity, Component, $) {
     "use strict";
 
     $(function() {

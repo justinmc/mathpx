@@ -15,6 +15,12 @@ define(["jquery", "entity"], function ($, Entity) {
         App.prototype.widthSmall = 480;
         App.prototype.heightSmall = 258;
 
+        // Game stuff
+        App.prototype.numbers = [];
+        App.prototype.draggingNumber = null;
+        App.prototype.draggingX = null;
+        App.prototype.draggingY = null;
+
         // The time of the most recently completed render
         App.prototype.timeThen = null;
 
@@ -34,13 +40,48 @@ define(["jquery", "entity"], function ($, Entity) {
             // Position the container
             $(this.container).css("margin-top", -1 * this.ctx.canvas.height / 2);
 
-            // Create entities
-            this.dude = new Entity(0, 0);
+            // Create numbers
+            this.numbers.push(new Entity(0, 0));
+            this.numbers.push(new Entity(200, 200));
 
             // Clear the document and insert the cavnas
             document.body.innerHTML = "";
             this.container.appendChild(this.canvas);
             document.body.appendChild(this.container);
+
+            // Add event listeners
+            var me = this;
+            $(this.canvas).on("mousedown", function(e) {
+                var coords = me.getEventCoords(e);
+
+                // Check to see if a number was clicked, and start dragging it if so
+                me.numbers.forEach(function(elt, i) {
+                    if (me.isInside(coords, elt)) {
+                        me.draggingNumber = i;
+                        me.draggingX = coords.x - elt.x;
+                        me.draggingY = coords.y - elt.y;
+                    }
+                });
+            });
+            $(this.canvas).on("mousemove", function(e) {
+                // Drag if needed
+                if (me.draggingNumber != null) {
+                    var coords = me.getEventCoords(e);
+                    var dragging = me.numbers[me.draggingNumber];
+                    dragging.x = coords.x - me.draggingX;
+                    dragging.y = coords.y - me .draggingY;
+                }
+            });
+            $(this.canvas).on("mouseup", function(e) {
+                // Release a drag if needed
+                if (me.draggingNumber != null) {
+                    var coords = me.getEventCoords(e);
+                    var dragging = me.numbers[me.draggingNumber];
+                    dragging.x = coords.x - me.draggingX;
+                    dragging.y = coords.y - me.draggingY;
+                    me.draggingNumber = null;
+                }
+            });
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -54,7 +95,7 @@ define(["jquery", "entity"], function ($, Entity) {
 
         // Return an instance of the main function
         App.prototype.renderFactory = function() {
-            var me = this
+            var me = this;
             return function() {
                 // Get the changed time in seconds since last render
                 var timeNow = Date.now();
@@ -71,13 +112,15 @@ define(["jquery", "entity"], function ($, Entity) {
                 // Set the background
                 me.ctx.fillStyle = "rgb(255, 255, 255)";
                 me.ctx.fillRect (0, 0, me.ctx.canvas.width, me.ctx.canvas.height);
-                
+
                 // Render entities
-                me.dude.render(me.ctx, dt);
+                me.numbers.forEach(function(elt) {
+                    elt.render(me.ctx, dt);
+                });
 
                 // Continue the loop
                 me.timeThen = timeNow;
-                requestAnimationFrame(me.renderFactory());
+                window.requestAnimationFrame(me.renderFactory());
             };
         };
 
@@ -89,6 +132,36 @@ define(["jquery", "entity"], function ($, Entity) {
         // Returns the height of the user"s browser window
         App.prototype.getWindowHeight = function() {
             return window.innerHeight;
+        };
+
+        // Gets the coordinates of an event on the canvas relative to the canvas
+        App.prototype.getEventCoords = function(event) {
+            var totalOffsetX = 0;
+            var totalOffsetY = 0;
+            var canvasX = 0;
+            var canvasY = 0;
+            var currentElement = this.canvas;
+
+            do{
+                totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+                totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+            }
+            while(currentElement = currentElement.offsetParent)
+
+            canvasX = event.pageX - totalOffsetX;
+            canvasY = event.pageY - totalOffsetY;
+
+            return {x:canvasX, y:canvasY}
+        }
+
+        // Returns true if the coords are inside the object, false otherwise
+        App.prototype.isInside = function(coords, entity) {
+            if ((coords.x >= entity.x) && (coords.x <= entity.x + entity.getWidth())) {
+                if ((coords.y >= entity.y) && (coords.y <= entity.y + entity.getHeight())) {
+                    return true;
+                }
+            }
+            return false;
         };
 
         return App;
