@@ -1,7 +1,8 @@
 require.config({
     paths: {
         jquery: "../bower_components/jquery/jquery",
-        bootstrap: "vendor/bootstrap"
+        bootstrap: "vendor/bootstrap",
+        draggable: "components/draggable",
     },
     shim: {
         bootstrap: {
@@ -11,7 +12,7 @@ require.config({
     }
 });
 
-require(["app", "entity", "component", "jquery", "bootstrap"], function (App, Entity, Component, $) {
+require(["app", "engine", "entity", "component", "draggable", "jquery", "bootstrap"], function (App, Engine, Entity, Component, Draggable, $) {
     "use strict";
 
     $(function() {

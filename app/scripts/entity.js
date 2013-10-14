@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery"], function ($) {
+define(["jquery", "draggable"], function ($, Draggable) {
     "use strict";
 
     return (function() {
@@ -26,7 +26,7 @@ define(["jquery"], function ($) {
         Entity.prototype.spriteAnimationTime = null;
 
         // Components
-        Entity.prototype.components = {"Draggable"};
+        Entity.prototype.components = {};
 
         function Entity(x, y) {
             // Set the initial position
@@ -47,6 +47,10 @@ define(["jquery"], function ($) {
             // Add an animation
             this.spriteAnimationAdd("rest", 0, 0, 3, .15);
             this.spriteAnimate("rest");
+
+            // Add a component
+            this.components = {};
+            this.components.draggable = new Draggable(this);
         }
 
         // Draw the entity in the given context at the given coordinates
