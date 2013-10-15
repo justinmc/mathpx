@@ -3,21 +3,24 @@
     A positive number
 */
 /*global define */
-define(["jquery", "extendable", "entity", "draggable", "dragCreate"], function ($, Extendable, Entity, Draggable, DragCreate) {
+define(["jquery", "extendable", "entity", "draggable", "dragCreate", "bounded"], function ($, Extendable, Entity, Draggable, DragCreate, Bounded) {
     "use strict";
 
     return (function() {
         // Inherit from the Extendable class
         Entity.extend(Num);
 
+        Entity.prototype.width = 64;
+        Entity.prototype.height = 64;
+
         // Sprite
         Num.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
-        Num.prototype.spriteSize = 16;
+        Num.prototype.spriteWidth = 16;
+        Num.prototype.spriteHeight = 16;
         Num.prototype.spriteX = 0;
         Num.prototype.spriteY = 0;
         Num.prototype.spriteXDefault = 0;
         Num.prototype.spriteYDefault = 0;
-        Num.prototype.spriteScale = 4;
 
         function Num(x, y, toolbar) {
             // Set passed in args
@@ -30,6 +33,8 @@ define(["jquery", "extendable", "entity", "draggable", "dragCreate"], function (
             // Reset objects (for a deep copy)
             this.components = {};
             this.spriteAnimations = {};
+
+            this.componentAdd(new Bounded(this));
 
             // Set up a normal number
             if (!toolbar) {

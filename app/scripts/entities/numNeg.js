@@ -3,7 +3,7 @@
     A negative number
 */
 /*global define */
-define(["jquery", "num", "draggable", "dragCreate"], function ($, Num, Draggable, DragCreate) {
+define(["jquery", "num", "draggable", "dragCreate", "bounded"], function ($, Num, Draggable, DragCreate, Bounded) {
     "use strict";
 
     return (function() {
@@ -11,7 +11,8 @@ define(["jquery", "num", "draggable", "dragCreate"], function ($, Num, Draggable
 
         // Sprite
         NumNeg.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
-        NumNeg.prototype.spriteSize = 16;
+        Num.prototype.spriteWidth = 16;
+        Num.prototype.spriteHeight = 16;
         NumNeg.prototype.spriteX = 0;
         NumNeg.prototype.spriteY = 1;
         NumNeg.prototype.spriteXDefault = 0;
@@ -29,6 +30,8 @@ define(["jquery", "num", "draggable", "dragCreate"], function ($, Num, Draggable
             // Reset objects (for a deep copy)
             this.components = {};
             this.spriteAnimations = {};
+
+            this.componentAdd(new Bounded(this));
 
             // Set up a normal number
             if (!toolbar) {

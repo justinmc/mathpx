@@ -35,12 +35,6 @@ define(["jquery", "component"], function ($, Component) {
             }
         };
 
-        DragCreate.prototype.mousemove = function() {
-        };
-
-        DragCreate.prototype.mouseup = function() {
-        };
-
         return DragCreate;
 
     })();

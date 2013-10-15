@@ -4,6 +4,7 @@ require.config({
         bootstrap: "vendor/bootstrap",
         draggable: "components/draggable",
         dragCreate: "components/dragCreate",
+        bounded: "components/bounded",
         num: "entities/num",
         numNeg: "entities/numNeg",
     },
@@ -15,7 +16,7 @@ require.config({
     }
 });
 
-require(["app", "extendable", "engine", "entity", "num", "numNeg", "component", "draggable", "dragCreate", "jquery", "bootstrap"], function (App, Extendable, Engine, Entity, Num, NumNeg, Component, Draggable, DragCreate, $) {
+require(["app", "extendable", "engine", "entity", "num", "numNeg", "component", "draggable", "dragCreate", "bounded", "jquery", "bootstrap"], function (App, Extendable, Engine, Entity, Num, NumNeg, Component, Draggable, DragCreate, Bounded, $) {
     "use strict";
 
     $(function() {

@@ -13,15 +13,17 @@ define(["jquery", "extendable"], function ($, Extendable) {
         Entity.prototype.display = true;
         Entity.prototype.x = 0;
         Entity.prototype.y = 0;
+        Entity.prototype.width = 0;
+        Entity.prototype.height = 0;
 
         // Sprite
         Entity.prototype.spriteSheet = null;
-        Entity.prototype.spriteSize = null;
+        Entity.prototype.spriteX = 0;
+        Entity.prototype.spriteY = 0;
         Entity.prototype.spriteX = 0;
         Entity.prototype.spriteY = 0;
         Entity.prototype.spriteXDefault = 0;
         Entity.prototype.spriteYDefault = 0;
-        Entity.prototype.spriteScale = 1;
         Entity.prototype.loading = false;
 
         // Animation
@@ -32,17 +34,19 @@ define(["jquery", "extendable"], function ($, Extendable) {
         // Components
         Entity.prototype.components = {};
 
-        function Entity(x, y, spriteSheet, spriteSize, spriteX, spriteY, spriteScale) {
+        function Entity(x, y, width, height, spriteSheet, spriteX, spriteY, spriteWidth, spriteHeight) {
             // Set passed in args
             this.x = x;
             this.y = y;
+            this.width = width;
+            this.height = height;
             this.spriteSheet = spriteSheet;
-            this.spriteSize = spriteSize;
             this.spriteX = spriteX;
             this.spriteY = spriteY;
+            this.spriteHeight = spriteHeight;
+            this.spriteWidth = spriteWidth;
             this.spriteXDefault = spriteX;
             this.spriteYDefault = spriteY;
-            this.spriteScale = spriteScale;
 
             // Create the object
             this.obj = new Image();
@@ -99,14 +103,14 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 }
 
                 var image = this.obj;
-                var sx = this.spriteX * this.spriteSize;
-                var sy = this.spriteY * this.spriteSize;
-                var sWidth = this.spriteSize;
-                var sHeight = this.spriteSize;
+                var sx = this.spriteX * this.spriteWidth;
+                var sy = this.spriteY * this.spriteHeight;
+                var sWidth = this.spriteWidth;
+                var sHeight = this.spriteHeight;
                 var dx = this.x;
                 var dy = this.y;
-                var dWidth = this.spriteSize * this.spriteScale;
-                var dHeight = this.spriteSize * this.spriteScale;
+                var dWidth = this.width;
+                var dHeight = this.height;
                 ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
             }
         };
@@ -135,14 +139,6 @@ define(["jquery", "extendable"], function ($, Extendable) {
         Entity.prototype.spriteAnimateStop = function() {
             this.spriteAnimation = null;
             this.spriteAnimationTime = null;
-        };
-
-        Entity.prototype.getWidth = function() {
-            return this.spriteSize * this.spriteScale;
-        };
-
-        Entity.prototype.getHeight = function() {
-            return this.spriteSize * this.spriteScale;
         };
 
         return Entity;

@@ -38,6 +38,7 @@ define(["jquery"], function ($) {
             var me = this;
             this.entities.forEach(function(elt) {
                 if (elt.display) {
+                    me.componentsCallEvent({type: "preRender"});
                     elt.render(me.ctx, dt);
                 }
             });
@@ -55,7 +56,7 @@ define(["jquery"], function ($) {
                 var entity = this.entities[i];
                 for (var j in entity.components) {
                     var component = entity.components[j];
-                    if (component[event.type] !== null) {
+                    if (event.type in component) {
                         component[event.type](event, this);
                     }
                 }
@@ -84,8 +85,8 @@ define(["jquery"], function ($) {
 
         // Returns true if the coords are inside the object, false otherwise
         Engine.prototype.isInside = function(coords, entity) {
-            if ((coords.x >= entity.x) && (coords.x <= entity.x + entity.getWidth())) {
-                if ((coords.y >= entity.y) && (coords.y <= entity.y + entity.getHeight())) {
+            if ((coords.x >= entity.x) && (coords.x <= entity.x + entity.width)) {
+                if ((coords.y >= entity.y) && (coords.y <= entity.y + entity.height)) {
                     return true;
                 }
             }
