@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "entity", "num", "component", "draggable", "dragCreate"], function ($, Engine, Entity, Num, Component, Draggable, DragCreate) {
+define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Entity, Num, NumNeg) {
     "use strict";
 
     return (function() {
@@ -46,13 +46,13 @@ define(["jquery", "engine", "entity", "num", "component", "draggable", "dragCrea
             this.engine = new Engine(this.canvas);
 
             // Create the toolbar 
-            var num = new Num(100, this.ctx.canvas.height - 80, true);
-            num.componentAdd(new DragCreate(num, Num));
-            this.engine.entityAdd(num);
+            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, true));
+            this.engine.entityAdd(new NumNeg(200, this.ctx.canvas.height - 80, true));
 
             // Create numbers
             this.engine.entityAdd(new Num(0, 0, false));
             this.engine.entityAdd(new Num(200, 200, false));
+            this.engine.entityAdd(new NumNeg(300, 300, false));
 
             // Start the main game loop
             this.timeThen = Date.now();

@@ -55,8 +55,9 @@ define(["jquery", "extendable"], function ($, Extendable) {
             this.obj.src = this.spriteSheet;
             this.loading = true;
 
-            // Reset components (for a deep copy of the components object)
+            // Reset objects (for a deep copy)
             this.components = {};
+            this.spriteAnimations = {};
         }
 
         // Draw the entity in the given context at the given coordinates
