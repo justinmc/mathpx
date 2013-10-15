@@ -1,29 +1,19 @@
 /*global define */
-define([], function () {
+define(["extendable"], function (Extendable) {
     "use strict";
 
     return (function() {
+        // Inherit from the Extendable class
+        Extendable.extend(Component);
 
         // The entity that is assigned this component
         Component.prototype.entity = {};
 
+        // The name to refer to this component
+        Component.prototype.name = "Component";
+
         function Component(entity) {
             this.entity = entity;
-        }
-
-        // Extend the given child as a subclass of Component
-        Component.extend = function(child) {
-            for (var key in this) {
-                if (!child.prototype.hasOwnProperty(key)) {
-                    child[key] = this[key];
-                }
-            }
-
-            function ctor() { this.constructor = child; }
-            ctor.prototype = this.prototype;
-            child.prototype = new ctor;
-
-            child.__super__ = this.prototype;
         }
 
         // Functions called when the entity receives the given event

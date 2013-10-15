@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "entity"], function ($, Engine, Entity) {
+define(["jquery", "engine", "entity", "num", "component", "draggable", "dragCreate"], function ($, Engine, Entity, Num, Component, Draggable, DragCreate) {
     "use strict";
 
     return (function() {
@@ -28,32 +28,31 @@ define(["jquery", "engine", "entity"], function ($, Engine, Entity) {
         App.prototype.timeThen = null;
 
         function App() {
-            // Create the canvas
-            this.canvas = document.createElement("canvas");
+            // Get the canvas
+            this.canvas = $("canvas")[0];
             this.ctx = this.canvas.getContext("2d");
 
-            // Create the container div
-            this.container = document.createElement("div");
-            this.container.className = "container";
+            // Get the container div
+            this.container = $(".container");
 
             // Size the canvas to the user"s screen
             this.ctx.canvas.width = this.width;
             this.ctx.canvas.height = this.height;
 
             // Position the container
-            $(this.container).css("margin-top", -1 * this.ctx.canvas.height / 2);
+            $(this.container).css("margin-top", -1 * $(this.container).height() / 2);
 
             // Start the engine
             this.engine = new Engine(this.canvas);
 
-            // Create numbers
-            this.engine.entityAdd(new Entity(0, 0));
-            this.engine.entityAdd(new Entity(200, 200));
+            // Create the toolbar 
+            var num = new Num(100, this.ctx.canvas.height - 80, true);
+            num.componentAdd(new DragCreate(num, Num));
+            this.engine.entityAdd(num);
 
-            // Clear the document and insert the cavnas
-            document.body.innerHTML = "";
-            this.container.appendChild(this.canvas);
-            document.body.appendChild(this.container);
+            // Create numbers
+            this.engine.entityAdd(new Num(0, 0, false));
+            this.engine.entityAdd(new Num(200, 200, false));
 
             // Start the main game loop
             this.timeThen = Date.now();

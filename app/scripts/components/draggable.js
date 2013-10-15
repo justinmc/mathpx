@@ -7,10 +7,11 @@ define(["jquery", "component"], function ($, Component) {
     "use strict";
 
     return (function() {
+        // Inherit from the Component class
         Component.extend(Draggable);
-        // Draggable.prototype = Component;
-        //var Draggable = Component;
-        //var Draggable = $.extend(true, {}, Component);
+
+        // The name to refer to this component
+        Draggable.prototype.name = "Draggable";
 
         Draggable.prototype.draggingX = null;
         Draggable.prototype.draggingY = null;
@@ -32,7 +33,7 @@ define(["jquery", "component"], function ($, Component) {
 
         Draggable.prototype.mousemove = function(event, engine) {
             // Drag if needed
-            if ((this.draggingX != null) && (this.draggingY != null)) {
+            if ((this.draggingX !== null) && (this.draggingY !== null)) {
                 var coords = engine.getEventCoords(event);
                 this.entity.x = coords.x - this.draggingX;
                 this.entity.y = coords.y - this.draggingY;
@@ -41,7 +42,7 @@ define(["jquery", "component"], function ($, Component) {
 
         Draggable.prototype.mouseup = function(event, engine) {
             // Release a drag if needed
-            if ((this.draggingX != null) && (this.draggingY != null)) {
+            if ((this.draggingX !== null) && (this.draggingY !== null)) {
                 var coords = engine.getEventCoords(event);
                 this.entity.x = coords.x - this.draggingX;
                 this.entity.y = coords.y - this.draggingY;

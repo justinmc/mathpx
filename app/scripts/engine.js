@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "entity"], function ($, Entity) {
+define(["jquery"], function ($) {
     "use strict";
 
     return (function() {
@@ -37,13 +37,16 @@ define(["jquery", "entity"], function ($, Entity) {
             // Render entities
             var me = this;
             this.entities.forEach(function(elt) {
-                elt.render(me.ctx, dt);
+                if (elt.display) {
+                    elt.render(me.ctx, dt);
+                }
             });
         };
 
         // Create an entity
         Engine.prototype.entityAdd = function(entity) {
             this.entities.push(entity);
+            return this.entities[this.entities.length - 1];
         };
 
         // Call the given event responder on all entity components listening
@@ -52,7 +55,7 @@ define(["jquery", "entity"], function ($, Entity) {
                 var entity = this.entities[i];
                 for (var j in entity.components) {
                     var component = entity.components[j];
-                    if (component[event.type] != null) {
+                    if (component[event.type] !== null) {
                         component[event.type](event, this);
                     }
                 }
@@ -67,17 +70,17 @@ define(["jquery", "entity"], function ($, Entity) {
             var canvasY = 0;
             var currentElement = this.canvas;
 
-            do{
+            do {
                 totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
                 totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
             }
-            while(currentElement = currentElement.offsetParent)
+            while(currentElement = currentElement.offsetParent);
 
             canvasX = event.pageX - totalOffsetX;
             canvasY = event.pageY - totalOffsetY;
 
-            return {x:canvasX, y:canvasY}
-        }
+            return {x:canvasX, y:canvasY};
+        };
 
         // Returns true if the coords are inside the object, false otherwise
         Engine.prototype.isInside = function(coords, entity) {

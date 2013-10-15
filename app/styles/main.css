@@ -13,7 +13,7 @@ body {
     padding: 0px;
     overflow: hidden;
     text-align: center;
-    background: #000000;
+    background: #efefef;
 }
 
 .container {
@@ -22,7 +22,16 @@ body {
     top: 50%;
 }
 
+    .frame {
+        display: inline-block;
+        padding: 8px;
+        background: #dfdfdf;
+        font-family: 'Press Start 2P';
+        font-size: 16pt;
+    }
+
 canvas {
+    margin: 0 auto;
 }
 
 /* Javascript gets image filenames from here - hack for Grunt usemin */

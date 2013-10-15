@@ -1,23 +1,27 @@
 /*global define */
-define(["jquery", "draggable"], function ($, Draggable) {
+define(["jquery", "extendable"], function ($, Extendable) {
     "use strict";
 
     return (function() {
+        // Inherit from the Extendable class
+        Extendable.extend(Entity);
 
         // DOM Objects
         Entity.prototype.obj = null;
 
+        // Canvas Rendering
+        Entity.prototype.display = true;
         Entity.prototype.x = 0;
         Entity.prototype.y = 0;
 
         // Sprite
-        Entity.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
-        Entity.prototype.spriteSize = 16;
+        Entity.prototype.spriteSheet = null;
+        Entity.prototype.spriteSize = null;
         Entity.prototype.spriteX = 0;
         Entity.prototype.spriteY = 0;
         Entity.prototype.spriteXDefault = 0;
         Entity.prototype.spriteYDefault = 0;
-        Entity.prototype.spriteScale = 4;
+        Entity.prototype.spriteScale = 1;
         Entity.prototype.loading = false;
 
         // Animation
@@ -28,12 +32,19 @@ define(["jquery", "draggable"], function ($, Draggable) {
         // Components
         Entity.prototype.components = {};
 
-        function Entity(x, y) {
-            // Set the initial position
+        function Entity(x, y, spriteSheet, spriteSize, spriteX, spriteY, spriteScale) {
+            // Set passed in args
             this.x = x;
             this.y = y;
+            this.spriteSheet = spriteSheet;
+            this.spriteSize = spriteSize;
+            this.spriteX = spriteX;
+            this.spriteY = spriteY;
+            this.spriteXDefault = spriteX;
+            this.spriteYDefault = spriteY;
+            this.spriteScale = spriteScale;
 
-            // Create the image
+            // Create the object
             this.obj = new Image();
 
             // Load it's resource
@@ -44,20 +55,15 @@ define(["jquery", "draggable"], function ($, Draggable) {
             this.obj.src = this.spriteSheet;
             this.loading = true;
 
-            // Add an animation
-            this.spriteAnimationAdd("rest", 0, 0, 3, .15);
-            this.spriteAnimate("rest");
-
-            // Add a component
+            // Reset components (for a deep copy of the components object)
             this.components = {};
-            this.components.draggable = new Draggable(this);
         }
 
         // Draw the entity in the given context at the given coordinates
         Entity.prototype.render = function(ctx, dt) {
             if (!this.loading) {
                 // Handle sprite animations if needed
-                if (this.spriteAnimation != null) {
+                if (this.spriteAnimation !== null) {
                     this.spriteAnimationTime += dt;
                     var animation = this.spriteAnimations[this.spriteAnimation];
                     var framesLength = animation.toX - animation.fromX + 1;
@@ -68,7 +74,7 @@ define(["jquery", "draggable"], function ($, Draggable) {
                         if (this.spriteAnimationRepetitions > 0) {
                             this.spriteAnimationRepetitions--;
                             // If we've finished animating, reset the parameters
-                            if (this.spriteAnimationRepetitions == 0) {
+                            if (this.spriteAnimationRepetitions === 0) {
                                 this.spriteAnimation = null;
                                 this.spriteAnimationTime = null;
                                 this.spriteX = this.spriteXDefault;
@@ -104,6 +110,11 @@ define(["jquery", "draggable"], function ($, Draggable) {
             }
         };
 
+        // Add a component
+        Entity.prototype.componentAdd = function(component) {
+            this.components[component.name] = component;
+        };
+
         // Define a new sprite animation with the given names and frames in the sprite sheet
         Entity.prototype.spriteAnimationAdd = function(name, fromX, fromY, toX, period) {
             this.spriteAnimations[name] = {fromX: fromX, fromY: fromY, toX: toX, period: period};
@@ -111,7 +122,7 @@ define(["jquery", "draggable"], function ($, Draggable) {
 
         // Run an animation
         Entity.prototype.spriteAnimate = function(name, repetitions) {
-            if (repetitions == null) {
+            if (repetitions === null) {
                 repetitions = -1;
             }
             this.spriteAnimationRepetitions = repetitions;
