@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Entity, Num, NumNeg) {
+define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Engine, Entity, Text, Num, NumNeg) {
     "use strict";
 
     return (function() {
@@ -19,10 +19,11 @@ define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Ent
         App.prototype.engine = null;
 
         // Game stuff
-        App.prototype.entities = [];
-        App.prototype.draggingNumber = null;
-        App.prototype.draggingX = null;
-        App.prototype.draggingY = null;
+        App.prototype.textLeft = null;
+        App.prototype.textSign = null;
+        App.prototype.textRight = null;
+        App.prototype.textEquals = null;
+        App.prototype.textAnswer = null;
 
         // The time of the most recently completed render
         App.prototype.timeThen = null;
@@ -45,14 +46,16 @@ define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Ent
             // Start the engine
             this.engine = new Engine(this.canvas);
 
+            // Create the number bar
+            this.textLeft = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 6), 40, 100, "0"));
+            this.textSign = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 3), 40, 100, "+"));
+            this.textRight = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 2), 40, 100, "0"));
+            this.textEquals = this.engine.entityAdd(new Text(Math.round(2 * this.ctx.canvas.width / 3), 40, 100, "="));
+            this.textAnswer = this.engine.entityAdd(new Text(Math.round(5 * this.ctx.canvas.width / 6), 40, 100, "0"));
+
             // Create the toolbar 
             this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, true));
             this.engine.entityAdd(new NumNeg(200, this.ctx.canvas.height - 80, true));
-
-            // Create numbers
-            this.engine.entityAdd(new Num(0, 0, false));
-            this.engine.entityAdd(new Num(200, 200, false));
-            this.engine.entityAdd(new NumNeg(300, 300, false));
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -84,6 +87,19 @@ define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Ent
                 me.ctx.fillStyle = "rgb(255, 255, 255)";
                 me.ctx.fillRect (0, 0, me.ctx.canvas.width, me.ctx.canvas.height);
 
+                // Display the correct numbers and signs
+                var leftCount = me.getLeftCount();
+                var rightCount = me.getRightCount();
+                me.textLeft.text = leftCount;
+                if (rightCount < 0) {
+                    me.textSign.text = "-";
+                }
+                else {
+                    me.textSign.text = "+";
+                }
+                me.textRight.text = Math.abs(rightCount);
+                me.textAnswer.text = leftCount + rightCount;
+
                 // Render the game engine
                 me.engine.render(dt);
 
@@ -93,24 +109,32 @@ define(["jquery", "engine", "entity", "num", "numNeg"], function ($, Engine, Ent
             };
         };
 
-        // Returns the width of the user"s browser window
-        App.prototype.getWindowWidth = function() {
-            return window.innerWidth;
-        };
-
-        // Returns the height of the user"s browser window
-        App.prototype.getWindowHeight = function() {
-            return window.innerHeight;
-        };
-
-        // Returns true if the coords are inside the object, false otherwise
-        App.prototype.isInside = function(coords, entity) {
-            if ((coords.x >= entity.x) && (coords.x <= entity.x + entity.getWidth())) {
-                if ((coords.y >= entity.y) && (coords.y <= entity.y + entity.getHeight())) {
-                    return true;
+        App.prototype.getLeftCount = function() {
+            var count = 0;
+            var me = this;
+            this.engine.entities.forEach(function(entity) {
+                if (entity.x < me.ctx.canvas.width / 3) {
+                    if ("value" in entity) {
+                        count += entity.value;
+                    }
                 }
-            }
-            return false;
+            });
+
+            return count;
+        };
+
+        App.prototype.getRightCount = function() {
+            var count = 0;
+            var me = this;
+            this.engine.entities.forEach(function(entity) {
+                if ((entity.x > me.ctx.canvas.width / 3) && (entity.x < 2 * me.ctx.canvas.width / 3)) {
+                    if ("value" in entity) {
+                        count += entity.value;
+                    }
+                }
+            });
+
+            return count;
         };
 
         return App;

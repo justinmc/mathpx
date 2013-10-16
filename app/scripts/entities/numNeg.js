@@ -3,34 +3,30 @@
     A negative number
 */
 /*global define */
-define(["jquery", "num", "draggable", "dragCreate", "bounded"], function ($, Num, Draggable, DragCreate, Bounded) {
+define(["jquery", "sprite", "draggable", "dragCreate", "bounded"], function ($, Sprite, Draggable, DragCreate, Bounded) {
     "use strict";
 
     return (function() {
-        Num.extend(NumNeg);
+        Sprite.extend(NumNeg);
+
+        NumNeg.prototype.width = 64;
+        NumNeg.prototype.height = 64;
 
         // Sprite
         NumNeg.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
-        Num.prototype.spriteWidth = 16;
-        Num.prototype.spriteHeight = 16;
+        NumNeg.prototype.spriteWidth = 16;
+        NumNeg.prototype.spriteHeight = 16;
         NumNeg.prototype.spriteX = 0;
         NumNeg.prototype.spriteY = 1;
         NumNeg.prototype.spriteXDefault = 0;
         NumNeg.prototype.spriteYDefault = 1;
-        NumNeg.prototype.spriteScale = 4;
+
+        NumNeg.prototype.value = -1;
 
         function NumNeg(x, y, toolbar) {
-            // Set passed in args
-            this.x = x;
-            this.y = y;
+            NumNeg.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
-            // Create the object and load its resource
-            this.createObj();
-
-            // Reset objects (for a deep copy)
-            this.components = {};
-            this.spriteAnimations = {};
-
+            // Add the bounded component
             this.componentAdd(new Bounded(this));
 
             // Set up a normal number
