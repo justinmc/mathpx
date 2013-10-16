@@ -13,30 +13,61 @@ define(["jquery", "component"], function ($, Component) {
         // The name to refer to this component
         Bounded.prototype.name = "Bounded";
 
-        function Bounded(entity, EntityTypeDrag) {
-            this.EntityTypeDrag = EntityTypeDrag;
+        // The location to be bounded within
+        Bounded.prototype.x = null;
+        Bounded.prototype.y = null;
+        Bounded.prototype.width = null;
+        Bounded.prototype.height = null;
+
+        function Bounded(entity, x, y, width, height) {
+            if (x !== null) {
+                this.x = x;
+            }
+            if (y !== null) {
+                this.y = y;
+            }
+            if (width !== null) {
+                this.width = width;
+            }
+            if (height !== null) {
+                this.height = height;
+            }
 
             Bounded.__super__.constructor.call(this, entity);
         }
 
         Bounded.prototype.preRender = function(event, engine) {
+            // If no args passed, bound inside whole canvas
+            if (this.x === null) {
+                this.x = 0;
+            }
+            if (this.y === null) {
+                this.y = 0;
+            }
+            if (this.width === null) {
+                this.width = engine.ctx.canvas.width;
+            }
+            if (this.height === null) {
+                this.height = engine.ctx.canvas.height;
+            }
+
             // North Edge
-            if (this.entity.y < 0) {
+            if (this.entity.y < this.y) {
                 this.entity.y = 0;
             }
 
             // East Edge
-            if (this.entity.x + this.entity.width > engine.ctx.canvas.width) {
-                this.entity.x = engine.ctx.canvas.width - this.entity.width;
+            if (this.entity.x + this.entity.width > this.x + this.width) {
+                this.entity.x = this.width - this.x - this.entity.width;
             }
 
             // South Edge
-            if (this.entity.y + this.entity.height > engine.ctx.canvas.height) {
-                this.entity.y = engine.ctx.canvas.height - this.entity.height;
+            if (this.entity.y + this.entity.height > this.y + this.height) {
+                this.entity.y = this.height - this.y - this.entity.height;
             }
 
             // West Edge
-            if (this.entity.x < 0) {
+            if (this.entity.x < this.x) {
                 this.entity.x = 0;
             }
         };

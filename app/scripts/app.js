@@ -54,8 +54,10 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
             this.textAnswer = this.engine.entityAdd(new Text(Math.round(5 * this.ctx.canvas.width / 6), 40, 100, "0"));
 
             // Create the toolbar 
+            this.engine.entityAdd(new Text(70, this.ctx.canvas.height - 40, 100, "+"));
             this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, true));
-            this.engine.entityAdd(new NumNeg(200, this.ctx.canvas.height - 80, true));
+            this.engine.entityAdd(new Text(210, this.ctx.canvas.height - 40, 100, "-"));
+            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, true));
 
             // Start the main game loop
             this.timeThen = Date.now();
