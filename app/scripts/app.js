@@ -55,9 +55,9 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
 
             // Create the toolbar 
             this.engine.entityAdd(new Text(70, this.ctx.canvas.height - 40, 100, "+"));
-            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, true));
+            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true));
             this.engine.entityAdd(new Text(210, this.ctx.canvas.height - 40, 100, "-"));
-            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, true));
+            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true));
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -89,6 +89,9 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
                 me.ctx.fillStyle = "rgb(255, 255, 255)";
                 me.ctx.fillRect (0, 0, me.ctx.canvas.width, me.ctx.canvas.height);
 
+                // Render the game engine
+                me.engine.render(dt);
+
                 // Display the correct numbers and signs
                 var leftCount = me.getLeftCount();
                 var rightCount = me.getRightCount();
@@ -101,9 +104,6 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
                 }
                 me.textRight.text = Math.abs(rightCount);
                 me.textAnswer.text = leftCount + rightCount;
-
-                // Render the game engine
-                me.engine.render(dt);
 
                 // Continue the loop
                 me.timeThen = timeNow;

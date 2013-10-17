@@ -23,11 +23,11 @@ define(["jquery", "sprite", "draggable", "dragCreate", "bounded"], function ($, 
 
         NumNeg.prototype.value = -1;
 
-        function NumNeg(x, y, toolbar) {
+        function NumNeg(x, y, boundedWidth, boundedHeight, toolbar) {
             NumNeg.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
             // Add the bounded component
-            this.componentAdd(new Bounded(this));
+            this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
 
             // Set up a normal number
             if (!toolbar) {
@@ -41,7 +41,7 @@ define(["jquery", "sprite", "draggable", "dragCreate", "bounded"], function ($, 
             // Otherwise set up a toolbar number
             else {
                 // Add the dragCreate component
-                this.componentAdd(new DragCreate(this, NumNeg));
+                this.componentAdd(new DragCreate(this, NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false)));
             }
         }
 

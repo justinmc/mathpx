@@ -14,11 +14,12 @@ define(["jquery", "num", "component"], function ($, Num, Component) {
         // The name to refer to this component
         DragCreate.prototype.name = "DragCreate";
 
-        // The entity type to be created on drag
-        DragCreate.prototype.EntityTypeDrag = null;
+        // An entity to be created on drag, bound to its arguments
+        // So could be passed as this for example: Entity.bind(this, 0, 0)
+        DragCreate.prototype.EntityDragBind = null;
 
-        function DragCreate(entity, EntityTypeDrag) {
-            this.EntityTypeDrag = EntityTypeDrag;
+        function DragCreate(entity, EntityDragBind) {
+            this.EntityDragBind = EntityDragBind;
 
             DragCreate.__super__.constructor.call(this, entity);
         }
@@ -29,7 +30,7 @@ define(["jquery", "num", "component"], function ($, Num, Component) {
             // Check to see if the entity was clicked
             if (engine.isInside(coords, this.entity)) {
                 // Create the new entity
-                var dragging = engine.entityAdd(new this.EntityTypeDrag(this.entity.x, this.entity.y));
+                var dragging = engine.entityAdd(new this.EntityDragBind());
                 dragging.components.Draggable.draggingX = coords.x - this.entity.x;
                 dragging.components.Draggable.draggingY = coords.y - this.entity.y;
             }
