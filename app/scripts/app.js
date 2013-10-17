@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Engine, Entity, Text, Num, NumNeg) {
+define(["jquery", "engine", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     return (function() {
@@ -59,6 +59,7 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
             this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
             this.engine.entityAdd(new Text(210, this.ctx.canvas.height - 40, 100, "-"));
             this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
+            this.engine.entityAdd(new Trash(380, this.ctx.canvas.height - 80));
 
             // Create the answer numbers
             for (var i = 0; i < 40; i++) {

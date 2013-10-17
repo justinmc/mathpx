@@ -4,7 +4,7 @@
     Ala getting something from a toolbar
 */
 /*global define */
-define(["jquery", "num", "component"], function ($, Num, Component) {
+define(["jquery", "component"], function ($, Component) {
     "use strict";
 
     return (function() {

@@ -3,7 +3,7 @@
     A positive number
 */
 /*global define */
-define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "bounded"], function ($, Extendable, Entity, Sprite, Draggable, DragCreate, Bounded) {
+define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "bounded", "collision"], function ($, Extendable, Entity, Sprite, Draggable, DragCreate, Bounded, Collision) {
     "use strict";
 
     return (function() {
@@ -27,8 +27,12 @@ define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "
         function Num(x, y, boundedWidth, boundedHeight, toolbar, active) {
             Num.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
-            // Add the bounded component
-            this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
+            // Add the collision component for colliding with the trash
+            var me = this;
+            this.componentAdd(new Collision(this, "Trash", function(event, engine, entityCollided) {
+                engine.entities.splice(engine.entities.indexOf(me), 1);
+                entityCollided.spriteAnimate("eat", 1);
+            }, "mouseup"));
 
             if (active) {
                 // Add an animation and start it
@@ -37,6 +41,9 @@ define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "
 
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));
+
+                // Add the bounded component
+                this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
             }
 
             if (toolbar) {

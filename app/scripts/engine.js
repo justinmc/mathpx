@@ -54,6 +54,9 @@ define(["jquery"], function ($) {
         Engine.prototype.componentsCallEvent = function(event) {
             for (var i in this.entities) {
                 var entity = this.entities[i];
+                if (event.type in entity) {
+                    entity[event.type](event, this);
+                }
                 for (var j in entity.components) {
                     var component = entity.components[j];
                     if (event.type in component) {
@@ -89,6 +92,23 @@ define(["jquery"], function ($) {
                 if ((coords.y >= entity.y) && (coords.y <= entity.y + entity.height)) {
                     return true;
                 }
+            }
+            return false;
+        };
+
+        // Returns true if the two entities overlap
+        Engine.prototype.isOverlap = function(entity1, entity2) {
+            var rect1X1 = entity1.x;
+            var rect1X2 = entity1.x + entity1.width;
+            var rect1Y1 = entity1.y;
+            var rect1Y2 = entity1.y + entity1.height;
+            var rect2X1 = entity2.x;
+            var rect2X2 = entity2.x + entity2.width;
+            var rect2Y1 = entity2.y;
+            var rect2Y2 = entity2.y + entity2.height;
+
+            if (rect1X1 < rect2X2 && rect1X2 > rect2X1 && rect1Y1 < rect2Y2 && rect1Y2 > rect2Y1) {
+                return true;
             }
             return false;
         };
