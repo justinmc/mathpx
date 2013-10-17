@@ -24,14 +24,13 @@ define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "
 
         Num.prototype.value = 1;
 
-        function Num(x, y, boundedWidth, boundedHeight, toolbar) {
+        function Num(x, y, boundedWidth, boundedHeight, toolbar, active) {
             Num.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
             // Add the bounded component
             this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
 
-            // Set up a normal number
-            if (!toolbar) {
+            if (active) {
                 // Add an animation and start it
                 this.spriteAnimationAdd("rest", 0, 0, 3, 0.15);
                 this.spriteAnimate("rest");
@@ -39,10 +38,10 @@ define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));
             }
-            // Otherwise setup a toolbar number
-            else {
+
+            if (toolbar) {
                 // Add the dragCreate component
-                this.componentAdd(new DragCreate(this, Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false)));
+                this.componentAdd(new DragCreate(this, Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true)));
             }
         }
 

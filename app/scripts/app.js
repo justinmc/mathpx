@@ -24,6 +24,7 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
         App.prototype.textRight = null;
         App.prototype.textEquals = null;
         App.prototype.textAnswer = null;
+        App.prototype.answerNums = [];
 
         // The time of the most recently completed render
         App.prototype.timeThen = null;
@@ -55,9 +56,15 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
 
             // Create the toolbar 
             this.engine.entityAdd(new Text(70, this.ctx.canvas.height - 40, 100, "+"));
-            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true));
+            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
             this.engine.entityAdd(new Text(210, this.ctx.canvas.height - 40, 100, "-"));
-            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true));
+            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
+
+            // Create the answer numbers
+            for (var i = 0; i < 40; i++) {
+                this.answerNums.push(this.engine.entityAdd(new Num(this.ctx.canvas.width - 260 + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false)));
+                this.answerNums[i].display = false;
+            }
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -103,7 +110,18 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg"], function ($, Eng
                     me.textSign.text = "+";
                 }
                 me.textRight.text = Math.abs(rightCount);
-                me.textAnswer.text = leftCount + rightCount;
+
+                // Set up the answer
+                var answer = leftCount + rightCount;
+                for (var i = 0; i < me.answerNums.length; i++) {
+                    if (i < answer) {
+                        me.answerNums[i].display = true;
+                    }
+                    else {
+                        me.answerNums[i].display = false;
+                    }
+                }
+                me.textAnswer.text = answer;
 
                 // Continue the loop
                 me.timeThen = timeNow;

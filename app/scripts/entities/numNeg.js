@@ -23,14 +23,13 @@ define(["jquery", "sprite", "draggable", "dragCreate", "bounded"], function ($, 
 
         NumNeg.prototype.value = -1;
 
-        function NumNeg(x, y, boundedWidth, boundedHeight, toolbar) {
+        function NumNeg(x, y, boundedWidth, boundedHeight, toolbar, active) {
             NumNeg.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
             // Add the bounded component
             this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
 
-            // Set up a normal number
-            if (!toolbar) {
+            if (active) {
                 // Add an animation and start it
                 this.spriteAnimationAdd("rest", 0, 1, 3, 0.15);
                 this.spriteAnimate("rest");
@@ -38,10 +37,10 @@ define(["jquery", "sprite", "draggable", "dragCreate", "bounded"], function ($, 
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));
             }
-            // Otherwise set up a toolbar number
-            else {
+
+            if (toolbar) {
                 // Add the dragCreate component
-                this.componentAdd(new DragCreate(this, NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false)));
+                this.componentAdd(new DragCreate(this, NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true)));
             }
         }
 
