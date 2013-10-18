@@ -46,6 +46,9 @@ define(["jquery", "sprite", "draggable", "dragCreate", "bounded", "collision"], 
             }
 
             if (toolbar) {
+                // Don't count toolbar numbers
+                this.value = 0;
+
                 // Add the dragCreate component
                 this.componentAdd(new DragCreate(this, NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true)));
             }

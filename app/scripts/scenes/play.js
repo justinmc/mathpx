@@ -39,7 +39,7 @@ define(["jquery", "scene", "num", "numNeg", "text", "trash"], function ($, Scene
 
             // Create the answer numbers
             for (var i = 0; i < 40; i++) {
-                var num = new Num(this.engine.ctx.canvas.width - 260 + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
+                var num = new Num(this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
                 this.answerNums.push(this.entityAdd(num));
                 this.answerNums[i].display = false;
             }

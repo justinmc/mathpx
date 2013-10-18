@@ -13,7 +13,7 @@ define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", 
         App.prototype.width = 960;
         App.prototype.height = 482;
         App.prototype.widthSmall = 480;
-        App.prototype.heightSmall = 258;
+        App.prototype.heightSmall = 258; // or 224!
 
         // Engine
         App.prototype.engine = null;
@@ -29,12 +29,8 @@ define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", 
             // Get the container div
             this.container = $(".container");
 
-            // Size the canvas to the user"s screen
-            this.ctx.canvas.width = this.width;
-            this.ctx.canvas.height = this.height;
-
-            // Position the container
-            $(this.container).css("margin-top", -1 * $(this.container).height() / 2);
+            // Set the canvas size
+            this.sizeCanvas();
 
             // Start the engine
             this.engine = new Engine(this.canvas);
@@ -60,6 +56,9 @@ define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", 
                 var timeNow = Date.now();
                 var dt = (timeNow - me.timeThen) / 1000.0;
 
+                // Set the canvas size in case screen size/orientation changed
+                me.sizeCanvas();
+
                 // Reset the canvas
                 me.canvas.width = me.canvas.width;
 
@@ -75,6 +74,21 @@ define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", 
                 me.timeThen = timeNow;
                 window.requestAnimationFrame(me.renderFactory());
             };
+        };
+
+        App.prototype.sizeCanvas = function() {
+            // Size the canvas to the user's screen
+            if (window.innerWidth < this.width || window.innerHeight < this.height) {
+                this.ctx.canvas.width = this.widthSmall;
+                this.ctx.canvas.height = this.heightSmall;
+            }
+            else {
+                this.ctx.canvas.width = this.width;
+                this.ctx.canvas.height = this.height;
+            }
+
+            // Position the container
+            $(this.container).css("margin-top", -1 * $(this.container).height() / 2);
         };
 
         return App;

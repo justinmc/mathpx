@@ -47,6 +47,9 @@ define(["jquery", "extendable", "entity", "sprite", "draggable", "dragCreate", "
             }
 
             if (toolbar) {
+                // Don't count toolbar numbers
+                this.value = 0;
+
                 // Add the dragCreate component
                 this.componentAdd(new DragCreate(this, Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true)));
             }
