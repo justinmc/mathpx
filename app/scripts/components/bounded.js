@@ -38,7 +38,7 @@ define(["jquery", "component"], function ($, Component) {
             Bounded.__super__.constructor.call(this, entity);
         }
 
-        Bounded.prototype.preRender = function(event, engine) {
+        Bounded.prototype.preRender = function(event, scene) {
             // If no args passed, bound inside whole canvas
             if (this.x === null) {
                 this.x = 0;
@@ -47,10 +47,10 @@ define(["jquery", "component"], function ($, Component) {
                 this.y = 0;
             }
             if (this.width === null) {
-                this.width = engine.ctx.canvas.width;
+                this.width = scene.ctx.canvas.width;
             }
             if (this.height === null) {
-                this.height = engine.ctx.canvas.height;
+                this.height = scene.ctx.canvas.height;
             }
 
             // North Edge

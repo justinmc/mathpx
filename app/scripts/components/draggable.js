@@ -3,7 +3,7 @@
     Makes the entity draggable with the mouse
 */
 /*global define */
-define(["jquery", "component"], function ($, Component) {
+define(["jquery", "scene", "component"], function ($, Scene, Component) {
     "use strict";
 
     return (function() {
@@ -20,30 +20,30 @@ define(["jquery", "component"], function ($, Component) {
             Draggable.__super__.constructor.call(this, entity);
         }
 
-        Draggable.prototype.mousedown = function(event, engine) {
-            var coords = engine.getEventCoords(event);
+        Draggable.prototype.mousedown = function(event, scene) {
+            var coords = scene.getEventCoords(event);
 
             // Check to see if the entity was clicked, and start dragging it if so
-            if (engine.isInside(coords, this.entity)) {
-                //engine.draggingNumber = i;
+            if (Scene.isInside(coords, this.entity)) {
+                //scene.draggingNumber = i;
                 this.draggingX = coords.x - this.entity.x;
                 this.draggingY = coords.y - this.entity.y;
             }
         };
 
-        Draggable.prototype.mousemove = function(event, engine) {
+        Draggable.prototype.mousemove = function(event, scene) {
             // Drag if needed
             if ((this.draggingX !== null) && (this.draggingY !== null)) {
-                var coords = engine.getEventCoords(event);
+                var coords = scene.getEventCoords(event);
                 this.entity.x = coords.x - this.draggingX;
                 this.entity.y = coords.y - this.draggingY;
             }
         };
 
-        Draggable.prototype.mouseup = function(event, engine) {
+        Draggable.prototype.mouseup = function(event, scene) {
             // Release a drag if needed
             if ((this.draggingX !== null) && (this.draggingY !== null)) {
-                var coords = engine.getEventCoords(event);
+                var coords = scene.getEventCoords(event);
                 this.entity.x = coords.x - this.draggingX;
                 this.entity.y = coords.y - this.draggingY;
                 this.draggingX = null;

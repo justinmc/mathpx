@@ -3,7 +3,7 @@
     Calls a callback when colliding with another entity
 */
 /*global define */
-define(["jquery", "component"], function ($, Component) {
+define(["jquery", "scene", "component"], function ($, Scene, Component) {
     "use strict";
 
     return (function() {
@@ -34,42 +34,42 @@ define(["jquery", "component"], function ($, Component) {
             Collision.__super__.constructor.call(this, entity);
         }
 
-        Collision.prototype.preRender = function(event, engine) {
+        Collision.prototype.preRender = function(event, scene) {
             if (this.eventName === event.type) {
-                this.check(event, engine);
+                this.check(event, scene);
             }
         };
 
-        Collision.prototype.mouseup = function(event, engine) {
+        Collision.prototype.mouseup = function(event, scene) {
             if (this.eventName === event.type) {
-                this.check(event, engine);
+                this.check(event, scene);
             }
         };
 
-        Collision.prototype.mousedown = function(event, engine) {
+        Collision.prototype.mousedown = function(event, scene) {
             if (this.eventName === event.type) {
-                this.check(event, engine);
+                this.check(event, scene);
             }
         };
 
-        Collision.prototype.mousemove = function(event, engine) {
+        Collision.prototype.mousemove = function(event, scene) {
             if (this.eventName === event.type) {
-                this.check(event, engine);
+                this.check(event, scene);
             }
         };
 
         // Check for a collision and act
-        Collision.prototype.check = function(event, engine) {
+        Collision.prototype.check = function(event, scene) {
             // Loop through all entities
-            for (var i in engine.entities) {
-                var entity = engine.entities[i];
+            for (var i in scene.entities) {
+                var entity = scene.entities[i];
 
                 // Do we care if these entities overlap?
                 if ((this.entity !== entity) && ((this.componentCollidable === null) || (this.componentCollidable in entity.components))) {
                     // Check if the entities overlap
-                    if (engine.isOverlap(this.entity, entity)) {
+                    if (Scene.isOverlap(this.entity, entity)) {
                         // Call the callback!
-                        this.callback(event, engine, entity);
+                        this.callback(event, scene, entity);
                     }
                 }
             }

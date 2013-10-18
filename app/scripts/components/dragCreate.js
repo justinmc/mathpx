@@ -4,7 +4,7 @@
     Ala getting something from a toolbar
 */
 /*global define */
-define(["jquery", "component"], function ($, Component) {
+define(["jquery", "scene", "component"], function ($, Scene, Component) {
     "use strict";
 
     return (function() {
@@ -24,13 +24,13 @@ define(["jquery", "component"], function ($, Component) {
             DragCreate.__super__.constructor.call(this, entity);
         }
 
-        DragCreate.prototype.mousedown = function(event, engine) {
-            var coords = engine.getEventCoords(event);
+        DragCreate.prototype.mousedown = function(event, scene) {
+            var coords = scene.getEventCoords(event);
 
             // Check to see if the entity was clicked
-            if (engine.isInside(coords, this.entity)) {
+            if (Scene.isInside(coords, this.entity)) {
                 // Create the new entity
-                var dragging = engine.entityAdd(new this.EntityDragBind());
+                var dragging = scene.entityAdd(new this.EntityDragBind());
                 dragging.components.Draggable.draggingX = coords.x - this.entity.x;
                 dragging.components.Draggable.draggingY = coords.y - this.entity.y;
             }

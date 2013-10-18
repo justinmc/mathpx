@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Start, Play, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     return (function() {
@@ -17,14 +17,6 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg", "trash"], functio
 
         // Engine
         App.prototype.engine = null;
-
-        // Game stuff
-        App.prototype.textLeft = null;
-        App.prototype.textSign = null;
-        App.prototype.textRight = null;
-        App.prototype.textEquals = null;
-        App.prototype.textAnswer = null;
-        App.prototype.answerNums = [];
 
         // The time of the most recently completed render
         App.prototype.timeThen = null;
@@ -46,26 +38,9 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg", "trash"], functio
 
             // Start the engine
             this.engine = new Engine(this.canvas);
-
-            // Create the number bar
-            this.textLeft = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 6), 40, 100, "0"));
-            this.textSign = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 3), 40, 100, "+"));
-            this.textRight = this.engine.entityAdd(new Text(Math.round(this.ctx.canvas.width / 2), 40, 100, "0"));
-            this.textEquals = this.engine.entityAdd(new Text(Math.round(2 * this.ctx.canvas.width / 3), 40, 100, "="));
-            this.textAnswer = this.engine.entityAdd(new Text(Math.round(5 * this.ctx.canvas.width / 6), 40, 100, "0"));
-
-            // Create the toolbar 
-            this.engine.entityAdd(new Text(70, this.ctx.canvas.height - 40, 100, "+"));
-            this.engine.entityAdd(new Num(100, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
-            this.engine.entityAdd(new Text(210, this.ctx.canvas.height - 40, 100, "-"));
-            this.engine.entityAdd(new NumNeg(240, this.ctx.canvas.height - 80, 2 * this.ctx.canvas.width / 3, this.ctx.canvas.height, true, false));
-            this.engine.entityAdd(new Trash(380, this.ctx.canvas.height - 80));
-
-            // Create the answer numbers
-            for (var i = 0; i < 40; i++) {
-                this.answerNums.push(this.engine.entityAdd(new Num(this.ctx.canvas.width - 260 + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false)));
-                this.answerNums[i].display = false;
-            }
+            this.engine.sceneAdd(new Start(this.engine));
+            this.engine.sceneAdd(new Play(this.engine));
+            this.engine.sceneActive = "Start";
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -93,69 +68,13 @@ define(["jquery", "engine", "entity", "text", "num", "numNeg", "trash"], functio
                 me.ctx.mozImageSmoothingEnabled = false;
                 me.ctx.webkitImageSmoothingEnabled = false;
 
-                // Set the background
-                me.ctx.fillStyle = "rgb(255, 255, 255)";
-                me.ctx.fillRect (0, 0, me.ctx.canvas.width, me.ctx.canvas.height);
-
                 // Render the game engine
                 me.engine.render(dt);
-
-                // Display the correct numbers and signs
-                var leftCount = me.getLeftCount();
-                var rightCount = me.getRightCount();
-                me.textLeft.text = leftCount;
-                if (rightCount < 0) {
-                    me.textSign.text = "-";
-                }
-                else {
-                    me.textSign.text = "+";
-                }
-                me.textRight.text = Math.abs(rightCount);
-
-                // Set up the answer
-                var answer = leftCount + rightCount;
-                for (var i = 0; i < me.answerNums.length; i++) {
-                    if (i < answer) {
-                        me.answerNums[i].display = true;
-                    }
-                    else {
-                        me.answerNums[i].display = false;
-                    }
-                }
-                me.textAnswer.text = answer;
 
                 // Continue the loop
                 me.timeThen = timeNow;
                 window.requestAnimationFrame(me.renderFactory());
             };
-        };
-
-        App.prototype.getLeftCount = function() {
-            var count = 0;
-            var me = this;
-            this.engine.entities.forEach(function(entity) {
-                if (entity.x < me.ctx.canvas.width / 3) {
-                    if ("value" in entity) {
-                        count += entity.value;
-                    }
-                }
-            });
-
-            return count;
-        };
-
-        App.prototype.getRightCount = function() {
-            var count = 0;
-            var me = this;
-            this.engine.entities.forEach(function(entity) {
-                if ((entity.x > me.ctx.canvas.width / 3) && (entity.x < 2 * me.ctx.canvas.width / 3)) {
-                    if ("value" in entity) {
-                        count += entity.value;
-                    }
-                }
-            });
-
-            return count;
         };
 
         return App;
