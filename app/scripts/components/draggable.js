@@ -21,13 +21,15 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
         }
 
         Draggable.prototype.mousedown = function(event, scene) {
-            var coords = scene.getEventCoords(event);
+            if (scene.dragging === false) {
+                var coords = scene.getEventCoords(event);
 
-            // Check to see if the entity was clicked, and start dragging it if so
-            if (Scene.isInside(coords, this.entity)) {
-                //scene.draggingNumber = i;
-                this.draggingX = coords.x - this.entity.x;
-                this.draggingY = coords.y - this.entity.y;
+                // Check to see if the entity was clicked, and start dragging it if so
+                if (Scene.isInside(coords, this.entity)) {
+                    scene.dragging = true;
+                    this.draggingX = coords.x - this.entity.x;
+                    this.draggingY = coords.y - this.entity.y;
+                }
             }
         };
 
@@ -43,6 +45,7 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
         Draggable.prototype.mouseup = function(event, scene) {
             // Release a drag if needed
             if ((this.draggingX !== null) && (this.draggingY !== null)) {
+                scene.dragging = false;
                 var coords = scene.getEventCoords(event);
                 this.entity.x = coords.x - this.draggingX;
                 this.entity.y = coords.y - this.draggingY;

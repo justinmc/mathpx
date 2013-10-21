@@ -25,8 +25,9 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             this.entityAdd(new Text(centerX, 90, 0, "Math Pix!", "32px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the buttons
-            this.entityAdd(new Button(centerX, 160, 190, 40, "Free Play", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickFree(), 16, "rgb(255, 255, 255)"));
-            this.entityAdd(new Button(centerX, 260, 190, 40, "Addition", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAddition(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(centerX, 120, 190, 40, "Simple Addition", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAddition(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(centerX, 200, 190, 40, "Simple Subtraction", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickSubtraction(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(centerX, 280, 190, 40, "Free Play!", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickFree(), 16, "rgb(255, 255, 255)"));
             this.entityAdd(new Button(centerX, 360, 190, 40, "About Math Pix", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAbout(), 16, "rgb(255, 255, 255)"));
         }
 
@@ -43,14 +44,24 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             var me = this;
             return function(event) {
                 me.engine.changeScenes("Play");
-            }
+            };
         };
 
         // Addition button click event
         Menu.prototype.clickAddition = function(event) {
             var me = this;
             return function(event) {
-                console.log("clicked add");
+                me.engine.scenes.Play.mode = "add";
+                me.engine.changeScenes("Play");
+            };
+        };
+
+        // Subtraction button click event
+        Menu.prototype.clickSubtraction = function(event) {
+            var me = this;
+            return function(event) {
+                me.engine.scenes.Play.mode = "sub";
+                me.engine.changeScenes("Play");
             };
         };
 

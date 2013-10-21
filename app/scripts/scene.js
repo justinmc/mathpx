@@ -10,6 +10,9 @@ define(["jquery", "extendable"], function ($, Extendable) {
 
         Scene.prototype.engine = null;
 
+        // Used by the draggable component to limit dragging to 1 entity at a time
+        Scene.prototype.dragging = false;
+
         function Scene(engine) {
             this.engine = engine;
 
@@ -45,7 +48,8 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 this[event.type](event);
             }
 
-            for (var i in this.entities) {
+            // Loop through in reverse order, to fire on recent, top entities first
+            for (var i = this.entities.length - 1; i >= 0; i--) {
                 // Fire on all entities
                 var entity = this.entities[i];
                 if (event.type in entity) {
@@ -63,22 +67,28 @@ define(["jquery", "extendable"], function ($, Extendable) {
 
         // Gets the coordinates of an event on the canvas relative to the canvas
         Scene.prototype.getEventCoords = function(event) {
-            var totalOffsetX = 0;
-            var totalOffsetY = 0;
-            var canvasX = 0;
-            var canvasY = 0;
-            var currentElement = this.ctx.canvas;
+            // Only if we have ctx (have rendered)
+            if ("ctx" in this) {
+                var totalOffsetX = 0;
+                var totalOffsetY = 0;
+                var canvasX = 0;
+                var canvasY = 0;
+                var currentElement = this.ctx.canvas;
 
-            do {
-                totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
-                totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+                do {
+                    totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+                    totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+                }
+                while(currentElement = currentElement.offsetParent);
+
+                canvasX = event.pageX - totalOffsetX;
+                canvasY = event.pageY - totalOffsetY;
+
+                return {x:canvasX, y:canvasY};
             }
-            while(currentElement = currentElement.offsetParent);
-
-            canvasX = event.pageX - totalOffsetX;
-            canvasY = event.pageY - totalOffsetY;
-
-            return {x:canvasX, y:canvasY};
+            else {
+                return {x: 0, y: 0};
+            }
         };
 
         // Returns true if the coords are inside the object, false otherwise

@@ -31,6 +31,9 @@ define(["jquery", "scene"], function ($, Scene) {
             $(this.canvas).on("mouseup", function(event) {
                 me.getSceneActive().eventFire(event);
             });
+            $(this.canvas).on("click", function(event) {
+                me.getSceneActive().eventFire(event);
+            });
             $(document).on("keyup", function(event) {
                 me.getSceneActive().eventFire(event);
             });

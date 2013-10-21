@@ -25,14 +25,17 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
         }
 
         DragCreate.prototype.mousedown = function(event, scene) {
-            var coords = scene.getEventCoords(event);
+            // Can't dragcreate hidden entities
+            if (this.entity.display) {
+                var coords = scene.getEventCoords(event);
 
-            // Check to see if the entity was clicked
-            if (Scene.isInside(coords, this.entity)) {
-                // Create the new entity
-                var dragging = scene.entityAdd(new this.EntityDragBind());
-                dragging.components.Draggable.draggingX = coords.x - this.entity.x;
-                dragging.components.Draggable.draggingY = coords.y - this.entity.y;
+                // Check to see if the entity was clicked
+                if (Scene.isInside(coords, this.entity)) {
+                    // Create the new entity
+                    var dragging = scene.entityAdd(new this.EntityDragBind());
+                    dragging.components.Draggable.draggingX = coords.x - this.entity.x;
+                    dragging.components.Draggable.draggingY = coords.y - this.entity.y;
+                }
             }
         };
 

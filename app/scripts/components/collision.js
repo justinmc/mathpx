@@ -60,16 +60,19 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
 
         // Check for a collision and act
         Collision.prototype.check = function(event, scene) {
-            // Loop through all entities
-            for (var i in scene.entities) {
-                var entity = scene.entities[i];
+            // Can't collide with a hidden entity
+            if (this.entity.display) {
+                // Loop through all entities
+                for (var i in scene.entities) {
+                    var entity = scene.entities[i];
 
-                // Do we care if these entities overlap?
-                if ((this.entity !== entity) && ((this.componentCollidable === null) || (this.componentCollidable in entity.components))) {
-                    // Check if the entities overlap
-                    if (Scene.isOverlap(this.entity, entity)) {
-                        // Call the callback!
-                        this.callback(event, scene, entity);
+                    // Do we care if these entities overlap?
+                    if ((this.entity !== entity) && entity.display && ((this.componentCollidable === null) || (this.componentCollidable in entity.components))) {
+                        // Check if the entities overlap
+                        if (Scene.isOverlap(this.entity, entity)) {
+                            // Call the callback!
+                            this.callback(event, scene, entity);
+                        }
                     }
                 }
             }
