@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Start, Play, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "engine", "start", "play", "menu", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Start, Play, Menu, Loading, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     return (function() {
@@ -32,11 +32,19 @@ define(["jquery", "engine", "start", "play", "entity", "text", "num", "numNeg", 
             // Set the canvas size
             this.sizeCanvas();
 
+            // Get the urls of all the resources needed to load
+            var urls = [];
+            $("img.gettable").each(function() {
+                urls.push(this.src);
+            });
+
             // Start the engine
             this.engine = new Engine(this.canvas);
+            this.engine.sceneAdd(new Loading(this.engine, urls));
             this.engine.sceneAdd(new Start(this.engine));
+            this.engine.sceneAdd(new Menu(this.engine));
             this.engine.sceneAdd(new Play(this.engine));
-            this.engine.sceneActive = "Start";
+            this.engine.sceneActive = "Loading";
 
             // Start the main game loop
             this.timeThen = Date.now();

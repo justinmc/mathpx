@@ -4,12 +4,15 @@ require.config({
         bootstrap: "vendor/bootstrap",
         play: "scenes/play",
         start: "scenes/start",
+        menu: "scenes/menu",
+        loading: "scenes/loading",
         startChalk: "entities/startChalk",
         sprite: "entities/sprite",
         num: "entities/num",
         numNeg: "entities/numNeg",
         trash: "entities/trash",
         text: "entities/text",
+        button: "entities/button",
         draggable: "components/draggable",
         dragCreate: "components/dragCreate",
         bounded: "components/bounded",
@@ -23,7 +26,55 @@ require.config({
     }
 });
 
-require(["app", "extendable", "engine", "scene", "play", "start", "entity", "startChalk", "text", "sprite", "num", "numNeg", "trash", "component", "draggable", "dragCreate", "bounded", "collision", "jquery", "bootstrap"], function (App, Extendable, Engine, Scene, Play, Start, Entity, StartChalk, Text, Sprite, Num, NumNeg, Trash, Component, Draggable, DragCreate, Bounded, Collision, $) {
+require([
+    "app",
+    "extendable",
+	"engine",
+	"scene",
+	"play",
+	"start",
+    "loading",
+	"menu",
+	"entity",
+	"startChalk",
+	"text",
+    "button",
+	"sprite",
+	"num",
+	"numNeg",
+	"trash",
+	"component",
+	"draggable",
+	"dragCreate",
+	"bounded",
+	"collision",
+	"jquery",
+	"bootstrap"
+],
+function (
+    App,
+	Extendable,
+	Engine,
+	Scene,
+	Play,
+	Start,
+	Menu,
+    Loading,
+	Entity,
+	StartChalk,
+	Text,
+    Button,
+	Sprite,
+	Num,
+	NumNeg,
+	Trash,
+	Component,
+	Draggable,
+	DragCreate,
+	Bounded,
+	Collision,
+	$) {
+
     "use strict";
 
     $(function() {

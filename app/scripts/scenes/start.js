@@ -7,7 +7,6 @@ define(["jquery", "scene", "sprite", "startChalk", "text"], function ($, Scene, 
     "use strict";
 
     return (function() {
-        // Inherit from the Extendable class
         Scene.extend(Start);
 
         Start.prototype.name = "Start";
@@ -37,10 +36,10 @@ define(["jquery", "scene", "sprite", "startChalk", "text"], function ($, Scene, 
 
         // Change to the main game scene on keyup/mouseup
         Start.prototype.keyup = function(event) {
-            this.engine.changeScenes("Play");
+            this.engine.changeScenes("Menu");
         };
         Start.prototype.mouseup = function(event) {
-            this.engine.changeScenes("Play");
+            this.engine.changeScenes("Menu");
         };
 
         return Start;

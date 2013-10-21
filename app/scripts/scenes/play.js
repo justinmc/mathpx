@@ -7,7 +7,6 @@ define(["jquery", "scene", "num", "numNeg", "text", "trash"], function ($, Scene
     "use strict";
 
     return (function() {
-        // Inherit from the Extendable class
         Scene.extend(Play);
 
         Play.prototype.name = "Play";
