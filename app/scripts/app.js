@@ -1,8 +1,8 @@
 /*global define */
-define(["jquery", "engine", "start", "play", "menu", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Engine, Start, Play, Menu, Loading, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", "menu", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Start, Play, PlayAdd, PlaySub, Menu, Loading, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
-    return (function() {
+    var AppObj = (function() {
 
         // DOM Objects
         App.prototype.canvas = null;
@@ -21,7 +21,16 @@ define(["jquery", "engine", "start", "play", "menu", "loading", "entity", "text"
         // The time of the most recently completed render
         App.prototype.timeThen = null;
 
+        // Game
+        App.prototype.histories = null;
+
         function App() {
+            // Create a new histories collection
+            this.histories = new Histories();
+        }
+
+        // Start the app (after DOM is ready)
+        App.prototype.start = function() {
             // Get the canvas
             this.canvas = $("canvas")[0];
             this.ctx = this.canvas.getContext("2d");
@@ -44,12 +53,14 @@ define(["jquery", "engine", "start", "play", "menu", "loading", "entity", "text"
             this.engine.sceneAdd(new Start(this.engine));
             this.engine.sceneAdd(new Menu(this.engine));
             this.engine.sceneAdd(new Play(this.engine));
+            this.engine.sceneAdd(new PlayAdd(this.engine));
+            this.engine.sceneAdd(new PlaySub(this.engine));
             this.engine.sceneActive = "Loading";
 
             // Start the main game loop
             this.timeThen = Date.now();
             this.render();
-        }
+        };
 
         // The main loop called at each iteration of the game
         App.prototype.render = function() {
@@ -101,4 +112,6 @@ define(["jquery", "engine", "start", "play", "menu", "loading", "entity", "text"
 
         return App;
     })();
+
+    return new AppObj();
 });

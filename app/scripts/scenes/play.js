@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Scene, Entity, Num, NumNeg, Text, Trash, Button) {
+define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button) {
     "use strict";
 
     return (function() {
@@ -11,9 +11,8 @@ define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"]
 
         Play.prototype.name = "Play";
 
-        // Game modes
-        // free, add
-        Play.prototype.mode = "free";
+        // Current question
+        Play.prototype.question = null;
 
         // UI
         Play.prototype.textLeft = null;
@@ -59,16 +58,29 @@ define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"]
             this.entityAdd(new Button(840, this.engine.ctx.canvas.height - 70, 80, 40, "Menu", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickMenu(), 16, "rgb(255, 255, 255)"));
 
             // Create the answer numbers
+            this.answerNums = [];
             for (var i = 0; i < 40; i++) {
                 var num = new Num(this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
                 this.answerNums.push(this.entityAdd(num));
                 this.answerNums[i].display = false;
             }
+            this.answerNumsNeg = [];
             for (i = 0; i < 40; i++) {
                 var numNeg = new NumNeg(this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
                 this.answerNumsNeg.push(this.entityAdd(numNeg));
                 this.answerNumsNeg[i].display = false;
             }
+
+            // Set up the UI
+            this.toolbarNumL.display = true;
+            this.toolbarNumNegL.display = false;
+            this.toolbarNumLText.text = "+";
+            this.toolbarNumR.display = false;
+            this.toolbarNumNegR.display = true;
+            this.toolbarNumRText.text = "-";
+            this.toolbarTrashL.display = false;
+            this.toolbarTrashR.display = true;
+
         }
 
         Play.prototype.render = function(ctx, dt) {
@@ -76,55 +88,33 @@ define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"]
             ctx.fillStyle = "rgb(87, 124, 75)";
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
-            // Set up based on the current mode
-            if (this.mode === "add") {
-                this.toolbarNumL.display = true;
-                this.toolbarNumNegL.display = false;
-                this.toolbarNumLText.text = "+";
-                this.toolbarNumR.display = false;
-                this.toolbarNumNegR.display = false;
-                this.toolbarNumRText.text = "";
-                this.toolbarTrashL.display = false;
-                this.toolbarTrashR.display = true;
-            }
-            else if (this.mode === "sub") {
-                this.toolbarNumL.display = true;
-                this.toolbarNumNegL.display = false;
-                this.toolbarNumLText.text = "+";
-                this.toolbarNumR.display = false;
-                this.toolbarNumNegR.display = true;
-                this.toolbarNumRText.text = "-";
-                this.toolbarTrashL.display = true;
-                this.toolbarTrashR.display = true;
-            }
-            // Otherwise, free mode!
-            else {
-                this.toolbarNumL.display = true;
-                this.toolbarNumNegL.display = false;
-                this.toolbarNumLText.text = "+";
-                this.toolbarNumR.display = false;
-                this.toolbarNumNegR.display = true;
-                this.toolbarNumRText.text = "-";
-                this.toolbarTrashL.display = false;
-                this.toolbarTrashR.display = true;
-            }
-
-            Play.__super__.render.call(this, ctx, dt);
-
-            // Display the correct numbers and signs
+            // Setup the number bar
             var leftCount = this.getLeftCount(ctx);
             var rightCount = this.getRightCount(ctx);
-            this.textLeft.text = leftCount;
-            if (rightCount < 0) {
+            this.setupNumBar(leftCount, rightCount);
+
+            // Render the answer
+            this.setupAnswer(leftCount + rightCount);
+
+            // Render entities
+            Play.__super__.render.call(this, ctx, dt);
+        };
+
+        // Setup the number bar numbers and signs
+        Play.prototype.setupNumBar = function(numL, numR) {
+            this.textLeft.text = numL;
+            if (numR < 0) {
                 this.textSign.text = "-";
             }
             else {
                 this.textSign.text = "+";
             }
-            this.textRight.text = Math.abs(rightCount);
+            this.textRight.text = Math.abs(numR);
+        };
 
-            // Set up the answer
-            var answer = leftCount + rightCount;
+        // Setup the answer numbers and text
+        Play.prototype.setupAnswer = function(answer) {
+            // Negative numbers
             for (var i = 0; i < this.answerNumsNeg.length; i++) {
                 if (-1 * i > answer) {
                     this.answerNumsNeg[i].display = true;
@@ -133,6 +123,8 @@ define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"]
                     this.answerNumsNeg[i].display = false;
                 }
             }
+
+            // Positive numbers
             for (i = 0; i < this.answerNums.length; i++) {
                 if (i < answer) {
                     this.answerNums[i].display = true;
@@ -141,6 +133,8 @@ define(["jquery", "scene", "entity", "num", "numNeg", "text", "trash", "button"]
                     this.answerNums[i].display = false;
                 }
             }
+
+            // Text answer
             this.textAnswer.text = answer;
         };
 

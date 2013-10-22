@@ -2,7 +2,13 @@ require.config({
     paths: {
         jquery: "../bower_components/jquery/jquery",
         bootstrap: "vendor/bootstrap",
+        underscore: "../bower_components/underscore-amd/underscore-min",
+        backbone: "../bower_components/backbone-amd/backbone-min",
+        question: "models/question",
+        histories: "collections/histories",
         play: "scenes/play",
+        playAdd: "scenes/playAdd",
+        playSub: "scenes/playSub",
         start: "scenes/start",
         menu: "scenes/menu",
         loading: "scenes/loading",
@@ -22,64 +28,27 @@ require.config({
         bootstrap: {
             deps: ["jquery"],
             exports: "jquery"
-        }
+        },
+        backbone: {
+            deps: ["underscore"],
+        },
     }
 });
 
 require([
     "app",
-    "extendable",
-	"engine",
-	"scene",
-	"play",
-	"start",
-    "loading",
-	"menu",
-	"entity",
-	"startChalk",
-	"text",
-    "button",
-	"sprite",
-	"num",
-	"numNeg",
-	"trash",
-	"component",
-	"draggable",
-	"dragCreate",
-	"bounded",
-	"collision",
 	"jquery",
 	"bootstrap"
 ],
 function (
-    App,
-	Extendable,
-	Engine,
-	Scene,
-	Play,
-	Start,
-	Menu,
-    Loading,
-	Entity,
-	StartChalk,
-	Text,
-    Button,
-	Sprite,
-	Num,
-	NumNeg,
-	Trash,
-	Component,
-	Draggable,
-	DragCreate,
-	Bounded,
-	Collision,
+    app,
 	$) {
 
     "use strict";
 
     $(function() {
 
-        new App();
+        app.start();
 
     });
 

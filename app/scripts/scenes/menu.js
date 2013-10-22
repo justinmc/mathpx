@@ -51,8 +51,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickAddition = function(event) {
             var me = this;
             return function(event) {
-                me.engine.scenes.Play.mode = "add";
-                me.engine.changeScenes("Play");
+                me.engine.changeScenes("PlayAdd");
             };
         };
 
@@ -60,8 +59,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickSubtraction = function(event) {
             var me = this;
             return function(event) {
-                me.engine.scenes.Play.mode = "sub";
-                me.engine.changeScenes("Play");
+                me.engine.changeScenes("PlaySub");
             };
         };
 
