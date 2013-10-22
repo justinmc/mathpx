@@ -38,6 +38,7 @@ require.config({
 require([
     "app",
 	"jquery",
+    "requestAnimationFrame.polyfill",
 	"bootstrap"
 ],
 function (

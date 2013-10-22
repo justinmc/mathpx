@@ -2,7 +2,7 @@
     Component: Draggable
     Makes the entity draggable with the mouse
 */
-/*global define */
+/*global define, alert */
 define(["jquery", "scene", "component"], function ($, Scene, Component) {
     "use strict";
 
@@ -21,6 +21,37 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
         }
 
         Draggable.prototype.mousedown = function(event, scene) {
+            //console.log("mousedown");
+            this.dragStart(event, scene);
+        };
+
+        /*Draggable.prototype.touchstart = function(event, scene) {
+            alert("touchstart");
+            event.preventDefault();
+            this.dragStart(event, scene);
+        };*/
+
+        Draggable.prototype.mousemove = function(event, scene) {
+            //console.log("mousemove");
+            this.dragMove(event, scene);
+        };
+
+        /*Draggable.prototype.touchmove = function(event, scene) {
+            event.preventDefault();
+            this.dragMove(event, scene);
+        };*/
+
+        Draggable.prototype.mouseup = function(event, scene) {
+            //console.log("mouseup");
+            this.dragEnd(event, scene);
+        };
+
+        Draggable.prototype.touchend = function(event, scene) {
+            event.preventDefault();
+            this.dragEnd(event, scene);
+        };
+
+        Draggable.prototype.dragStart = function(event, scene) {
             if (scene.dragging === false) {
                 var coords = scene.getEventCoords(event);
 
@@ -33,7 +64,7 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
             }
         };
 
-        Draggable.prototype.mousemove = function(event, scene) {
+        Draggable.prototype.dragMove = function(event, scene) {
             // Drag if needed
             if ((this.draggingX !== null) && (this.draggingY !== null)) {
                 var coords = scene.getEventCoords(event);
@@ -42,7 +73,7 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
             }
         };
 
-        Draggable.prototype.mouseup = function(event, scene) {
+        Draggable.prototype.dragEnd = function(event, scene) {
             // Release a drag if needed
             if ((this.draggingX !== null) && (this.draggingY !== null)) {
                 scene.dragging = false;

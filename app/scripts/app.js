@@ -20,6 +20,8 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
 
         // The time of the most recently completed render
         App.prototype.timeThen = null;
+        App.prototype.frameCount = 0;
+        App.prototype.frameCountTime = null;
 
         // Game
         App.prototype.histories = null;
@@ -74,6 +76,19 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
                 // Get the changed time in seconds since last render
                 var timeNow = Date.now();
                 var dt = (timeNow - me.timeThen) / 1000.0;
+
+                // Set the frame rate on the screen
+                if (me.frameCountTime === null) {
+                    me.frameCountTime = timeNow;
+                }
+                else if (timeNow - me.frameCountTime >= 1000) {
+                    $(".framecount").html(++me.frameCount + "fps");
+                    me.frameCountTime = null;
+                    me.frameCount = 0;
+                }
+                else {
+                    me.frameCount++;
+                }
 
                 // Set the canvas size in case screen size/orientation changed
                 me.sizeCanvas();

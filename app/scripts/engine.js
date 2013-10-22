@@ -1,4 +1,4 @@
-/*global define */
+/*global define, alert */
 define(["jquery", "scene"], function ($, Scene) {
     "use strict";
 
@@ -32,6 +32,15 @@ define(["jquery", "scene"], function ($, Scene) {
                 me.getSceneActive().eventFire(event);
             });
             $(this.canvas).on("click", function(event) {
+                me.getSceneActive().eventFire(event);
+            });
+            $(this.canvas).on("touchstart", function(event) {
+                me.getSceneActive().eventFire(event);
+            });
+            $(this.canvas).on("touchmove", function(event) {
+                me.getSceneActive().eventFire(event);
+            });
+            $(this.canvas).on("touchend", function(event) {
                 me.getSceneActive().eventFire(event);
             });
             $(document).on("keyup", function(event) {

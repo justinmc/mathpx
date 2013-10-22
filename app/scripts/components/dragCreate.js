@@ -3,7 +3,7 @@
     On drag, creates a new draggable entity and drags it
     Ala getting something from a toolbar
 */
-/*global define */
+/*global define, alert */
 define(["jquery", "scene", "component"], function ($, Scene, Component) {
     "use strict";
 
@@ -24,10 +24,20 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
             DragCreate.__super__.constructor.call(this, entity);
         }
 
+        /*DragCreate.prototype.touchstart = function(event, scene) {
+            this.drag(event, scene);
+            event.preventDefault();
+        };*/
+
         DragCreate.prototype.mousedown = function(event, scene) {
+            this.drag(event, scene);
+        };
+
+        DragCreate.prototype.drag = function(event, scene) {
             // Can't dragcreate hidden entities
             if (this.entity.display) {
                 var coords = scene.getEventCoords(event);
+                //alert(coords.x + ", " + coords.y);
 
                 // Check to see if the entity was clicked
                 if (Scene.isInside(coords, this.entity)) {
