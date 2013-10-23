@@ -75,14 +75,28 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 var canvasY = 0;
                 var currentElement = this.ctx.canvas;
 
+                // Get the direct event x/y
+                var eventX = 0;
+                var eventY = 0;
+                if (event.type === "touchstart" || event.type === "touchmove" || event.type === "touchend" || event.type === "touchcancel") {
+                    var eventOriginal = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+                    eventX = eventOriginal.pageX;
+                    eventY = eventOriginal.pageY;
+                }
+                else {
+                    eventX = event.pageX;
+                    eventY = event.pageY;
+                }
+
+                // Get the coords with respect to the canvas
                 do {
                     totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
                     totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
                 }
                 while(currentElement = currentElement.offsetParent);
 
-                canvasX = event.pageX - totalOffsetX;
-                canvasY = event.pageY - totalOffsetY;
+                canvasX = eventX - totalOffsetX;
+                canvasY = eventY - totalOffsetY;
 
                 return {x:canvasX, y:canvasY};
             }

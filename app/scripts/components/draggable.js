@@ -21,28 +21,24 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
         }
 
         Draggable.prototype.mousedown = function(event, scene) {
-            //console.log("mousedown");
             this.dragStart(event, scene);
         };
 
-        /*Draggable.prototype.touchstart = function(event, scene) {
-            alert("touchstart");
+        Draggable.prototype.touchstart = function(event, scene) {
             event.preventDefault();
             this.dragStart(event, scene);
-        };*/
+        };
 
         Draggable.prototype.mousemove = function(event, scene) {
-            //console.log("mousemove");
             this.dragMove(event, scene);
         };
 
-        /*Draggable.prototype.touchmove = function(event, scene) {
+        Draggable.prototype.touchmove = function(event, scene) {
             event.preventDefault();
             this.dragMove(event, scene);
-        };*/
+        };
 
         Draggable.prototype.mouseup = function(event, scene) {
-            //console.log("mouseup");
             this.dragEnd(event, scene);
         };
 

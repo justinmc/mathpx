@@ -24,10 +24,10 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
             DragCreate.__super__.constructor.call(this, entity);
         }
 
-        /*DragCreate.prototype.touchstart = function(event, scene) {
-            this.drag(event, scene);
+        DragCreate.prototype.touchstart = function(event, scene) {
             event.preventDefault();
-        };*/
+            this.drag(event, scene);
+        };
 
         DragCreate.prototype.mousedown = function(event, scene) {
             this.drag(event, scene);
@@ -37,7 +37,6 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
             // Can't dragcreate hidden entities
             if (this.entity.display) {
                 var coords = scene.getEventCoords(event);
-                //alert(coords.x + ", " + coords.y);
 
                 // Check to see if the entity was clicked
                 if (Scene.isInside(coords, this.entity)) {
