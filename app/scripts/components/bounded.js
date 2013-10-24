@@ -10,8 +10,6 @@ define(["jquery", "component"], function ($, Component) {
         // Inherit from the Component class
         Component.extend(Bounded);
 
-        Component.prototype.name = "Bounded";
-
         // The name to refer to this component
         Bounded.prototype.name = "Bounded";
 

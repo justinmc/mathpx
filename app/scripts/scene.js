@@ -29,7 +29,7 @@ define(["jquery", "extendable"], function ($, Extendable) {
             var me = this;
             this.entities.forEach(function(elt) {
                 if (elt.display) {
-                    me.eventFire({type: "preRender"});
+                    me.eventFire({type: "preRender", dt: dt});
                     elt.render(ctx, dt);
                 }
             });
