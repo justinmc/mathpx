@@ -6,6 +6,8 @@ define(["jquery", "entity"], function ($, Entity) {
         // Inherit from the Extendable class
         Entity.extend(Sprite);
 
+        Sprite.prototype.obj = null;
+
         // Sprite
         Sprite.prototype.spriteSheet = null;
         Sprite.prototype.spriteX = 0;

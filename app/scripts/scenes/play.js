@@ -30,6 +30,8 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.toolbarTrashR = null;
         Play.prototype.answerNums = [];
         Play.prototype.answerNumsNeg = [];
+        Play.prototype.activeNums = [];
+        Play.prototype.activeNumsNeg = [];
 
         function Play(engine) {
             Play.__super__.constructor.call(this, engine);
@@ -70,6 +72,9 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 this.answerNumsNeg.push(this.entityAdd(numNeg));
                 this.answerNumsNeg[i].display = false;
             }
+
+            // Refresh answerNums
+            this.answerNums = [];
 
             // Set up the UI
             this.toolbarNumL.display = true;
@@ -138,14 +143,25 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.textAnswer.text = answer;
         };
 
+        Play.prototype.addActiveNum = function(num) {
+            if (num.value > 0) {
+                this.activeNums.push(num);
+            }
+            else {
+                this.activeNumsNeg.push(num);
+            }
+        };
+
         // Go button click event
         Play.prototype.clickGo = function() {
             var me = this;
             return function(event) {
-                /*var entity1 = me.entities[me.entities.length - 1];
-                var entity2 = me.entities[me.entities.length - 2];
-                entity1.componentAdd(new Tween(entity1, entity2.x, entity2.y, 10));
-                entity2.componentAdd(new Tween(entity2, entity1.x, entity1.y, 10));*/
+                while (me.activeNums.length && me.activeNumsNeg.length) {
+                    var entity1 = me.activeNums.pop();
+                    var entity2 = me.activeNumsNeg.pop();
+                    entity1.componentAdd(new Tween(entity1, entity2.x, entity2.y, 10));
+                    entity2.componentAdd(new Tween(entity2, entity1.x, entity1.y, 10));
+                }
             };
         };
 

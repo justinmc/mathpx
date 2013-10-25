@@ -21,7 +21,6 @@ require.config({
         button: "entities/button",
         tween: "components/tween",
         draggable: "components/draggable",
-        dragCreate: "components/dragCreate",
         bounded: "components/bounded",
         collision: "components/collision",
     },
