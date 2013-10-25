@@ -19,6 +19,7 @@ require.config({
         trash: "entities/trash",
         text: "entities/text",
         button: "entities/button",
+        tween: "components/tween",
         draggable: "components/draggable",
         dragCreate: "components/dragCreate",
         bounded: "components/bounded",

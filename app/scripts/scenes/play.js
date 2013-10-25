@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button) {
+define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Tween) {
     "use strict";
 
     return (function() {
@@ -142,7 +142,10 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.clickGo = function() {
             var me = this;
             return function(event) {
-                console.log("gogogo");
+                /*var entity1 = me.entities[me.entities.length - 1];
+                var entity2 = me.entities[me.entities.length - 2];
+                entity1.componentAdd(new Tween(entity1, entity2.x, entity2.y, 10));
+                entity2.componentAdd(new Tween(entity2, entity1.x, entity1.y, 10));*/
             };
         };
 
