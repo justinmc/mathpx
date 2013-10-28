@@ -21,6 +21,9 @@ define(["jquery", "num", "scene", "draggable", "bounded", "collision"], function
         NumNeg.prototype.value = -1;
 
         function NumNeg(x, y, boundedWidth, boundedHeight, toolbar, active) {
+            // Set the entity to create on drag
+            this.dragCreateEntity = NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true);
+
             NumNeg.__super__.constructor.call(this, x, y, boundedWidth, boundedHeight, toolbar, active);
 
             this.dragCreateEntity = NumNeg.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true);

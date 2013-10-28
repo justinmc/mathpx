@@ -41,6 +41,19 @@ define(["jquery", "extendable"], function ($, Extendable) {
             return this.entities[this.entities.length - 1];
         };
 
+        // Remove an entity.  Returns true if found, false if not found
+        Scene.prototype.entityRemove = function(entity) {
+            for (var i in this.entities) {
+                var entityCheck = this.entities[i];
+                if (entityCheck === entity) {
+                    this.entities.splice(i, 1);
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
         // Call the given event responder on all entity components listening
         Scene.prototype.eventFire = function(event) {
             // Fire on the scene
@@ -130,6 +143,16 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 return true;
             }
             return false;
+        };
+
+        // Returns an object with x and y set to the midpoint of the two entities
+        Scene.getMidpoint = function(entity1, entity2) {
+            var coords = {x: 0, y: 0};
+
+            coords.x = Math.round((entity1.x + entity2.x) / 2);
+            coords.y = Math.round((entity1.y + entity2.y) / 2);
+
+            return coords;
         };
 
         return Scene;

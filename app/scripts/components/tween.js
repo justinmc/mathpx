@@ -16,6 +16,7 @@ define(["jquery", "component"], function ($, Component) {
         // Parameters
         Tween.prototype.x = null;
         Tween.prototype.y = null;
+        Tween.prototype.callback = null;
 
         Tween.prototype.x0 = null;
         Tween.prototype.y0 = null;
@@ -26,9 +27,13 @@ define(["jquery", "component"], function ($, Component) {
         Tween.prototype.mx = null;
         Tween.prototype.my = null;
 
-        function Tween(entity, x, y, speed) {
+        function Tween(entity, x, y, speed, callback) {
             this.x = x;
             this.y = y;
+
+            if (typeof callback !== "undefined") {
+                this.callback = callback;
+            }
 
             // Save the original position
             this.x0 = entity.x;
@@ -59,6 +64,11 @@ define(["jquery", "component"], function ($, Component) {
                     this.entity.x = this.x;
                     this.entity.y = this.y;
                     this.time = null;
+
+                    // Call the callback if needed
+                    if (this.callback !== null) {
+                        this.callback(event, this.entity);
+                    }
                 }
                 // Otherwise move it move it
                 else {

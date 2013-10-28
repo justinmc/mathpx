@@ -3,7 +3,7 @@
     A positive number
 */
 /*global define */
-define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "bounded", "collision"], function ($, Extendable, Scene, Entity, Sprite, Draggable, Bounded, Collision) {
+define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragCreate", "bounded", "collision"], function ($, Extendable, Scene, Entity, Sprite, Draggable, DragCreate, Bounded, Collision) {
     "use strict";
 
     return (function() {
@@ -39,8 +39,6 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "bound
             this.boundedWidth = boundedWidth;
             this.boundedHeight = boundedHeight;
 
-            this.dragCreateEntity = Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true);
-
             // Add the collision component for colliding with the trash
             var me = this;
             this.componentAdd(new Collision(this, "Trash", function(event, engine, entityCollided) {
@@ -49,9 +47,12 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "bound
             }, "mouseup"));
 
             if (active) {
-                // Add an animation and start it
+                // Add the rest animation and start it
                 this.spriteAnimationAdd("rest", 0, 0, 3, 0.15);
                 this.spriteAnimate("rest");
+
+                // Add the annihilate animation
+                this.spriteAnimationAdd("annihilate", 0, 2, 3, 0.15);
 
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));
@@ -63,36 +64,21 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "bound
             // Don't count toolbar numbers
             if (toolbar) {
                 this.value = 0;
+
+                // Create the entity to create on drag, if not already set
+                if (this.dragCreateEntity === null) {
+                    this.dragCreateEntity = Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true);
+                }
+
+                // Add the dragCreate component
+                this.componentAdd(new DragCreate(this, this.dragCreateEntity, this.dragCreate));
             }
         }
 
-        Num.prototype.mousedown = function(event, scene) {
-            this.dragCreate(event, scene);
-        };
-
-        Num.prototype.touchstart = function(event, scene) {
-            event.preventDefault();
-            this.dragCreate(event, scene);
-        };
-
-        // For toolbar nums, create a new active num on touch
-        Num.prototype.dragCreate = function(event, scene) {
-            // Only dragcreate toolbar nums
-            if (this.toolbar) {
-
-                // Can't dragcreate hidden entities
-                if (this.display) {
-                    var coords = scene.getEventCoords(event);
-
-                    // Check to see if the entity was clicked
-                    if (Scene.isInside(coords, this)) {
-                        // Create the new entity
-                        var dragging = scene.addActiveNum(scene.entityAdd(new this.dragCreateEntity()));
-                        dragging.components.Draggable.draggingX = coords.x - this.x;
-                        dragging.components.Draggable.draggingY = coords.y - this.y;
-                    }
-                }
-            }
+        // Drag create callback for toolbar nums
+        Num.prototype.dragCreate = function(event, scene, entity, entityNew) {
+            // Add the entity to the scene's active count
+            scene.addActiveNum(entityNew);
         };
 
         return Num;

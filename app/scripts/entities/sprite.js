@@ -20,6 +20,7 @@ define(["jquery", "entity"], function ($, Entity) {
         Sprite.prototype.spriteAnimations = {};
         Sprite.prototype.spriteAnimation = null;
         Sprite.prototype.spriteAnimationTime = null;
+        Sprite.prototype.spriteAnimationCallback = null;
 
         function Sprite(x, y, width, height, spriteSheet, spriteX, spriteY, spriteWidth, spriteHeight) {
             Sprite.__super__.constructor.call(this, x, y, width, height);
@@ -51,7 +52,7 @@ define(["jquery", "entity"], function ($, Entity) {
         // Draw the entity in the given context at the given coordinates
         Sprite.prototype.render = function(ctx, dt) {
             if (!this.loading) {
-                // Handle sprite animations if needed
+                // Handle sprite animations if needed for next frame
                 if (this.spriteAnimation !== null) {
                     this.spriteAnimationTime += dt;
                     var animation = this.spriteAnimations[this.spriteAnimation];
@@ -62,10 +63,17 @@ define(["jquery", "entity"], function ($, Entity) {
                         // If we have a set number of repetitions
                         if (this.spriteAnimationRepetitions > 0) {
                             this.spriteAnimationRepetitions--;
-                            // If we've finished animating, reset the parameters
+                            // If we've finished animating
                             if (this.spriteAnimationRepetitions === 0) {
+                                // Call the callback if needed
+                                if (this.spriteAnimationCallback !== null) {
+                                    this.spriteAnimationCallback({type: "spriteAnimationEnd"}, this);
+                                }
+
+                                // Reset parameters
                                 this.spriteAnimation = null;
                                 this.spriteAnimationTime = null;
+                                this.spriteAnimationCallback = null;
                                 this.spriteX = this.spriteXDefault;
                                 this.spriteY = this.spriteYDefault;
                             }
@@ -86,16 +94,19 @@ define(["jquery", "entity"], function ($, Entity) {
                     }
                 }
 
-                var image = this.obj;
-                var sx = this.spriteX * this.spriteWidth;
-                var sy = this.spriteY * this.spriteHeight;
-                var sWidth = this.spriteWidth;
-                var sHeight = this.spriteHeight;
-                var dx = this.x;
-                var dy = this.y;
-                var dWidth = this.width;
-                var dHeight = this.height;
-                ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+                // Render the image on the scene
+                if (this.display) {
+                    var image = this.obj;
+                    var sx = this.spriteX * this.spriteWidth;
+                    var sy = this.spriteY * this.spriteHeight;
+                    var sWidth = this.spriteWidth;
+                    var sHeight = this.spriteHeight;
+                    var dx = this.x;
+                    var dy = this.y;
+                    var dWidth = this.width;
+                    var dHeight = this.height;
+                    ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+                }
             }
         };
 
@@ -105,7 +116,10 @@ define(["jquery", "entity"], function ($, Entity) {
         };
 
         // Run an animation
-        Sprite.prototype.spriteAnimate = function(name, repetitions) {
+        Sprite.prototype.spriteAnimate = function(name, repetitions, callback) {
+            if (typeof callback !== "undefined") {
+                this.spriteAnimationCallback = callback;
+            }
             if (repetitions === null) {
                 repetitions = -1;
             }
@@ -118,6 +132,8 @@ define(["jquery", "entity"], function ($, Entity) {
         Sprite.prototype.spriteAnimateStop = function() {
             this.spriteAnimation = null;
             this.spriteAnimationTime = null;
+            this.spriteX = this.spriteXDefault;
+            this.spriteY = this.spriteYDefault;
         };
 
         return Sprite;

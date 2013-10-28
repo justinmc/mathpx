@@ -15,7 +15,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             Menu.__super__.constructor.call(this, engine);
 
             // Create the background image
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, $("img.gettable.gettable-chalkboard").attr("src"), 0, 0, 96, 64));
+            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, $("img.gettable.gettable-chalkboard-bg").attr("src"), 0, 0, 96, 64));
 
             // Create the fun chalk dude!
             this.entityAdd(new MenuChalk(100, 80));

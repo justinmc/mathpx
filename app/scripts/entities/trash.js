@@ -18,7 +18,7 @@ define(["jquery", "extendable", "entity", "sprite"], function ($, Extendable, En
         Trash.prototype.spriteWidth = 16;
         Trash.prototype.spriteHeight = 16;
         Trash.prototype.spriteX = 0;
-        Trash.prototype.spriteY = 2;
+        Trash.prototype.spriteY = 3;
         Trash.prototype.spriteXDefault = 0;
         Trash.prototype.spriteYDefault = 0;
 
@@ -28,7 +28,7 @@ define(["jquery", "extendable", "entity", "sprite"], function ($, Extendable, En
             // Add the Trash component for collision detection
             this.componentAdd({name: "Trash"});
 
-            this.spriteAnimationAdd("eat", 0, 2, 3, 0.3);
+            this.spriteAnimationAdd("eat", 0, 3, 3, 0.3);
         }
 
         return Trash;

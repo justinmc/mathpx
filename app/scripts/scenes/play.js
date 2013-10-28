@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Tween) {
+define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, Tween) {
     "use strict";
 
     return (function() {
@@ -13,6 +13,9 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
 
         // Current question
         Play.prototype.question = null;
+
+        // True for play mode, false for done
+        Play.prototype.modePlay = true;
 
         // UI
         Play.prototype.textLeft = null;
@@ -28,6 +31,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.toolbarNumRText = null;
         Play.prototype.toolbarTrashL = null;
         Play.prototype.toolbarTrashR = null;
+        Play.prototype.buttonGo = null;
         Play.prototype.answerNums = [];
         Play.prototype.answerNumsNeg = [];
         Play.prototype.activeNums = [];
@@ -56,25 +60,25 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.toolbarNumNegR = this.entityAdd(new NumNeg(380, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
-            this.entityAdd(new Button(740, this.engine.ctx.canvas.height - 70, 80, 40, "Go!", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickGo(), 16, "rgb(255, 255, 255)"));
+            this.buttonGo = this.entityAdd(new Button(740, this.engine.ctx.canvas.height - 70, 80, 40, "Go!", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickGo(), 16, "rgb(255, 255, 255)"));
             this.entityAdd(new Button(840, this.engine.ctx.canvas.height - 70, 80, 40, "Menu", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickMenu(), 16, "rgb(255, 255, 255)"));
 
             // Create the answer numbers
             this.answerNums = [];
+            var coords;
             for (var i = 0; i < 40; i++) {
-                var num = new Num(this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
+                coords = this.getNumPosRight(i);
+                var num = new Num(coords.x, coords.y, null, null, false, false);
                 this.answerNums.push(this.entityAdd(num));
                 this.answerNums[i].display = false;
             }
             this.answerNumsNeg = [];
             for (i = 0; i < 40; i++) {
-                var numNeg = new NumNeg(this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5), 60 + 60 * Math.floor(i / 5), null, null, false, false);
+                coords = this.getNumPosRight(i);
+                var numNeg = new NumNeg(coords.x, coords.y, null, null, false, false);
                 this.answerNumsNeg.push(this.entityAdd(numNeg));
                 this.answerNumsNeg[i].display = false;
             }
-
-            // Refresh answerNums
-            this.answerNums = [];
 
             // Set up the UI
             this.toolbarNumL.display = true;
@@ -85,7 +89,6 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.toolbarNumRText.text = "-";
             this.toolbarTrashL.display = false;
             this.toolbarTrashR.display = true;
-
         }
 
         Play.prototype.render = function(ctx, dt) {
@@ -107,14 +110,16 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
 
         // Setup the number bar numbers and signs
         Play.prototype.setupNumBar = function(numL, numR) {
-            this.textLeft.text = numL;
-            if (numR < 0) {
-                this.textSign.text = "-";
+            if (this.modePlay) {
+                this.textLeft.text = numL;
+                if (numR < 0) {
+                    this.textSign.text = "-";
+                }
+                else {
+                    this.textSign.text = "+";
+                }
+                this.textRight.text = Math.abs(numR);
             }
-            else {
-                this.textSign.text = "+";
-            }
-            this.textRight.text = Math.abs(numR);
         };
 
         // Setup the answer numbers and text
@@ -143,6 +148,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.textAnswer.text = answer;
         };
 
+        // Add a new draggable number, pos or neg
         Play.prototype.addActiveNum = function(num) {
             if (num.value > 0) {
                 this.activeNums.push(num);
@@ -156,12 +162,68 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.clickGo = function() {
             var me = this;
             return function(event) {
+                // Annihilate all extra pos/neg nums
+                var deferreds = [];
                 while (me.activeNums.length && me.activeNumsNeg.length) {
+                    var deferred = new $.Deferred();
                     var entity1 = me.activeNums.pop();
                     var entity2 = me.activeNumsNeg.pop();
-                    entity1.componentAdd(new Tween(entity1, entity2.x, entity2.y, 10));
-                    entity2.componentAdd(new Tween(entity2, entity1.x, entity1.y, 10));
+                    var midpoint = Scene.getMidpoint(entity1, entity2);
+                    entity1.value = 0;
+                    entity2.value = 0;
+                    entity1.componentAdd(new Tween(entity1, midpoint.x, midpoint.y, 20, me.numAnnihilateAnimate(deferred)));
+                    entity2.componentAdd(new Tween(entity2, midpoint.x, midpoint.y, 20, me.numAnnihilate()));
+                    deferreds.push(deferred);
                 }
+
+                // After everything has finished annihilating, rack up the remaining nums
+                $.when.apply($, deferreds).then(function() {
+                    // Get the correct nums to rack, neg or pos
+                    var activeNums = me.activeNums;
+                    var sign = 1;
+                    if (me.activeNumsNeg.length) {
+                        activeNums = me.activeNumsNeg;
+                        sign = -1;
+                    }
+
+                    // Add up remaining positives or negatives
+                    var answer = 0;
+                    while (activeNums.length) {
+                        var entity = activeNums.pop();
+                        var coords = me.getNumPosLeft(answer++);
+                        entity.spriteAnimateStop();
+                        entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
+                    }
+
+                    // Change the UI to the final mode
+                    me.modePlay = false;
+                    me.buttonGo.text = "Restart";
+                    me.textLeft.text = "";
+                    me.textSign.text = sign * answer;
+                    me.textRight.text = "";
+
+                    // Show a check on the answers
+                    me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
+                    me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                });
+            };
+        };
+
+        // When nums collide
+        Play.prototype.numAnnihilate = function(deferred) {
+            var me = this;
+            return function(event, entity) {
+                entity.display = false;
+                me.entityRemove(entity);
+                if (typeof deferred !== "undefined") {
+                    deferred.resolve();
+                }
+            };
+        };
+        Play.prototype.numAnnihilateAnimate = function(deferred) {
+            var me = this;
+            return function(event, entity) {
+                entity.spriteAnimate("annihilate", 1, me.numAnnihilate(deferred));
             };
         };
 
@@ -179,6 +241,22 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             if (event.keyCode === 27) {
                 this.engine.changeScenes("Menu");
             }
+        };
+
+        // Return the coords of a final static position for a number
+        Play.prototype.getNumPosRight = function(i) {
+            var coords = {x: 0, y: 0};
+            coords.x = this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5);
+            coords.y = 60 + 60 * Math.floor(i / 5);
+
+            return coords;
+        };
+        Play.prototype.getNumPosLeft = function(i) {
+            var coords = {x: 0, y: 0};
+            coords.x = 40 * (i % 5);
+            coords.y = 60 + 60 * Math.floor(i / 5);
+
+            return coords;
         };
 
         // Count the numbers on the left side of the equation
