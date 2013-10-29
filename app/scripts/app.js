@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", "menu", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Start, Play, PlayAdd, PlaySub, Menu, Loading, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", "menu", "menuChallenges", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Start, Play, PlayAdd, PlaySub, Menu, MenuChallenges, Loading, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     var AppObj = (function() {
@@ -12,8 +12,7 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
         // Config
         App.prototype.width = 960;
         App.prototype.height = 482;
-        App.prototype.widthSmall = 480;
-        App.prototype.heightSmall = 258; // or 224!
+        App.prototype.margin = 32;
 
         // Engine
         App.prototype.engine = null;
@@ -41,7 +40,9 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
             this.container = $(".container");
 
             // Set the canvas size
-            this.sizeCanvas();
+            this.ctx.canvas.width = this.width;
+            this.ctx.canvas.height = this.height;
+            this.ctx.canvas.style.width = this.width + "px";
 
             // Get the urls of all the resources needed to load
             var urls = [];
@@ -54,6 +55,7 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
             this.engine.sceneAdd(new Loading(this.engine, urls));
             this.engine.sceneAdd(new Start(this.engine));
             this.engine.sceneAdd(new Menu(this.engine));
+            this.engine.sceneAdd(new MenuChallenges(this.engine));
             this.engine.sceneAdd(new Play(this.engine));
             this.engine.sceneAdd(new PlayAdd(this.engine));
             this.engine.sceneAdd(new PlaySub(this.engine));
@@ -91,7 +93,10 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
                 }
 
                 // Set the canvas size in case screen size/orientation changed
-                me.sizeCanvas();
+                me.ctx.canvas.style.width = me.getCanvasWidthSized() + "px";
+
+                // Position the container
+                $(me.container).css("margin-top", -1 * $(me.container).height() / 2);
 
                 // Reset the canvas
                 me.canvas.width = me.canvas.width;
@@ -110,19 +115,16 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
             };
         };
 
-        App.prototype.sizeCanvas = function() {
-            // Size the canvas to the user's screen
-            if (window.innerWidth < this.width || window.innerHeight < this.height) {
-                this.ctx.canvas.width = this.widthSmall;
-                this.ctx.canvas.height = this.heightSmall;
-            }
-            else {
-                this.ctx.canvas.width = this.width;
-                this.ctx.canvas.height = this.height;
+        // Get the proper size of the canvas width in order to fit the screen
+        App.prototype.getCanvasWidthSized = function() {
+            var widthCanvas = window.innerWidth - this.margin;
+            var heightCanvas = widthCanvas * this.height / this.width;
+            if (heightCanvas > window.innerHeight - this.margin) {
+                heightCanvas = window.innerHeight - this.margin;
+                widthCanvas = this.width * heightCanvas / this.height;
             }
 
-            // Position the container
-            $(this.container).css("margin-top", -1 * $(this.container).height() / 2);
+            return widthCanvas;
         };
 
         return App;

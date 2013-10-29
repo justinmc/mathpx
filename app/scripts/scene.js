@@ -111,6 +111,11 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 canvasX = eventX - totalOffsetX;
                 canvasY = eventY - totalOffsetY;
 
+                // Scale the coords if the canvas is scaled
+                var scale = this.ctx.canvas.width / this.ctx.canvas.style.width.substr(0, this.ctx.canvas.style.width.length - 2);
+                canvasX *= scale;
+                canvasY *= scale;
+
                 return {x:canvasX, y:canvasY};
             }
             else {

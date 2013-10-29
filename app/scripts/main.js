@@ -11,6 +11,7 @@ require.config({
         playSub: "scenes/playSub",
         start: "scenes/start",
         menu: "scenes/menu",
+        menuChallenges: "scenes/menuChallenges",
         loading: "scenes/loading",
         startChalk: "entities/startChalk",
         sprite: "entities/sprite",
