@@ -15,8 +15,6 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
 
         // Parameters
         Num.prototype.toolbar = null;
-        Num.prototype.boundedWidth = null;
-        Num.prototype.boundedHeight = null;
 
         // Sprite
         Num.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
@@ -31,13 +29,11 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
 
         Num.prototype.value = 1;
 
-        function Num(x, y, boundedWidth, boundedHeight, toolbar, active) {
+        function Num(x, y, boundedX, boundedY, boundedWidth, boundedHeight, toolbar, active) {
             Num.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
             // Save parameters
             this.toolbar = toolbar;
-            this.boundedWidth = boundedWidth;
-            this.boundedHeight = boundedHeight;
 
             // Add the collision component for colliding with the trash
             var me = this;
@@ -58,7 +54,8 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
                 this.componentAdd(new Draggable(this));
 
                 // Add the bounded component
-                this.componentAdd(new Bounded(this, 0, 0, boundedWidth, boundedHeight));
+                console.log("bound at " + boundedX + ", " + boundedY + " w/h: " + boundedWidth + ", " + boundedHeight);
+                this.componentAdd(new Bounded(this, boundedX, boundedY, boundedWidth, boundedHeight));
             }
 
             // Don't count toolbar numbers
@@ -67,7 +64,7 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
 
                 // Create the entity to create on drag, if not already set
                 if (this.dragCreateEntity === null) {
-                    this.dragCreateEntity = Num.bind(this, this.x, this.y, boundedWidth, boundedHeight, false, true);
+                    this.dragCreateEntity = Num.bind(this, this.x, this.y, boundedX, boundedY, boundedWidth, boundedHeight, false, true);
                 }
 
                 // Add the dragCreate component

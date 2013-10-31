@@ -11,18 +11,15 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
 
         PlayAdd.prototype.name = "PlayAdd";
 
+        PlayAdd.prototype.configLeft = 0;
+        PlayAdd.prototype.configRight = 0;
+        PlayAdd.prototype.configAnswer = 1;
+
         function PlayAdd(engine) {
             PlayAdd.__super__.constructor.call(this, engine);
 
-            // Setup the UI for add
-            this.toolbarNumL.display = true;
-            this.toolbarNumNegL.display = false;
-            this.toolbarNumLText.text = "+";
-            this.toolbarNumR.display = false;
-            this.toolbarNumNegR.display = false;
-            this.toolbarNumRText.text = "";
-            this.toolbarTrashL.display = false;
-            this.toolbarTrashR.display = true;
+            // Set up the UI
+            this.setupUI();
         }
 
         PlayAdd.prototype.render = function(ctx, dt) {
@@ -43,7 +40,7 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         };
 
         PlayAdd.prototype.setupAnswer = function(answer) {
-            PlayAdd.__super__.setupAnswer.call(this, this.question.get("numL") + this.question.get("numR"));
+            PlayAdd.__super__.setupAnswer.call(this, "?");
         };
 
         return PlayAdd;

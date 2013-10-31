@@ -53,12 +53,12 @@ define(["jquery", "component"], function ($, Component) {
 
             // North Edge
             if (this.entity.y < this.y) {
-                this.entity.y = 0;
+                this.entity.y = this.y;
             }
 
             // East Edge
             if (this.entity.x + this.entity.width > this.x + this.width) {
-                this.entity.x = this.width - this.x - this.entity.width;
+                this.entity.x = this.x + this.width - this.entity.width;
             }
 
             // South Edge
@@ -68,7 +68,7 @@ define(["jquery", "component"], function ($, Component) {
 
             // West Edge
             if (this.entity.x < this.x) {
-                this.entity.x = 0;
+                this.entity.x = this.x;
             }
         };
 

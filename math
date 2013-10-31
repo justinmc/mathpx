@@ -97,23 +97,25 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 app/scripts/main.js
+badd +1 app/scripts/scenes/play.js
+badd +17 app/scripts/main.js
 badd +9 app/scripts/entities/num.js
-badd +0 app/scripts/components/dragCreate.js
-badd +0 app/scripts/scenes/play.js
-badd +0 app/scripts/entities/numNeg.js
-badd +0 app/scripts/scene.js
+badd +57 app/scripts/components/dragCreate.js
+badd +1 app/scripts/entities/numNeg.js
+badd +1 app/scripts/scene.js
 badd +70 app/scripts/components/tween.js
-badd +0 app/scripts/engine.js
-badd +0 app/scripts/app.js
+badd +1 app/scripts/engine.js
+badd +1 app/scripts/app.js
 badd +31 app/scripts/entities/trash.js
-badd +0 app/scripts/entities/sprite.js
+badd +30 app/scripts/entities/sprite.js
 badd +20 app/scripts/entities/text.js
 badd +210 play.js
-badd +0 app/scripts/entities/check.js
-badd +0 app/index.html
+badd +25 app/scripts/entities/check.js
+badd +1 app/index.html
 badd +18 app/scripts/scenes/start.js
 badd +18 app/scripts/scenes/menu.js
+badd +0 app/scripts/scenes/playAdd.js
+badd +61 app/scripts/components/bounded.js
 args app/scripts/main.js
 edit app/index.html
 set splitbelow splitright
@@ -457,11 +459,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 97 - ((34 * winheight(0) + 21) / 42)
+let s:l = 74 - ((34 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-97
+74
 normal! 0
 tabedit app/scripts/engine.js
 set splitbelow splitright
@@ -805,13 +807,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 157 - ((10 * winheight(0) + 21) / 42)
+let s:l = 158 - ((23 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-157
-normal! 012l
-tabedit app/scripts/entities/sprite.js
+158
+normal! 043l
+tabedit app/scripts/scenes/playAdd.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -921,128 +923,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 30 - ((29 * winheight(0) + 21) / 42)
+let s:l = 44 - ((36 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-30
-normal! 012l
-tabedit app/scripts/entities/check.js
-set splitbelow splitright
-set nosplitbelow
-set nosplitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal balloonexpr=
-setlocal nobinary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal cindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=j1,J1
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=//%s
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'javascript'
-setlocal filetype=javascript
-endif
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=croql
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=2
-setlocal imsearch=2
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-set linebreak
-setlocal linebreak
-setlocal nolisp
-setlocal nolist
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
-setlocal nomodeline
-setlocal modifiable
-setlocal nrformats=octal,hex
-set number
-setlocal number
-setlocal numberwidth=4
-setlocal omnifunc=javascriptcomplete#CompleteJS
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=4
-setlocal noshortname
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal statusline=
-setlocal suffixesadd=
-setlocal noswapfile
-setlocal synmaxcol=3000
-if &syntax != 'javascript'
-setlocal syntax=javascript
-endif
-setlocal tabstop=4
-setlocal tags=
-setlocal textwidth=500
-setlocal thesaurus=
-setlocal noundofile
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 25 - ((24 * winheight(0) + 21) / 42)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-25
-normal! 0
+44
+normal! 09l
 tabedit app/scripts/entities/numNeg.js
 set splitbelow splitright
 set nosplitbelow
@@ -1153,13 +1039,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 36 - ((29 * winheight(0) + 21) / 42)
+let s:l = 29 - ((22 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
-normal! 08l
-tabedit app/scripts/components/dragCreate.js
+29
+normal! 088l
+tabedit app/scripts/entities/num.js
 set splitbelow splitright
 set nosplitbelow
 set nosplitright
@@ -1269,12 +1155,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 57 - ((33 * winheight(0) + 21) / 42)
+let s:l = 57 - ((12 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 57
-normal! 045l
+normal! 0118l
 tabnext 6
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
