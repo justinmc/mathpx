@@ -22,6 +22,10 @@ define(["backbone"], function (Backbone) {
             this.timeEnd = new Date().getTime();
         },
 
+        getAnswer: function() {
+            return this.get("numL") + this.get("numR");
+        },
+
     });
 
 });

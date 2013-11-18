@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, Tween) {
+define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "x", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
     "use strict";
 
     return (function() {
@@ -53,8 +53,12 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.questionNumsNegR = [];
         Play.prototype.answerNums = [];
         Play.prototype.answerNumsNeg = [];
-        Play.prototype.activeNums = [];
-        Play.prototype.activeNumsNeg = [];
+        Play.prototype.activeNumsL = [];
+        Play.prototype.activeNumsLNeg = [];
+        Play.prototype.activeNumsR = [];
+        Play.prototype.activeNumsRNeg = [];
+        Play.prototype.activeNumsA = [];
+        Play.prototype.activeNumsANeg = [];
 
         function Play(engine) {
             Play.__super__.constructor.call(this, engine);
@@ -148,16 +152,25 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             ctx.fillStyle = "rgb(87, 124, 75)";
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
-            // Setup the number bar
-            var leftCount = this.getLeftCount(ctx);
-            var rightCount = this.getRightCount(ctx);
-            this.setupNumBar(leftCount, rightCount);
+            var leftCount = this.activeNumsL.length - this.activeNumsLNeg.length;
+            var rightCount = this.activeNumsR.length - this.activeNumsRNeg.length;
 
-            // Text answer
-            if (this.question !== null) {
-                this.textAnswer.text = this.question.numL + this.question.numR;
+            // If playing, update the UI
+            if (this.modePlay) {
+                // Setup the number bar
+                this.setupNumBar(leftCount, rightCount);
+
+                // Text answer
+                if ((this.configAnswer === 0) && (this.question !== null)) {
+                    this.textAnswer.text = this.question.get("numL") + this.question.get("numR");
+                }
+                else if (this.configAnswer === 0) {
+                    this.textAnswer.text = leftCount + rightCount;
+                }
+                else {
+                    this.textAnswer.text = this.activeNumsA.length - this.activeNumsANeg.length;
+                }
             }
-            this.textAnswer.text = leftCount + rightCount;
 
             // Render the count nums
             if (this.configAnswer === 0) {
@@ -253,78 +266,174 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         // Add a new draggable number, pos or neg
         Play.prototype.addActiveNum = function(num) {
             if (num.value > 0) {
-                this.activeNums.push(num);
+                if (num.x < this.engine.ctx.canvas.width / 3) {
+                    this.activeNumsL.push(num);
+                }
+                else if (num.x < 2 * this.engine.ctx.canvas.width / 3) {
+                    this.activeNumsR.push(num);
+                }
+                else {
+                    this.activeNumsA.push(num);
+                }
             }
             else {
-                this.activeNumsNeg.push(num);
+                if (num.x < this.engine.ctx.canvas.width / 3) {
+                    this.activeNumsLNeg.push(num);
+                }
+                else if (num.x < 2 * this.engine.ctx.canvas.width / 3) {
+                    this.activeNumsRNeg.push(num);
+                }
+                else {
+                    this.activeNumsANeg.push(num);
+                }
             }
         };
+
+        // Returns racked nums in given array
+        Play.prototype.getNumsRacked = function(nums) {
+            var numsRacked = [];
+            for (var i in nums) {
+                var num = nums[i];
+
+                // Only visible nums
+                if (num.display) {
+                    numsRacked.push(num);
+                }
+            }
+
+            return numsRacked;
+        }
 
         // Go button click event
         Play.prototype.clickGo = function() {
             var me = this;
             return function(event) {
-                // Annihilate all extra pos/neg nums
-                var deferreds = [];
-                while (me.activeNums.length && me.activeNumsNeg.length) {
-                    var deferred = new $.Deferred();
-                    var entity1 = me.activeNums.pop();
-                    var entity2 = me.activeNumsNeg.pop();
-                    var midpoint = Scene.getMidpoint(entity1, entity2);
-                    entity1.value = 0;
-                    entity2.value = 0;
-                    entity1.componentAdd(new Tween(entity1, midpoint.x, midpoint.y, 20, me.numAnnihilateAnimate(deferred)));
-                    entity2.componentAdd(new Tween(entity2, midpoint.x, midpoint.y, 20, me.numAnnihilate()));
-                    deferreds.push(deferred);
-                }
+                // Remove the UI numbers
+                me.modePlay = false;
+                me.textLeft.text = "";
+                me.textSign.text = "";
+                me.textRight.text = "";
 
-                // After everything has finished annihilating, rack up the remaining nums
+                // Get the correct numbers to animate
+                var numsL = me.activeNumsL.concat(me.getNumsRacked(me.questionNumsL));
+                var numsLNeg = me.activeNumsLNeg.concat(me.getNumsRacked(me.questionNumsLNeg));
+                var numsR = me.activeNumsR.concat(me.getNumsRacked(me.questionNumsR));
+                var numsRNeg = me.activeNumsRNeg.concat(me.getNumsRacked(me.questionNumsRNeg));
+
+                // Annihilate all active pos/neg nums in left and right and answer
+                var deferreds = me.sectionAnnihilate(numsL, numsLNeg);
+                deferreds.concat(me.sectionAnnihilate(numsR, numsRNeg));
+                deferreds.concat(me.sectionAnnihilate(me.activeNumsA, me.activeNumsANeg));
+ 
+                // After left/right have annihilated individually, annihilate between left and right
                 $.when.apply($, deferreds).then(function() {
-                    // Get the correct nums to rack, neg or pos
-                    var activeNums = me.activeNums;
-                    var sign = 1;
-                    if (me.activeNumsNeg.length) {
-                        activeNums = me.activeNumsNeg;
-                        sign = -1;
-                    }
-
-                    // Add up remaining positives or negatives
-                    var answer = 0;
-                    while (activeNums.length) {
-                        var entity = activeNums.pop();
-
-                        // Get the right location to rack up at
-                        var coords = {};
-                        if (me.configLeft !== 0) {
-                            coords = me.getNumPosLeft(answer++);
-                        }
-                        else if (me.configRight !== 0) {
-                            coords = me.getNumPosRight(answer++);
+                    // Get pos/neg nums out of remaining nums and annihilate them
+                    var numsLAnnihilated = numsL.length ? numsL : numsLNeg;
+                    var numsRAnnihilated = numsR.length ? numsR : numsRNeg;
+                    var numsLR = [];
+                    var numsLRNeg = [];
+                    for (var i in numsLAnnihilated) {
+                        var num = numsLAnnihilated[i];
+                        if (num.value > 0) {
+                            numsLR.push(num);
                         }
                         else {
-                            coords = me.getNumPosAnswer(answer++);
-                        } 
-
-                        entity.spriteAnimateStop();
-                        entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
+                            numsLRNeg.push(num);
+                        }
                     }
+                    for (var i in numsRAnnihilated) {
+                        var num = numsRAnnihilated[i];
+                        if (num.value > 0) {
+                            numsLR.push(num);
+                        }
+                        else {
+                            numsLRNeg.push(num);
+                        }
+                    }
+                    var deferreds2 = me.sectionAnnihilate(numsLR, numsLRNeg);
 
-                    // Change the UI to the final mode
-                    me.modePlay = false;
-                    me.buttonGo.text = "Restart";
-                    me.textLeft.text = "";
-                    me.textSign.text = sign * answer;
-                    me.textRight.text = "";
+                    // After everything has finished annihilating, rack up the remaining nums
+                    $.when.apply($, deferreds2).then(function() {
+                        // Rack the L/R nums
+                        var numsLRRack = numsLR;
+                        var sign = 1;
+                        if (numsLRNeg.length) {
+                            numsLRRack = numsLRNeg;
+                            sign = -1;
+                        }
+                        var valueLR = numsLRRack.length;
+                        me.sectionRack(numsLRRack, me.getNumPosLeft);
 
-                    // Show a check on the answers
-                    me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
-                    me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                        // Rack the answer nums
+                        var numsARack = me.activeNumsA.length ? me.activeNumsA : me.activeNumsANeg;
+                        var answer = numsARack.length;
+                        me.sectionRack(numsARack, me.getNumPosAnswer);
+
+                        // Change the UI to the final mode
+                        me.buttonGo.text = "Restart";
+                        me.textLeft.text = "";
+                        me.textSign.text = sign * valueLR;
+                        me.textRight.text = "";
+
+                        // Show a check on the answer if correct
+                        if ((me.question !== null) && (answer === me.question.getAnswer())) {
+                            me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
+                            me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                        }
+                        // Otherwise show an X!
+                        else {
+                            me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                        }
+                    });
                 });
             };
         };
 
+        // Rack up the given nums at the location given by the function getNumPos(index)
+        // Return the total number of racked nums
+        Play.prototype.sectionRack = function(nums, getNumPos) {
+            // Add up remaining positives or negatives
+            var answer = 0;
+            while (nums.length) {
+                var entity = nums.pop();
+
+                // Get the right location to rack up at
+                var coords = {};
+                coords = getNumPos.call(this, answer++);
+
+                entity.spriteAnimateStop();
+                entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
+            }
+
+            return answer;
+        };
+
+        // Annihilate extra pos/neg nums in a section
+        // Returns deferreds for each animation
+        Play.prototype.sectionAnnihilate = function(nums, numsNeg) {
+            var deferreds = [];
+            while (nums.length && numsNeg.length) {
+                var deferred = new $.Deferred();
+                var entity1 = nums.pop();
+                var entity2 = numsNeg.pop();
+                this.numAnnihilate(entity1, entity2, deferred);
+                deferreds.push(deferred);
+            }
+
+            return deferreds;
+        };
+
+        // Annilate 2 given nums, and resolve deferred on complete
+        Play.prototype.numAnnihilate = function(entity1, entity2, deferred) {
+            var midpoint = Scene.getMidpoint(entity1, entity2);
+            entity1.value = 0;
+            entity2.value = 0;
+            entity1.componentAdd(new Tween(entity1, midpoint.x, midpoint.y, 20, this.numAnnihilateAnimate(deferred)));
+            entity2.componentAdd(new Tween(entity2, midpoint.x, midpoint.y, 20, this.numAnnihilateFinish()));
+        }
+
         // When nums collide
-        Play.prototype.numAnnihilate = function(deferred) {
+        Play.prototype.numAnnihilateFinish = function(deferred) {
             var me = this;
             return function(event, entity) {
                 entity.display = false;
@@ -337,7 +446,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.numAnnihilateAnimate = function(deferred) {
             var me = this;
             return function(event, entity) {
-                entity.spriteAnimate("annihilate", 1, me.numAnnihilate(deferred));
+                entity.spriteAnimate("annihilate", 1, me.numAnnihilateFinish(deferred));
             };
         };
 
@@ -401,6 +510,21 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             var me = this;
             this.entities.forEach(function(entity) {
                 if ((entity.x > ctx.canvas.width / 3) && (entity.x < 2 * ctx.canvas.width / 3)) {
+                    if ("value" in entity) {
+                        count += entity.value;
+                    }
+                }
+            });
+
+            return count;
+        };
+
+        // Count the numbers in the answer side of the equation
+        Play.prototype.getAnswerCount = function(ctx) {
+            var count = 0;
+            var me = this;
+            this.entities.forEach(function(entity) {
+                if ((entity.x > 2 * ctx.canvas.width / 3) && (entity.x < ctx.canvas.width)) {
                     if ("value" in entity) {
                         count += entity.value;
                     }

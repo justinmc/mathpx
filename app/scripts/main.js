@@ -20,6 +20,7 @@ require.config({
         numNeg: "entities/numNeg",
         trash: "entities/trash",
         check: "entities/check",
+        x: "entities/x",
         button: "entities/button",
         tween: "components/tween",
         draggable: "components/draggable",

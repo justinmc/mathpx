@@ -49,6 +49,8 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
                 if (Scene.isInside(coords, this.entity)) {
                     // Create the new entity
                     var dragging = scene.entityAdd(new this.EntityDragBind());
+                    dragging.x = this.entity.x;
+                    dragging.y = this.entity.y;
                     dragging.components.Draggable.draggingX = coords.x - this.entity.x;
                     dragging.components.Draggable.draggingY = coords.y - this.entity.y;
 
