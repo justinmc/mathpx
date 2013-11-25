@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", "menu", "menuChallenges", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Start, Play, PlayAdd, PlaySub, Menu, MenuChallenges, Loading, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "histories", "engine", "router", "start", "play", "playAdd", "playSub", "menu", "menuChallenges", "menuChallengesAdd", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Router, Start, Play, PlayAdd, PlaySub, Menu, MenuChallenges, MenuChallengesAdd, Loading, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     var AppObj = (function() {
@@ -16,6 +16,9 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
 
         // Engine
         App.prototype.engine = null;
+
+        // Backbone router
+        App.prototype.router = null;
 
         // The time of the most recently completed render
         App.prototype.timeThen = null;
@@ -51,15 +54,22 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
             });
 
             // Start the engine
-            this.engine = new Engine(this.canvas);
+            this.engine = new Engine(this.canvas, this.changeScenesCallback());
             this.engine.sceneAdd(new Loading(this.engine, urls));
             this.engine.sceneAdd(new Start(this.engine));
             this.engine.sceneAdd(new Menu(this.engine));
             this.engine.sceneAdd(new MenuChallenges(this.engine));
+            this.engine.sceneAdd(new MenuChallengesAdd(this.engine));
             this.engine.sceneAdd(new Play(this.engine));
             this.engine.sceneAdd(new PlayAdd(this.engine));
             this.engine.sceneAdd(new PlaySub(this.engine));
-            this.engine.sceneActive = "Loading";
+
+            // Start the router
+            this.router = new Router(this.engine);
+            Backbone.history.start({pushState: true});
+            if (this.engine.sceneActive === null) {
+                this.engine.sceneActive = "Loading";
+            }
 
             // Start the main game loop
             this.timeThen = Date.now();
@@ -112,6 +122,13 @@ define(["jquery", "histories", "engine", "start", "play", "playAdd", "playSub", 
                 // Continue the loop
                 me.timeThen = timeNow;
                 window.requestAnimationFrame(me.renderFactory());
+            };
+        };
+
+        App.prototype.changeScenesCallback = function() {
+            var me = this;
+            return function(scene) {
+                me.router.navigate(scene.route);
             };
         };
 

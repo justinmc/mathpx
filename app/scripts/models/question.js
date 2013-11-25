@@ -15,9 +15,12 @@ define(["backbone"], function (Backbone) {
         timeEnd: null,
 
         initialize: function() {
-            this.timeStart = new Date().getTime();
         },
 
+        start: function() {
+            this.timeStart = new Date().getTime();
+        },
+ 
         end: function() {
             this.timeEnd = new Date().getTime();
         },

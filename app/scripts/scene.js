@@ -6,6 +6,8 @@ define(["jquery", "extendable"], function ($, Extendable) {
         // Inherit from the Extendable class
         Extendable.extend(Scene);
 
+        Scene.prototype.route = "/";
+
         Scene.prototype.entities = [];
 
         Scene.prototype.engine = null;
@@ -158,6 +160,12 @@ define(["jquery", "extendable"], function ($, Extendable) {
             coords.y = Math.round((entity1.y + entity2.y) / 2);
 
             return coords;
+        };
+
+        // Reset the current scene
+        Scene.prototype.reset = function() {
+            this.engine.scenes[this.name] = new Scene(this.engine);
+            this.engine.changeScenes(this.name);
         };
 
         return Scene;

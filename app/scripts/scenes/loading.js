@@ -11,6 +11,9 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
 
         Loading.prototype.name = "Loading";
 
+        // The scene to change to when loading is done
+        Loading.prototype.sceneNameChangeTo = "Start";
+
         Loading.prototype.urlCount = 0;
         Loading.prototype.urlsDone = 0;
 
@@ -37,7 +40,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Loading.prototype.render = function(ctx, dt) {
             // Go to next scene if all loaded
             if (this.urlsDone >= this.urlCount) {
-                this.engine.changeScenes("Start");
+                this.engine.changeScenes(this.sceneNameChangeTo);
             }
 
             // Set the background

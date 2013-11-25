@@ -10,6 +10,7 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         Play.extend(PlaySub);
 
         PlaySub.prototype.name = "PlaySub";
+        PlaySub.prototype.route = "challenges/sub/play";
 
         function PlaySub(engine) {
             PlaySub.__super__.constructor.call(this, engine);

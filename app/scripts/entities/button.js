@@ -46,7 +46,7 @@ define(["jquery", "scene", "text"], function ($, Scene, Text) {
 
         // Button click event, has to check if click was inside the button!
         Button.prototype.click = function(event, scene) {
-            if (Scene.isInside(scene.getEventCoords(event), this)) {
+            if (Scene.isInside(scene.getEventCoords(event), this) && this.display) {
                 this.callback(event);
             }
         };

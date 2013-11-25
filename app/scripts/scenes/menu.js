@@ -10,6 +10,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Scene.extend(Menu);
 
         Menu.prototype.name = "Menu";
+        Menu.prototype.route = "main";
 
         function Menu(engine) {
             Menu.__super__.constructor.call(this, engine);
@@ -19,11 +20,12 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new MenuChalk(100, 80));
+            this.entityAdd(new MenuChalk(100, 180));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Text(centerX, 90, 0, "Math Pix!", "32px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the buttons
             this.entityAdd(new Button(centerX, 120, 190, 40, "Challenges", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickChallenges(), 16, "rgb(255, 255, 255)"));
@@ -64,6 +66,14 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickAbout = function(event) {
             return function() {
                 console.log("clicked about");
+            };
+        };
+
+        // Back button click event
+        Menu.prototype.clickBack = function(event) {
+            var me = this;
+            return function() {
+                me.engine.changeScenes("Start");
             };
         };
 

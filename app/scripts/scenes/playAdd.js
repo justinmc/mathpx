@@ -10,6 +10,7 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         Play.extend(PlayAdd);
 
         PlayAdd.prototype.name = "PlayAdd";
+        PlayAdd.prototype.route = "challenges/add/play";
 
         PlayAdd.prototype.configLeft = 0;
         PlayAdd.prototype.configRight = 0;
@@ -41,6 +42,12 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
 
         PlayAdd.prototype.setupAnswer = function(answer) {
             PlayAdd.__super__.setupAnswer.call(this, "?");
+        };
+
+        // Reset the current scene
+        PlayAdd.prototype.reset = function() {
+            this.engine.scenes[this.name] = new PlayAdd(this.engine);
+            this.engine.changeScenes(this.name);
         };
 
         return PlayAdd;

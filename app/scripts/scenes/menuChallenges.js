@@ -10,6 +10,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Scene.extend(MenuChallenges);
 
         MenuChallenges.prototype.name = "MenuChallenges";
+        MenuChallenges.prototype.route = "challenges";
 
         MenuChallenges.prototype.colorText = "rgb(255, 255, 255)";
 
@@ -47,7 +48,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         MenuChallenges.prototype.clickAddition = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("PlayAdd");
+                me.engine.changeScenes("MenuChallengesAdd");
             };
         };
 

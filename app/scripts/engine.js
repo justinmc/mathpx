@@ -11,8 +11,14 @@ define(["jquery", "scene"], function ($, Scene) {
         // Scenes
         Engine.prototype.scenes = {};
         Engine.prototype.sceneActive = null;
+        Engine.prototype.changeScenesCallback = null;
 
-        function Engine(canvas) {
+        function Engine(canvas, changeScenesCallback) {
+            // Save the changeScenes callback if given
+            if (changeScenesCallback !== null) {
+                this.changeScenesCallback = changeScenesCallback;
+            }
+
             // Reset scenes
             Engine.prototype.scenes = {};
 
@@ -67,6 +73,11 @@ define(["jquery", "scene"], function ($, Scene) {
         // Changes to the new scene
         Engine.prototype.changeScenes = function(sceneName) {
             this.sceneActive = sceneName;
+
+            // Call the callback if it was given
+            if (this.changeScenesCallback !== null) {
+                this.changeScenesCallback(this.getSceneActive());
+            }
         };
 
         return Engine;

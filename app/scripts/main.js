@@ -5,6 +5,7 @@ require.config({
         underscore: "../bower_components/underscore-amd/underscore-min",
         backbone: "../bower_components/backbone-amd/backbone-min",
         question: "models/question",
+        questions: "collections/questions",
         histories: "collections/histories",
         play: "scenes/play",
         playAdd: "scenes/playAdd",
@@ -12,6 +13,7 @@ require.config({
         start: "scenes/start",
         menu: "scenes/menu",
         menuChallenges: "scenes/menuChallenges",
+        menuChallengesAdd: "scenes/menuChallengesAdd",
         loading: "scenes/loading",
         startChalk: "entities/startChalk",
         sprite: "entities/sprite",
@@ -45,10 +47,7 @@ require([
     "requestAnimationFrame.polyfill",
 	"bootstrap"
 ],
-function (
-    app,
-	$) {
-
+function (app, $) {
     "use strict";
 
     $(function() {

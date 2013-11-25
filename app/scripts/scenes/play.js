@@ -10,6 +10,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Scene.extend(Play);
 
         Play.prototype.name = "Play";
+        Play.prototype.route = "play";
 
         // Current question
         Play.prototype.question = null;
@@ -47,6 +48,8 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.toolbarTrashR = null;
         Play.prototype.toolbarTrashA = null;
         Play.prototype.buttonGo = null;
+        Play.prototype.buttonNext = null;
+        Play.prototype.buttonAgain = null;
         Play.prototype.questionNumsL = [];
         Play.prototype.questionNumsNegL = [];
         Play.prototype.questionNumsR = [];
@@ -73,6 +76,10 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.textRight = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, "0", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
             this.textAnswer = this.entityAdd(new Text(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, "0", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
             this.buttonGo = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "=", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickGo(), 16, "rgb(255, 255, 255)"));
+            this.buttonNext = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "->", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickNext(), 16, "rgb(255, 255, 255)"));
+            this.buttonNext.display = false;
+            this.buttonAgain = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "Again", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAgain(), 16, "rgb(255, 255, 255)"));
+            this.buttonAgain.display = false;
 
             // Create all possible toolbar entities 
             this.toolbarNumLText = this.entityAdd(new Text(20, this.engine.ctx.canvas.height - 40, 100, "+", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
@@ -287,6 +294,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                     this.activeNumsANeg.push(num);
                 }
             }
+            console.log("addActiveNum says activeNumsA length is " + this.activeNumsA.length);
         };
 
         // Returns racked nums in given array
@@ -309,10 +317,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             var me = this;
             return function(event) {
                 // Remove the UI numbers
-                me.modePlay = false;
-                me.textLeft.text = "";
-                me.textSign.text = "";
-                me.textRight.text = "";
+                me.modeChangeReview();
 
                 // Get the correct numbers to animate
                 var numsL = me.activeNumsL.concat(me.getNumsRacked(me.questionNumsL));
@@ -370,7 +375,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                         me.sectionRack(numsARack, me.getNumPosAnswer);
 
                         // Change the UI to the final mode
-                        me.buttonGo.text = "Restart";
+                        me.buttonGo.display = false;
                         me.textLeft.text = "";
                         me.textSign.text = sign * valueLR;
                         me.textRight.text = "";
@@ -379,13 +384,31 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                         if ((me.question !== null) && (answer === me.question.getAnswer())) {
                             me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
                             me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                            me.buttonNext.display = true;
                         }
                         // Otherwise show an X!
                         else {
                             me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                            me.buttonAgain.display = true;
                         }
                     });
                 });
+            };
+        };
+
+        // Go button click event
+        Play.prototype.clickNext = function() {
+            var me = this;
+            return function(event) {
+                me.reset();
+            };
+        };
+
+        // Again button click event
+        Play.prototype.clickAgain = function() {
+            var me = this;
+            return function(event) {
+                me.restart(); 
             };
         };
 
@@ -394,16 +417,15 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.sectionRack = function(nums, getNumPos) {
             // Add up remaining positives or negatives
             var answer = 0;
-            while (nums.length) {
-                var entity = nums.pop();
-
+            var me = this;
+            nums.forEach(function(entity) {
                 // Get the right location to rack up at
                 var coords = {};
-                coords = getNumPos.call(this, answer++);
+                coords = getNumPos.call(me, answer++);
 
                 entity.spriteAnimateStop();
                 entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
-            }
+            });
 
             return answer;
         };
@@ -532,6 +554,46 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             });
 
             return count;
+        };
+
+        // Reset the current scene
+        Play.prototype.reset = function() {
+            this.engine.scenes[this.name] = new Play(this.engine);
+            this.engine.changeScenes(this.name);
+        };
+
+        // Restart the current problem
+        Play.prototype.restart = function() {
+            // Remove all active numbers
+            var activeNums = this.activeNumsA.concat(this.activeNumsANeg, this.activeNumsL, this.activeNumsLNeg, this.activeNumsR, this.activeNumsRNeg,
+                    this.questionNumsL, this.questionNumsLNeg, this.questionNumsR, this.questionNumsRNeg);
+            var me = this;
+            activeNums.forEach(function(elt) {
+                me.entityRemove(elt);
+            });
+
+            // Go back to play mode from final mode
+            this.modeChangePlay();
+        }
+
+        // Change the UI to review mode, for when an answer has been submitted
+        Play.prototype.modeChangeReview = function() {
+            this.modePlay = false;
+            this.buttonGo.display = false;
+            this.textLeft.text = "";
+            this.textSign.text = "";
+            this.textRight.text = "";
+        };
+
+        // Change the UI to review mode, for when an answer has been submitted
+        Play.prototype.modeChangePlay = function() {
+            this.modePlay = true;
+            this.buttonGo.display = true;
+            this.buttonNext.display = false;
+            this.buttonAgain.display = false;
+            this.textLeft.text = "wut";
+            this.textSign.text = "=";
+            this.textRight.text = "wuta";
         };
 
         return Play;
