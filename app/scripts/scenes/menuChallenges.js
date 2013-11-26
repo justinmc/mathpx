@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function ($, Scene, Sprite, MenuChallengesChalk, Text, Button) {
+define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function ($, Scene, Sprite, MenuChalk, Text, Button) {
     "use strict";
 
     return (function() {
@@ -22,11 +22,13 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new MenuChallengesChalk(100, 80));
+            this.entityAdd(new MenuChalk(100, 180));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Text(centerX, 90, 0, "Math Pix!", "32px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(centerX - 30, 70, 0, "Challenges", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the buttons
             this.entityAdd(new Button(centerX, 120, 190, 40, "Simple Addition", "20px 'Press Start 2P'", this.colorText, this.clickAddition(), 16, this.colorText));

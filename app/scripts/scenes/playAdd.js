@@ -16,8 +16,13 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         PlayAdd.prototype.configRight = 0;
         PlayAdd.prototype.configAnswer = 1;
 
-        function PlayAdd(engine) {
+        function PlayAdd(engine, question) {
             PlayAdd.__super__.constructor.call(this, engine);
+
+            // Save the parameter
+            if (question !== null) {
+                this.question = question;
+            }
 
             // Set up the UI
             this.setupUI();

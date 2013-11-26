@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"], function ($, Scene, Sprite, MenuChallengesChalk, Text, Button, Questions) {
+define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"], function ($, Scene, Sprite, MenuChalk, Text, Button, Questions) {
     "use strict";
 
     return (function() {
@@ -24,11 +24,13 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new MenuChallengesChalk(100, 80));
+            this.entityAdd(new MenuChalk(100, 180));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Text(centerX, 90, 0, "Math Pix Simple Addition", "32px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(centerX - 100, 70, 0, "Simple Addition", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the collection of problems
             this.collectionQuestions = new Questions([
@@ -52,10 +54,10 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
                 }
 
                 // Get the position of the button
-                var x = 30 + 60 * (i % 4);
-                var y = 120 + 60 * Math.floor(i / 4);
+                var x = 200 + 160 * (i % 4);
+                var y = 200 + 60 * Math.floor(i / 4);
 
-                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, function(){me.engine.changeScenes("Play", question)}, 16, me.colorText));
+                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, function(){me.engine.changeScenes("PlayAdd", question)}, 16, me.colorText));
             });
         }
 

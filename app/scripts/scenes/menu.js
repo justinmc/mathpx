@@ -26,6 +26,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
             this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(centerX - 20, 70, 0, "Main Menu", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the buttons
             this.entityAdd(new Button(centerX, 120, 190, 40, "Challenges", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickChallenges(), 16, "rgb(255, 255, 255)"));
@@ -43,7 +44,6 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
 
         Menu.prototype.click = function(event) {
             var coords = this.getEventCoords(event);
-            console.log("click at " + coords.x + ", " + coords.y);
         };
 
         // Free Play button click event
