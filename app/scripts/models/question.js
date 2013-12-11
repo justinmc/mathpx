@@ -20,7 +20,7 @@ define(["backbone"], function (Backbone) {
         start: function() {
             this.timeStart = new Date().getTime();
         },
- 
+
         end: function() {
             this.timeEnd = new Date().getTime();
         },

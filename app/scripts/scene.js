@@ -168,6 +168,11 @@ define(["jquery", "extendable"], function ($, Extendable) {
             this.engine.changeScenes(this.name);
         };
 
+        // Destroy this scene by removing its refrence in engine
+        Scene.prototype.destroy = function() {
+            this.engine.sceneDestroy(this.name);
+        };
+
         return Scene;
 
     })();

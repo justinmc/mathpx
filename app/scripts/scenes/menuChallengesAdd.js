@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"], function ($, Scene, Sprite, MenuChalk, Text, Button, Questions) {
+define(["jquery", "scene", "sprite", "chalkTTT", "text", "button", "buttonBack", "questions"], function ($, Scene, Sprite, ChalkTTT, Text, Button, ButtonBack, Questions) {
     "use strict";
 
     return (function() {
@@ -24,11 +24,11 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new MenuChalk(100, 180));
+            this.entityAdd(new ChalkTTT(100, 180));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
             this.entityAdd(new Text(centerX - 100, 70, 0, "Simple Addition", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
@@ -42,7 +42,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
                 {numL: "5", numR: "1"},
                 {numL: "3", numR: "3"},
                 {numL: "2", numR: "4"},
-            ]); 
+            ]);
 
             // Create the buttons
             var me = this;
@@ -50,14 +50,14 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
                 // Get the button text, question mark for unplayed, problem for played
                 var problem = "?";
                 if (question.get("start") !== null) {
-                    question.get("numL") + " + " + question.get("numR");
+                    problem = question.get("numL") + " + " + question.get("numR");
                 }
 
                 // Get the position of the button
                 var x = 200 + 160 * (i % 4);
                 var y = 200 + 60 * Math.floor(i / 4);
 
-                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, function(){me.engine.changeScenes("PlayAdd", question)}, 16, me.colorText));
+                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, function(){me.engine.changeScenes("PlayAdd", question);}, 16, me.colorText));
             });
         }
 
@@ -105,7 +105,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "questions"
         MenuChallengesAdd.prototype.clickBack = function(event) {
             var me = this;
             return function() {
-                me.engine.changeScenes("Menu");
+                me.engine.changeScenes("MenuChallenges", require("menuChallenges"));
             };
         };
 

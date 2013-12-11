@@ -1,5 +1,5 @@
 /*global define */
-define(["jquery", "histories", "engine", "router", "start", "play", "playAdd", "playSub", "menu", "menuChallenges", "menuChallengesAdd", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Histories, Engine, Router, Start, Play, PlayAdd, PlaySub, Menu, MenuChallenges, MenuChallengesAdd, Loading, Entity, Text, Num, NumNeg, Trash) {
+define(["jquery", "backbone", "histories", "engine", "router", "start", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash) {
     "use strict";
 
     var AppObj = (function() {
@@ -55,21 +55,19 @@ define(["jquery", "histories", "engine", "router", "start", "play", "playAdd", "
 
             // Start the engine
             this.engine = new Engine(this.canvas, this.changeScenesCallback());
-            this.engine.sceneAdd(new Loading(this.engine, urls));
-            this.engine.sceneAdd(new Start(this.engine));
-            this.engine.sceneAdd(new Menu(this.engine));
+            this.engine.sceneAdd(new Loading(this.engine, urls, "Start"), "Loading");
+            this.engine.sceneAdd(new Start(this.engine), "Start");
+            /*this.engine.sceneAdd(new Menu(this.engine));
             this.engine.sceneAdd(new MenuChallenges(this.engine));
             this.engine.sceneAdd(new MenuChallengesAdd(this.engine));
             this.engine.sceneAdd(new Play(this.engine));
             this.engine.sceneAdd(new PlayAdd(this.engine));
             this.engine.sceneAdd(new PlaySub(this.engine));
+            */
 
             // Start the router
             this.router = new Router(this.engine);
-            Backbone.history.start({pushState: true});
-            if (this.engine.sceneActive === null) {
-                this.engine.sceneActive = "Loading";
-            }
+            Backbone.history.start({pushState: false});
 
             // Start the main game loop
             this.timeThen = Date.now();

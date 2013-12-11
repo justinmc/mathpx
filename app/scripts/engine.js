@@ -61,8 +61,15 @@ define(["jquery", "scene"], function ($, Scene) {
         };
 
         // Create a new scene
-        Engine.prototype.sceneAdd = function(scene) {
-            this.scenes[scene.name] = scene;
+        Engine.prototype.sceneAdd = function(scene, name) {
+            this.scenes[name] = scene;
+            // tongue twister
+            this.scenes[name].name = name;
+        };
+
+        // Destroy a scene
+        Engine.prototype.sceneDestroy = function(name) {
+            delete this.scenes[name];
         };
 
         // Gets the active scene
@@ -71,12 +78,30 @@ define(["jquery", "scene"], function ($, Scene) {
         };
 
         // Changes to the new scene
-        Engine.prototype.changeScenes = function(sceneName) {
-            this.sceneActive = sceneName;
+        Engine.prototype.changeScenes = function(sceneName, SceneType, preserveSelf) {
+            // Only change scenes if a valid sceneName was given
+            if (sceneName !== null && sceneName !== this.sceneActive) {
+                var sceneCurrent = this.sceneActive;
 
-            // Call the callback if it was given
-            if (this.changeScenesCallback !== null) {
-                this.changeScenesCallback(this.getSceneActive());
+                // If the scene doesn't already exist and SceneType was given, create it
+                if (!this.scenes.hasOwnProperty(sceneName) && SceneType !== null) {
+                    this.sceneAdd(new SceneType(this), sceneName);
+                }
+
+                // If everything went well, change scenes
+                if (this.scenes.hasOwnProperty(sceneName)) {
+                    this.sceneActive = sceneName;
+
+                    // Destroy the current scene unless preserveSelf
+                    if (preserveSelf === null || !preserveSelf && sceneCurrent !== null) {
+                        this.scenes[sceneCurrent].destroy();
+                    }
+
+                    // Call the callback if it was given
+                    if (this.changeScenesCallback !== null) {
+                        this.changeScenesCallback(this.getSceneActive());
+                    }
+                }
             }
         };
 

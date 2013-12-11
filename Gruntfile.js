@@ -7,7 +7,7 @@ var mountFolder = function (connect, dir) {
 };
 
 // mod-rewrite for pushstate urls
-var modRewrite = require('connect-modrewrite');
+var modRewrite = require("connect-modrewrite");
 
 // # Globbing
 // for performance reasons we"re only matching one level down:
@@ -66,7 +66,7 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             modRewrite([
-                                '!\\.html|\\.js|\\.css|\\.png$ /index.html [L]'
+                                "!\\.html|\\.js|\\.css|\\.png$ /index.html [L]"
                             ]),
                             lrSnippet,
                             mountFolder(connect, ".tmp"),

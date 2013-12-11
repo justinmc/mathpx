@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function ($, Scene, Sprite, MenuChalk, Text, Button) {
+define(["jquery", "scene", "sprite", "startChalk", "text", "button", "buttonBack"], function ($, Scene, Sprite, MenuChalk, Text, Button, ButtonBack) {
     "use strict";
 
     return (function() {
@@ -26,7 +26,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
             this.entityAdd(new Text(centerX - 30, 70, 0, "Challenges", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
@@ -50,7 +50,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         MenuChallenges.prototype.clickAddition = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("MenuChallengesAdd");
+                me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
             };
         };
 
@@ -82,7 +82,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         MenuChallenges.prototype.clickBack = function(event) {
             var me = this;
             return function() {
-                me.engine.changeScenes("Menu");
+                me.engine.changeScenes("Menu", require("menu"));
             };
         };
 

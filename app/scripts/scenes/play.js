@@ -101,51 +101,49 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
 
             // Create the answer numbers
             this.answerNums = [];
-            var coords;
-            for (var i = 0; i < 40; i++) {
+            var i, coords, num, numNeg;
+            for (i = 0; i < 40; i++) {
                 coords = this.getNumPosAnswer(i);
-                var num = new Num(coords.x, coords.y, null, null, null, null, false, false);
+                num = new Num(coords.x, coords.y, null, null, null, null, false, false);
                 this.answerNums.push(this.entityAdd(num));
                 this.answerNums[i].display = false;
             }
             this.answerNumsNeg = [];
             for (i = 0; i < 40; i++) {
                 coords = this.getNumPosAnswer(i);
-                var numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
+                numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
                 this.answerNumsNeg.push(this.entityAdd(numNeg));
                 this.answerNumsNeg[i].display = false;
             }
 
             // Create the questionL numbers
             this.questionNumsL = [];
-            var coords;
-            for (var i = 0; i < 40; i++) {
+            for (i = 0; i < 40; i++) {
                 coords = this.getNumPosLeft(i);
-                var num = new Num(coords.x, coords.y, null, null, null, null, false, false);
+                num = new Num(coords.x, coords.y, null, null, null, null, false, false);
                 this.questionNumsL.push(this.entityAdd(num));
                 this.questionNumsL[i].display = false;
             }
             this.questionNumsNegL = [];
             for (i = 0; i < 40; i++) {
                 coords = this.getNumPosLeft(i);
-                var numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
+                numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
                 this.questionNumsNegL.push(this.entityAdd(numNeg));
                 this.questionNumsNegL[i].display = false;
             }
 
             // Create the questionR numbers
             this.questionNumsR = [];
-            var coords;
-            for (var i = 0; i < 40; i++) {
+            for (i = 0; i < 40; i++) {
                 coords = this.getNumPosRight(i);
-                var num = new Num(coords.x, coords.y, null, null, null, null, false, false);
+                num = new Num(coords.x, coords.y, null, null, null, null, false, false);
                 this.questionNumsR.push(this.entityAdd(num));
                 this.questionNumsR[i].display = false;
             }
             this.questionNumsNegL = [];
             for (i = 0; i < 40; i++) {
                 coords = this.getNumPosRight(i);
-                var numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
+                numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
                 this.questionNumsNegL.push(this.entityAdd(numNeg));
                 this.questionNumsNegL[i].display = false;
             }
@@ -231,7 +229,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 numNegText.text = "-";
                 trash.display = true;
             }
-        }
+        };
 
         // Setup the number bar numbers and signs
         Play.prototype.setupNumBar = function(numL, numR) {
@@ -310,7 +308,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             }
 
             return numsRacked;
-        }
+        };
 
         // Go button click event
         Play.prototype.clickGo = function() {
@@ -329,7 +327,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 var deferreds = me.sectionAnnihilate(numsL, numsLNeg);
                 deferreds.concat(me.sectionAnnihilate(numsR, numsRNeg));
                 deferreds.concat(me.sectionAnnihilate(me.activeNumsA, me.activeNumsANeg));
- 
+
                 // After left/right have annihilated individually, annihilate between left and right
                 $.when.apply($, deferreds).then(function() {
                     // Get pos/neg nums out of remaining nums and annihilate them
@@ -337,8 +335,9 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                     var numsRAnnihilated = numsR.length ? numsR : numsRNeg;
                     var numsLR = [];
                     var numsLRNeg = [];
-                    for (var i in numsLAnnihilated) {
-                        var num = numsLAnnihilated[i];
+                    var i, num;
+                    for (i in numsLAnnihilated) {
+                        num = numsLAnnihilated[i];
                         if (num.value > 0) {
                             numsLR.push(num);
                         }
@@ -346,8 +345,8 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                             numsLRNeg.push(num);
                         }
                     }
-                    for (var i in numsRAnnihilated) {
-                        var num = numsRAnnihilated[i];
+                    for (i in numsRAnnihilated) {
+                        num = numsRAnnihilated[i];
                         if (num.value > 0) {
                             numsLR.push(num);
                         }
@@ -408,7 +407,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.clickAgain = function() {
             var me = this;
             return function(event) {
-                me.restart(); 
+                me.restart();
             };
         };
 
@@ -452,7 +451,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             entity2.value = 0;
             entity1.componentAdd(new Tween(entity1, midpoint.x, midpoint.y, 20, this.numAnnihilateAnimate(deferred)));
             entity2.componentAdd(new Tween(entity2, midpoint.x, midpoint.y, 20, this.numAnnihilateFinish()));
-        }
+        };
 
         // When nums collide
         Play.prototype.numAnnihilateFinish = function(deferred) {
@@ -574,7 +573,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
 
             // Go back to play mode from final mode
             this.modeChangePlay();
-        }
+        };
 
         // Change the UI to review mode, for when an answer has been submitted
         Play.prototype.modeChangeReview = function() {

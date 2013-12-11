@@ -3,7 +3,7 @@
     The first, main menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function ($, Scene, Sprite, MenuChalk, Text, Button) {
+define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "text", "button", "buttonBack"], function ($, Scene, Play, MenuChallenges, Sprite, MenuChalk, Text, Button, ButtonBack) {
     "use strict";
 
     return (function() {
@@ -24,7 +24,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new Button(50, 40, 60, 40, "<-", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickBack(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
             this.entityAdd(new Text(centerX - 20, 70, 0, "Main Menu", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
@@ -50,7 +50,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickFree = function() {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("Play");
+                me.engine.changeScenes("Play", Play);
             };
         };
 
@@ -58,7 +58,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickChallenges = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("MenuChallenges");
+                me.engine.changeScenes("MenuChallenges", MenuChallenges);
             };
         };
 
@@ -73,7 +73,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
         Menu.prototype.clickBack = function(event) {
             var me = this;
             return function() {
-                me.engine.changeScenes("Start");
+                me.engine.changeScenes("Start", require("start"));
             };
         };
 

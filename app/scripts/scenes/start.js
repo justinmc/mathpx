@@ -3,7 +3,7 @@
     The initial start scene
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text"], function ($, Scene, Sprite, StartChalk, Text) {
+define(["jquery", "scene", "menu", "sprite", "chalkHeart", "text"], function ($, Scene, Menu, Sprite, ChalkHeart, Text) {
     "use strict";
 
     return (function() {
@@ -18,7 +18,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text"], function ($, Scene, 
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, $("img.gettable.gettable-classroom").attr("src"), 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new StartChalk(240, 240));
+            this.entityAdd(new ChalkHeart(240, 240));
 
             // Create the title
             this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 50, 0, "Math Pix!", "32px 'Press Start 2P'"));
@@ -36,10 +36,15 @@ define(["jquery", "scene", "sprite", "startChalk", "text"], function ($, Scene, 
 
         // Change to the main game scene on keyup/mouseup
         Start.prototype.keyup = function(event) {
-            this.engine.changeScenes("Menu");
+            this.goNextScene();
         };
         Start.prototype.mouseup = function(event) {
-            this.engine.changeScenes("Menu");
+            this.goNextScene();
+        };
+
+        // Go to the only place you can from this scene, the main menu
+        Start.prototype.goNextScene = function() {
+            this.engine.changeScenes("Menu", Menu);
         };
 
         return Start;
