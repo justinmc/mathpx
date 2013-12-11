@@ -35,7 +35,6 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button", "buttonBack
             this.entityAdd(new Button(centerX, 200, 190, 40, "Simple Subtraction", "20px 'Press Start 2P'", this.colorText, this.clickSubtraction(), 16, this.colorText));
             this.entityAdd(new Button(centerX, 280, 190, 40, "Addition with Negatives", "20px 'Press Start 2P'", this.colorText, this.clickAdditionNeg(), 16, this.colorText));
             this.entityAdd(new Button(centerX, 360, 190, 40, "Subtraction with Negatives", "20px 'Press Start 2P'", this.colorText, this.clickSubtractionNeg(), 16, this.colorText));
-            this.entityAdd(new Button(centerX, 440, 190, 40, "Back", "20px 'Press Start 2P'", this.colorText, this.clickBack(), 16, this.colorText));
         }
 
         MenuChallenges.prototype.render = function(ctx, dt) {
