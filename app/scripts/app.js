@@ -67,7 +67,7 @@ define(["jquery", "backbone", "histories", "engine", "router", "start", "loading
 
             // Start the router
             this.router = new Router(this.engine);
-            Backbone.history.start({pushState: false});
+            Backbone.history.start({pushState: true});
 
             // Start the main game loop
             this.timeThen = Date.now();
