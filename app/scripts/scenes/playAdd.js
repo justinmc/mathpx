@@ -20,8 +20,21 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
             PlayAdd.__super__.constructor.call(this, engine);
 
             // Save the parameter
-            if (question !== null) {
+            if (typeof question !== "undefined" && question !== null) {
                 this.question = question;
+
+                // Set the timeStart on the question if not already set
+                if (!this.question.has("timeStart")) {
+                    this.question.set("timeStart", new Date().getTime());
+                    this.question.save();
+                }
+            }
+            // If we need a question
+            else {
+                var numL = Math.floor(Math.random() * 10);
+                var numR = Math.floor(Math.random() * 10);
+                this.question = new Question({mode: this.mode, numL: numL, numR: numR});
+                require("app").histories.add(this.question);
             }
 
             // Set up the UI
@@ -29,14 +42,6 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         }
 
         PlayAdd.prototype.render = function(ctx, dt) {
-            // If we need a question
-            if (this.question === null) {
-                var numL = Math.floor(Math.random() * 10);
-                var numR = Math.floor(Math.random() * 10);
-                this.question = new Question({mode: this.mode, numL: numL, numR: numR});
-                require("app").histories.add(this.question);
-            }
-
             PlayAdd.__super__.render.call(this, ctx, dt);
         };
 
@@ -53,6 +58,14 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         PlayAdd.prototype.reset = function() {
             this.engine.scenes[this.name] = new PlayAdd(this.engine);
             this.engine.changeScenes(this.name);
+        };
+
+        // Menu button click event
+        Play.prototype.clickMenu = function() {
+            var me = this;
+            return function(event) {
+                me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+            };
         };
 
         return PlayAdd;

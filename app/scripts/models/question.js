@@ -8,11 +8,13 @@ define(["backbone"], function (Backbone) {
 
     return Backbone.Model.extend({
 
-        mode: null,
-        numL: 0,
-        numR: 0,
-        timeStart: null,
-        timeEnd: null,
+        defaults: {
+            mode: null,
+            numL: 0,
+            numR: 0,
+            timeStart: null,
+            timeEnd: null,
+        },
 
         initialize: function() {
         },
@@ -26,7 +28,7 @@ define(["backbone"], function (Backbone) {
         },
 
         getAnswer: function() {
-            return this.get("numL") + this.get("numR");
+            return parseInt(this.get("numL"), 10) + parseInt(this.get("numR"), 10);
         },
 
     });

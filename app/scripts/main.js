@@ -4,6 +4,7 @@ require.config({
         bootstrap: "vendor/bootstrap",
         underscore: "../bower_components/underscore-amd/underscore-min",
         backbone: "../bower_components/backbone-amd/backbone-min",
+        localstorage: "vendor/backbone.localStorage-min",
         question: "models/question",
         questions: "collections/questions",
         histories: "collections/histories",
@@ -24,7 +25,9 @@ require.config({
         numNeg: "entities/numNeg",
         trash: "entities/trash",
         check: "entities/check",
+        checkStatic: "entities/checkStatic",
         x: "entities/x",
+        xStatic: "entities/xStatic",
         button: "entities/button",
         buttonBack: "entities/buttonBack",
         tween: "components/tween",
@@ -47,10 +50,11 @@ require.config({
 require([
     "app",
 	"jquery",
+    "backbone",
     "requestAnimationFrame.polyfill",
 	"bootstrap"
 ],
-function (app, $) {
+function (app, $, Backbone) {
     "use strict";
 
     $(function() {

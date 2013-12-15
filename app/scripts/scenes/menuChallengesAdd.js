@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "scene", "sprite", "chalkTTT", "text", "button", "buttonBack", "questions"], function ($, Scene, Sprite, ChalkTTT, Text, Button, ButtonBack, Questions) {
+define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "buttonBack", "checkStatic", "questions"], function ($, Scene, PlayAdd, Sprite, ChalkTTT, Text, Button, ButtonBack, CheckStatic, Questions) {
     "use strict";
 
     return (function() {
@@ -33,23 +33,26 @@ define(["jquery", "scene", "sprite", "chalkTTT", "text", "button", "buttonBack",
             this.entityAdd(new Text(centerX - 100, 70, 0, "Simple Addition", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the collection of problems
-            this.collectionQuestions = new Questions([
-                {numL: "1", numR: "1"},
-                {numL: "2", numR: "2"},
-                {numL: "3", numR: "2"},
-                {numL: "2", numR: "3"},
-                {numL: "1", numR: "4"},
-                {numL: "5", numR: "1"},
-                {numL: "3", numR: "3"},
-                {numL: "2", numR: "4"},
-            ]);
+            this.collectionQuestions = new Questions();
+            this.collectionQuestions.fetch();
+            if (!this.collectionQuestions.length) {
+                this.collectionQuestions.reset();
+                this.collectionQuestions.create({numL: "1", numR: "1"});
+                this.collectionQuestions.create({numL: "2", numR: "2"});
+                this.collectionQuestions.create({numL: "3", numR: "2"});
+                this.collectionQuestions.create({numL: "2", numR: "3"});
+                this.collectionQuestions.create({numL: "1", numR: "4"});
+                this.collectionQuestions.create({numL: "5", numR: "1"});
+                this.collectionQuestions.create({numL: "3", numR: "3"});
+                this.collectionQuestions.create({numL: "2", numR: "4"});
+            }
 
             // Create the buttons
             var me = this;
             this.collectionQuestions.forEach(function(question, i) {
                 // Get the button text, question mark for unplayed, problem for played
                 var problem = "?";
-                if (question.get("start") !== null) {
+                if (question.has("timeStart")) {
                     problem = question.get("numL") + " + " + question.get("numR");
                 }
 
@@ -57,7 +60,13 @@ define(["jquery", "scene", "sprite", "chalkTTT", "text", "button", "buttonBack",
                 var x = 200 + 160 * (i % 4);
                 var y = 200 + 60 * Math.floor(i / 4);
 
-                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, function(){me.engine.changeScenes("PlayAdd", question);}, 16, me.colorText));
+                // Add the button
+                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, me.clickQuestion(question), 16, me.colorText));
+
+                // Add a check if the question is complete
+                if (question.has("timeEnd")) {
+                    me.entityAdd(new CheckStatic(x + 85, y - 25));
+                }
             });
         }
 
@@ -67,6 +76,14 @@ define(["jquery", "scene", "sprite", "chalkTTT", "text", "button", "buttonBack",
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
             MenuChallengesAdd.__super__.render.call(this, ctx, dt);
+        };
+
+        MenuChallengesAdd.prototype.clickQuestion = function(question) {
+            var me = this;
+            return function() {
+                me.engine.sceneAdd(new PlayAdd(me.engine, question), "PlayAdd");
+                me.engine.changeScenes("PlayAdd");
+            };
         };
 
         // Addition button click event

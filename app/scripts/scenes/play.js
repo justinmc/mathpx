@@ -66,6 +66,20 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         function Play(engine) {
             Play.__super__.constructor.call(this, engine);
 
+            // Reset objects for deep copy
+            this.questionNumsL = [];
+            this.questionNumsNegL = [];
+            this.questionNumsR = [];
+            this.questionNumsNegR = [];
+            this.answerNums = [];
+            this.answerNumsNeg = [];
+            this.activeNumsL = [];
+            this.activeNumsLNeg = [];
+            this.activeNumsR = [];
+            this.activeNumsRNeg = [];
+            this.activeNumsA = [];
+            this.activeNumsANeg = [];
+
             // Create the lines
             this.entityAdd(new Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, "rgb(255, 255, 255)"));
             this.entityAdd(new Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, "rgb(255, 255, 255)"));
@@ -292,7 +306,6 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                     this.activeNumsANeg.push(num);
                 }
             }
-            console.log("addActiveNum says activeNumsA length is " + this.activeNumsA.length);
         };
 
         // Returns racked nums in given array
@@ -379,8 +392,15 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                         me.textSign.text = sign * valueLR;
                         me.textRight.text = "";
 
-                        // Show a check on the answer if correct
+                        // If the question was correct
                         if ((me.question !== null) && (answer === me.question.getAnswer())) {
+                            // Set the timeEnd on the question
+                            me.question.set("timeEnd", new Date().getTime());
+                            if (typeof me.question.collection.localStorage !== "undefined") {
+                                me.question.save();
+                            }
+
+                            // And show a check
                             me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
                             me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
                             me.buttonNext.display = true;
