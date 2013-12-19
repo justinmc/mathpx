@@ -1,5 +1,5 @@
 /*global define, alert */
-define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "play", "playAdd", "playSub"], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesAdd, Play, PlayAdd, PlaySub) {
+define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "play", "playAdd", "playSub", "victory"], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesAdd, Play, PlayAdd, PlaySub, Victory) {
     "use strict";
 
     return Backbone.Router.extend({
@@ -15,6 +15,7 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "pla
             "play":                 "play",
             "free":                 "free",
             "about":                "about",
+            "victory":              "victory",
             "*path":                "start"
         },
 
@@ -53,6 +54,10 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "pla
 
         play: function() {
             this.changeSceneTo("Play", Play);
+        },
+
+        victory: function() {
+            this.changeSceneTo("Victory", Victory);
         },
 
         // Change the scene to the given scene via loading

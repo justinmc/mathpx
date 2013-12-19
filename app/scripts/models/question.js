@@ -14,6 +14,7 @@ define(["backbone"], function (Backbone) {
             numR: 0,
             timeStart: null,
             timeEnd: null,
+            preset: false,
         },
 
         initialize: function() {

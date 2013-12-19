@@ -12,8 +12,9 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.name = "Play";
         Play.prototype.route = "play";
 
-        // Current question
-        Play.prototype.question = null;
+        // Current question set
+        Play.prototype.questions = null;
+        Play.prototype.questionId = null;
 
         // True for play mode, false for done
         Play.prototype.modePlay = true;
@@ -180,8 +181,8 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 this.setupNumBar(leftCount, rightCount);
 
                 // Text answer
-                if ((this.configAnswer === 0) && (this.question !== null)) {
-                    this.textAnswer.text = this.question.get("numL") + this.question.get("numR");
+                if ((this.configAnswer === 0) && (this.getQuestion !== null)) {
+                    this.textAnswer.text = this.getQuestion().get("numL") + this.getQuestion().get("numR");
                 }
                 else if (this.configAnswer === 0) {
                     this.textAnswer.text = leftCount + rightCount;
@@ -196,10 +197,10 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 this.setupNums(this.answerNums, this.answerNumsNeg, leftCount + rightCount);
             }
             if (this.configLeft === 0) {
-                this.setupNums(this.questionNumsL, this.questionNumsNegL, this.question.get("numL"));
+                this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get("numL"));
             }
             if (this.configRight === 0) {
-                this.setupNums(this.questionNumsR, this.questionNumsNegR, this.question.get("numR"));
+                this.setupNums(this.questionNumsR, this.questionNumsNegR, this.getQuestion().get("numR"));
             }
 
             // Render entities
@@ -393,11 +394,11 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                         me.textRight.text = "";
 
                         // If the question was correct
-                        if ((me.question !== null) && (answer === me.question.getAnswer())) {
+                        if ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer())) {
                             // Set the timeEnd on the question
-                            me.question.set("timeEnd", new Date().getTime());
-                            if (typeof me.question.collection.localStorage !== "undefined") {
-                                me.question.save();
+                            me.getQuestion().set("timeEnd", new Date().getTime());
+                            if (typeof me.questions.localStorage !== "undefined") {
+                                me.getQuestion().save();
                             }
 
                             // And show a check
@@ -415,11 +416,12 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             };
         };
 
-        // Go button click event
+        // Next button click event
         Play.prototype.clickNext = function() {
             var me = this;
             return function(event) {
-                me.reset();
+                this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
+                this.engine.changeScenes(this.name);
             };
         };
 
@@ -613,6 +615,22 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.textLeft.text = "wut";
             this.textSign.text = "=";
             this.textRight.text = "wuta";
+        };
+
+        // Get the current active question
+        Play.prototype.getQuestion = function() {
+            return this.questions.get(this.questionId);
+        };
+
+        // Get the next preset question id in the list, or null if none
+        Play.prototype.getQuestionIdNext = function() {
+            var qNext = this.questions.at(this.questions.indexOf(this.getQuestion()) + 1);
+            if (typeof qNext !== "undefined" && qNext !== null && qNext.get("preset")) {
+                return qNext.get("id");
+            }
+            else {
+                return null;
+            }
         };
 
         return Play;

@@ -14,7 +14,7 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
 
         MenuChallengesAdd.prototype.colorText = "rgb(255, 255, 255)";
 
-        MenuChallengesAdd.prototype.collectionQuestions = null;
+        MenuChallengesAdd.prototype.questions = null;
 
         function MenuChallengesAdd(engine) {
             MenuChallengesAdd.__super__.constructor.call(this, engine);
@@ -33,23 +33,23 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
             this.entityAdd(new Text(centerX - 100, 70, 0, "Simple Addition", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the collection of problems
-            this.collectionQuestions = new Questions();
-            this.collectionQuestions.fetch();
-            if (!this.collectionQuestions.length) {
-                this.collectionQuestions.reset();
-                this.collectionQuestions.create({numL: "1", numR: "1"});
-                this.collectionQuestions.create({numL: "2", numR: "2"});
-                this.collectionQuestions.create({numL: "3", numR: "2"});
-                this.collectionQuestions.create({numL: "2", numR: "3"});
-                this.collectionQuestions.create({numL: "1", numR: "4"});
-                this.collectionQuestions.create({numL: "5", numR: "1"});
-                this.collectionQuestions.create({numL: "3", numR: "3"});
-                this.collectionQuestions.create({numL: "2", numR: "4"});
+            this.questions = new Questions();
+            this.questions.fetch();
+            if (!this.questions.length) {
+                this.questions.reset();
+                this.questions.create({numL: "1", numR: "1", preset: true});
+                this.questions.create({numL: "2", numR: "2", preset: true});
+                this.questions.create({numL: "3", numR: "2", preset: true});
+                this.questions.create({numL: "2", numR: "3", preset: true});
+                this.questions.create({numL: "1", numR: "4", preset: true});
+                this.questions.create({numL: "5", numR: "1", preset: true});
+                this.questions.create({numL: "3", numR: "3", preset: true});
+                this.questions.create({numL: "2", numR: "4", preset: true});
             }
 
             // Create the buttons
             var me = this;
-            this.collectionQuestions.forEach(function(question, i) {
+            this.questions.where({preset: true}).forEach(function(question, i) {
                 // Get the button text, question mark for unplayed, problem for played
                 var problem = "?";
                 if (question.has("timeStart")) {
@@ -61,7 +61,7 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
                 var y = 200 + 60 * Math.floor(i / 4);
 
                 // Add the button
-                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, me.clickQuestion(question), 16, me.colorText));
+                me.entityAdd(new Button(x, y, 100, 40, problem, "20px 'Press Start 2P'", me.colorText, me.clickQuestion(question.get("id")), 16, me.colorText));
 
                 // Add a check if the question is complete
                 if (question.has("timeEnd")) {
@@ -78,47 +78,16 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
             MenuChallengesAdd.__super__.render.call(this, ctx, dt);
         };
 
-        MenuChallengesAdd.prototype.clickQuestion = function(question) {
+        // Click on a problem event
+        MenuChallengesAdd.prototype.clickQuestion = function(index) {
             var me = this;
             return function() {
-                me.engine.sceneAdd(new PlayAdd(me.engine, question), "PlayAdd");
+                me.engine.sceneAdd(new PlayAdd(me.engine, me.questions, index), "PlayAdd");
                 me.engine.changeScenes("PlayAdd");
             };
         };
 
-        // Addition button click event
-        MenuChallengesAdd.prototype.clickAddition = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes("PlayAdd");
-            };
-        };
-
-        // Subtraction button click event
-        MenuChallengesAdd.prototype.clickSubtraction = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes("PlaySub");
-            };
-        };
-
-        // Addition Neg button click event
-        MenuChallengesAdd.prototype.clickAdditionNeg = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes("PlayAddNeg");
-            };
-        };
-
-        // Subtraction Neg button click event
-        MenuChallengesAdd.prototype.clickSubtractionNeg = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes("PlaySubNeg");
-            };
-        };
-
-        // About button click event
+        // Back button click event
         MenuChallengesAdd.prototype.clickBack = function(event) {
             var me = this;
             return function() {

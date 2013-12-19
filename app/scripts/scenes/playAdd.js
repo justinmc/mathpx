@@ -3,7 +3,7 @@
     Main game, addition mode
 */
 /*global define */
-define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Question, Play, Entity, Num, NumNeg, Text, Trash, Button) {
+define(["jquery", "backbone", "questions", "question", "play", "victory", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Questions, Question, Play, Victory, Entity, Num, NumNeg, Text, Trash, Button) {
     "use strict";
 
     return (function() {
@@ -16,25 +16,38 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         PlayAdd.prototype.configRight = 0;
         PlayAdd.prototype.configAnswer = 1;
 
-        function PlayAdd(engine, question) {
+        function PlayAdd(engine, questions, id) {
             PlayAdd.__super__.constructor.call(this, engine);
 
-            // Save the parameter
-            if (typeof question !== "undefined" && question !== null) {
-                this.question = question;
+            // If we were given a set of questions, save them
+            if (typeof questions !== "undefined" && questions !== null) {
+                this.questions = questions;
+            }
+            // Otherwise create an empty set of questions
+            else {
+                this.questions = new Questions();
+            }
+
+            // If we were given a question id, save it
+            if (typeof id !== "undefined" && id !== null && this.questions.length) {
+                this.questionId = id;
 
                 // Set the timeStart on the question if not already set
-                if (!this.question.has("timeStart")) {
-                    this.question.set("timeStart", new Date().getTime());
-                    this.question.save();
+                if (!this.getQuestion().has("timeStart")) {
+                    this.getQuestion().set("timeStart", new Date().getTime());
+                    this.getQuestion().save();
                 }
             }
-            // If we need a question
+            // Otherwise if we have a set of quesions, use the first one
+            else if (this.questions.length > 0) {
+                this.questionId = this.questions.at(0).get("id");
+            }
+            // Otherwise create a random question
             else {
                 var numL = Math.floor(Math.random() * 10);
-                var numR = Math.floor(Math.random() * 10);
-                this.question = new Question({mode: this.mode, numL: numL, numR: numR});
-                require("app").histories.add(this.question);
+                var numR = Math.floor(Math.random() * (10 - numL));
+                this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
+                this.questionId = this.questions.at(0).get("id");
             }
 
             // Set up the UI
@@ -47,7 +60,7 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
 
 
         PlayAdd.prototype.setupNumBar = function(numL, numR) {
-            PlayAdd.__super__.setupNumBar.call(this, this.question.get("numL"), this.question.get("numR"));
+            PlayAdd.__super__.setupNumBar.call(this, this.getQuestion().get("numL"), this.getQuestion().get("numR"));
         };
 
         PlayAdd.prototype.setupAnswer = function(answer) {
@@ -65,6 +78,22 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
             var me = this;
             return function(event) {
                 me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+            };
+        };
+
+        // Next button click event
+        Play.prototype.clickNext = function() {
+            var me = this;
+            return function(event) {
+                var nextId = me.getQuestionIdNext();
+                if (nextId === null) {
+                    me.engine.scenes.Victory = new Victory(me.engine, "Simple Addition");
+                    me.engine.changeScenes("Victory");
+                }
+                else {
+                    me.engine.scenes[me.name] = new PlayAdd(me.engine, me.questions, me.getQuestionIdNext());
+                    me.engine.changeScenes(me.name);
+                }
             };
         };
 

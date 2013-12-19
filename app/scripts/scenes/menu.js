@@ -42,10 +42,6 @@ define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "te
             Menu.__super__.render.call(this, ctx, dt);
         };
 
-        Menu.prototype.click = function(event) {
-            var coords = this.getEventCoords(event);
-        };
-
         // Free Play button click event
         Menu.prototype.clickFree = function() {
             var me = this;
