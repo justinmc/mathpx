@@ -86,10 +86,21 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
             var me = this;
             return function(event) {
                 var nextId = me.getQuestionIdNext();
+
+                // If no next question
                 if (nextId === null) {
-                    me.engine.scenes.Victory = new Victory(me.engine, "Simple Addition");
-                    me.engine.changeScenes("Victory");
+                    // If all questions complete, go to victory
+                    if (me.questions === null || me.questions.complete()) {
+                        me.engine.scenes.Victory = new Victory(me.engine, "Simple Addition");
+                        me.engine.changeScenes("Victory");
+                    }
+                    // Otherwise go back to the menu
+                    else {
+                        me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+                    }
+
                 }
+                // Otherwise go to the next question in the set
                 else {
                     me.engine.scenes[me.name] = new PlayAdd(me.engine, me.questions, me.getQuestionIdNext());
                     me.engine.changeScenes(me.name);

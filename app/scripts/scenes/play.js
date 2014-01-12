@@ -181,7 +181,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 this.setupNumBar(leftCount, rightCount);
 
                 // Text answer
-                if ((this.configAnswer === 0) && (this.getQuestion !== null)) {
+                if ((this.configAnswer === 0) && (this.getQuestion() !== null)) {
                     this.textAnswer.text = this.getQuestion().get("numL") + this.getQuestion().get("numR");
                 }
                 else if (this.configAnswer === 0) {
@@ -497,16 +497,8 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.clickMenu = function() {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("Menu");
+                me.engine.changeScenes("Menu", require('menu'));
             };
-        };
-
-        // Keyup event
-        Play.prototype.keyup = function(event) {
-            // If escape key, go to Menu scene
-            if (event.keyCode === 27) {
-                this.engine.changeScenes("Menu");
-            }
         };
 
         // Return the coords of a final static position for a number
@@ -617,9 +609,14 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             this.textRight.text = "wuta";
         };
 
-        // Get the current active question
+        // Get the current active question, or null if no questions
         Play.prototype.getQuestion = function() {
+            if (this.questions === null) {
+                return null;
+            }
+            else {
             return this.questions.get(this.questionId);
+            }
         };
 
         // Get the next preset question id in the list, or null if none
