@@ -1,23 +1,22 @@
 /*
-    Scene: MenuChallengesAdd Challenges
-    The math type selection menu
+    Scene: MenuChallengesQuestions Challenges
+    The challenge question selection menu
 */
 /*global define */
 define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "buttonBack", "checkStatic", "questions"], function ($, Scene, PlayAdd, Sprite, ChalkTTT, Text, Button, ButtonBack, CheckStatic, Questions) {
     "use strict";
 
     return (function() {
-        Scene.extend(MenuChallengesAdd);
+        Scene.extend(MenuChallengesQuestions);
 
-        MenuChallengesAdd.prototype.name = "MenuChallengesAdd";
-        MenuChallengesAdd.prototype.route = "challenges/add";
+        MenuChallengesQuestions.prototype.name = "MenuChallengesQuestions";
 
-        MenuChallengesAdd.prototype.colorText = "rgb(255, 255, 255)";
+        MenuChallengesQuestions.prototype.colorText = "rgb(255, 255, 255)";
 
-        MenuChallengesAdd.prototype.questions = null;
+        MenuChallengesQuestions.prototype.questions = null;
 
-        function MenuChallengesAdd(engine) {
-            MenuChallengesAdd.__super__.constructor.call(this, engine);
+        function MenuChallengesQuestions(engine, title, questions) {
+            MenuChallengesQuestions.__super__.constructor.call(this, engine);
 
             // Create the background image
             var spriteImage = $("img.gettable.gettable-chalkboard-bg").attr("src");
@@ -30,22 +29,7 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.entityAdd(new Text(centerX - 100, 70, 0, "Simple Addition", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
-
-            // Create the collection of problems
-            this.questions = new Questions();
-            this.questions.fetch();
-            if (!this.questions.length) {
-                this.questions.reset();
-                this.questions.create({numL: "1", numR: "1", preset: true});
-                this.questions.create({numL: "2", numR: "2", preset: true});
-                this.questions.create({numL: "3", numR: "2", preset: true});
-                this.questions.create({numL: "2", numR: "3", preset: true});
-                this.questions.create({numL: "1", numR: "4", preset: true});
-                this.questions.create({numL: "5", numR: "1", preset: true});
-                this.questions.create({numL: "3", numR: "3", preset: true});
-                this.questions.create({numL: "2", numR: "4", preset: true});
-            }
+            this.entityAdd(new Text(centerX - 100, 70, 0, this.title, "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
 
             // Create the buttons
             var me = this;
@@ -70,16 +54,16 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
             });
         }
 
-        MenuChallengesAdd.prototype.render = function(ctx, dt) {
+        MenuChallengesQuestions.prototype.render = function(ctx, dt) {
             // Set the background
             ctx.fillStyle = "rgb(255, 255, 255)";
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
-            MenuChallengesAdd.__super__.render.call(this, ctx, dt);
+            MenuChallengesQuestions.__super__.render.call(this, ctx, dt);
         };
 
         // Click on a problem event
-        MenuChallengesAdd.prototype.clickQuestion = function(index) {
+        MenuChallengesQuestions.prototype.clickQuestion = function(index) {
             var me = this;
             return function() {
                 me.engine.sceneAdd(new PlayAdd(me.engine, me.questions, index), "PlayAdd");
@@ -88,14 +72,14 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
         };
 
         // Back button click event
-        MenuChallengesAdd.prototype.clickBack = function(event) {
+        MenuChallengesQuestions.prototype.clickBack = function(event) {
             var me = this;
             return function() {
                 me.engine.changeScenes("MenuChallenges", require("menuChallenges"));
             };
         };
 
-        return MenuChallengesAdd;
+        return MenuChallengesQuestions;
 
     })();
 });

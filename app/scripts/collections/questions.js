@@ -10,6 +10,13 @@ define(["backbone", "question", "localstorage"], function (Backbone, Question) {
         model: Question,
         localStorage: new Backbone.LocalStorage("Questions"),
 
+        initialize: function(lsName) {
+            // If a localstorage string was provided, set it
+            if (typeof lsName !== 'undefined' && lsName !== null) {
+                this.localStorage = new Backbone.LocalStorage(lsName);
+            }
+        },
+
         // Returns true if all questions are complete, false otherwise
         complete: function() {
             var complete = true;

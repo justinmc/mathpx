@@ -57,7 +57,7 @@ define(["jquery", "scene", "menu", "play", "menuChallenges", "sprite", "startCha
         Victory.prototype.clickBack = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+                me.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
             };
         };
 

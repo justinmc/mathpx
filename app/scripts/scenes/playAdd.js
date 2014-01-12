@@ -77,7 +77,7 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
         Play.prototype.clickMenu = function() {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+                me.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
             };
         };
 
@@ -96,7 +96,7 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
                     }
                     // Otherwise go back to the menu
                     else {
-                        me.engine.changeScenes("MenuChallengesAdd", require("menuChallengesAdd"));
+                        me.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
                     }
 
                 }
