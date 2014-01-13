@@ -3,16 +3,16 @@
     The initial loading screen
 */
 /*global define */
-define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function ($, Scene, Sprite, LoadingChalk, Text, Button) {
-    "use strict";
+define(['jquery', 'scene', 'sprite', 'startChalk', 'text', 'button'], function ($, Scene, Sprite, LoadingChalk, Text, Button) {
+    'use strict';
 
     return (function() {
         Scene.extend(Loading);
 
-        Loading.prototype.name = "Loading";
+        Loading.prototype.name = 'Loading';
 
         // The scene to change to when loading is done
-        Loading.prototype.sceneNameChangeTo = "Start";
+        Loading.prototype.sceneNameChangeTo = 'Start';
 
         Loading.prototype.urlCount = 0;
         Loading.prototype.urlsDone = 0;
@@ -24,13 +24,13 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             this.urlCount = urls.length;
 
             // Create the title
-            this.entityAdd(new Text(this.engine.ctx.canvas.width / 4, 260, 0, "Loading...", "50px 'Press Start 2P'", "rgb(0, 0, 0)"));
+            this.entityAdd(new Text(this.engine.ctx.canvas.width / 4, 260, 0, 'Loading...', '50px \'Press Start 2P\'', 'rgb(0, 0, 0)'));
 
             // Load each url
             var me = this;
             urls.forEach(function(url) {
                 var image = new Image();
-                image.addEventListener("load", function() {
+                image.addEventListener('load', function() {
                     me.urlsDone++;
                 }, false);
                 image.src = url;
@@ -44,7 +44,7 @@ define(["jquery", "scene", "sprite", "startChalk", "text", "button"], function (
             }
 
             // Set the background
-            ctx.fillStyle = "rgb(255, 255, 255)";
+            ctx.fillStyle = 'rgb(255, 255, 255)';
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
             Loading.__super__.render.call(this, ctx, dt);

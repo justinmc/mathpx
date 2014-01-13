@@ -3,15 +3,15 @@ Credit Erik Moller
 http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 */
 
-"use strict";
+'use strict';
 
 (function() {
     var lastTime = 0;
-    var vendors = ["ms", "moz", "webkit", "o"];
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+"RequestAnimationFrame"];
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
         window.cancelRequestAnimationFrame = window[vendors[x]+
-          "CancelRequestAnimationFrame"];
+          'CancelRequestAnimationFrame'];
     }
 
     if (!window.requestAnimationFrame) {

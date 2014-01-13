@@ -3,20 +3,20 @@
     The first, main menu
 */
 /*global define */
-define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "text", "button", "buttonBack"], function ($, Scene, Play, MenuChallenges, Sprite, MenuChalk, Text, Button, ButtonBack) {
-    "use strict";
+define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'startChalk', 'text', 'button', 'buttonBack'], function ($, Scene, Play, MenuChallenges, Sprite, MenuChalk, Text, Button, ButtonBack) {
+    'use strict';
 
     return (function() {
         Scene.extend(Menu);
 
-        Menu.prototype.name = "Menu";
-        Menu.prototype.route = "main";
+        Menu.prototype.name = 'Menu';
+        Menu.prototype.route = 'main';
 
         function Menu(engine) {
             Menu.__super__.constructor.call(this, engine);
 
             // Create the background image
-            var spriteImage = $("img.gettable.gettable-chalkboard-bg").attr("src");
+            var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
@@ -25,18 +25,18 @@ define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "te
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
-            this.entityAdd(new Text(700, 70, 0, "Math Pix!", "20px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.entityAdd(new Text(centerX - 20, 70, 0, "Main Menu", "28px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new Text(centerX - 20, 70, 0, 'Main Menu', '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
 
             // Create the buttons
-            this.entityAdd(new Button(centerX, 120, 190, 40, "Challenges", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickChallenges(), 16, "rgb(255, 255, 255)"));
-            this.entityAdd(new Button(centerX, 200, 190, 40, "Free Play", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickFree(), 16, "rgb(255, 255, 255)"));
-            this.entityAdd(new Button(centerX, 280, 190, 40, "About Math Pix", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAbout(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(centerX, 120, 190, 40, 'Challenges', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickChallenges(), 16, 'rgb(255, 255, 255)'));
+            this.entityAdd(new Button(centerX, 200, 190, 40, 'Free Play', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickFree(), 16, 'rgb(255, 255, 255)'));
+            this.entityAdd(new Button(centerX, 280, 190, 40, 'About Math Pix', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickAbout(), 16, 'rgb(255, 255, 255)'));
         }
 
         Menu.prototype.render = function(ctx, dt) {
             // Set the background
-            ctx.fillStyle = "rgb(255, 255, 255)";
+            ctx.fillStyle = 'rgb(255, 255, 255)';
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
             Menu.__super__.render.call(this, ctx, dt);
@@ -46,7 +46,7 @@ define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "te
         Menu.prototype.clickFree = function() {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("Play", Play);
+                me.engine.changeScenes('Play', Play);
             };
         };
 
@@ -54,14 +54,14 @@ define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "te
         Menu.prototype.clickChallenges = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("MenuChallenges", MenuChallenges);
+                me.engine.changeScenes('MenuChallenges', MenuChallenges);
             };
         };
 
         // About button click event
         Menu.prototype.clickAbout = function(event) {
             return function() {
-                console.log("clicked about");
+                console.log('clicked about');
             };
         };
 
@@ -69,7 +69,7 @@ define(["jquery", "scene", "play", "menuChallenges", "sprite", "startChalk", "te
         Menu.prototype.clickBack = function(event) {
             var me = this;
             return function() {
-                me.engine.changeScenes("Start", require("start"));
+                me.engine.changeScenes('Start', require('start'));
             };
         };
 

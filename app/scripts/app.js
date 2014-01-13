@@ -1,6 +1,6 @@
 /*global define */
-define(["jquery", "backbone", "histories", "engine", "router", "start", "loading", "entity", "text", "num", "numNeg", "trash"], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash) {
-    "use strict";
+define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading', 'entity', 'text', 'num', 'numNeg', 'trash'], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash) {
+    'use strict';
 
     var AppObj = (function() {
 
@@ -36,27 +36,27 @@ define(["jquery", "backbone", "histories", "engine", "router", "start", "loading
         // Start the app (after DOM is ready)
         App.prototype.start = function() {
             // Get the canvas
-            this.canvas = $("canvas")[0];
-            this.ctx = this.canvas.getContext("2d");
+            this.canvas = $('canvas')[0];
+            this.ctx = this.canvas.getContext('2d');
 
             // Get the container div
-            this.container = $(".container");
+            this.container = $('.container');
 
             // Set the canvas size
             this.ctx.canvas.width = this.width;
             this.ctx.canvas.height = this.height;
-            this.ctx.canvas.style.width = this.width + "px";
+            this.ctx.canvas.style.width = this.width + 'px';
 
             // Get the urls of all the resources needed to load
             var urls = [];
-            $("img.gettable").each(function() {
+            $('img.gettable').each(function() {
                 urls.push(this.src);
             });
 
             // Start the engine
             this.engine = new Engine(this.canvas, this.changeScenesCallback());
-            this.engine.sceneAdd(new Loading(this.engine, urls, "Start"), "Loading");
-            this.engine.sceneAdd(new Start(this.engine), "Start");
+            this.engine.sceneAdd(new Loading(this.engine, urls, 'Start'), 'Loading');
+            this.engine.sceneAdd(new Start(this.engine), 'Start');
             /*this.engine.sceneAdd(new Menu(this.engine));
             this.engine.sceneAdd(new MenuChallenges(this.engine));
             this.engine.sceneAdd(new MenuChallengesAdd(this.engine));
@@ -92,7 +92,7 @@ define(["jquery", "backbone", "histories", "engine", "router", "start", "loading
                     me.frameCountTime = timeNow;
                 }
                 else if (timeNow - me.frameCountTime >= 1000) {
-                    $(".framecount").html(++me.frameCount + "fps");
+                    $('.framecount').html(++me.frameCount + 'fps');
                     me.frameCountTime = null;
                     me.frameCount = 0;
                 }
@@ -101,10 +101,10 @@ define(["jquery", "backbone", "histories", "engine", "router", "start", "loading
                 }
 
                 // Set the canvas size in case screen size/orientation changed
-                me.ctx.canvas.style.width = me.getCanvasWidthSized() + "px";
+                me.ctx.canvas.style.width = me.getCanvasWidthSized() + 'px';
 
                 // Position the container
-                $(me.container).css("margin-top", -1 * $(me.container).height() / 2);
+                $(me.container).css('margin-top', -1 * $(me.container).height() / 2);
 
                 // Reset the canvas
                 me.canvas.width = me.canvas.width;

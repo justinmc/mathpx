@@ -3,8 +3,8 @@
     A record of a problem attempted by the user
 */
 /*global define */
-define(["backbone"], function (Backbone) {
-    "use strict";
+define(['backbone'], function (Backbone) {
+    'use strict';
 
     return Backbone.Model.extend({
 
@@ -29,7 +29,7 @@ define(["backbone"], function (Backbone) {
         },
 
         getAnswer: function() {
-            return parseInt(this.get("numL"), 10) + parseInt(this.get("numR"), 10);
+            return parseInt(this.get('numL'), 10) + parseInt(this.get('numR'), 10);
         },
 
     });

@@ -3,14 +3,14 @@
     A negative number
 */
 /*global define */
-define(["jquery", "num", "scene", "draggable", "bounded", "collision"], function ($, Num, Scene, Draggable, Bounded, Collision) {
-    "use strict";
+define(['jquery', 'num', 'scene', 'draggable', 'bounded', 'collision'], function ($, Num, Scene, Draggable, Bounded, Collision) {
+    'use strict';
 
     return (function() {
         Num.extend(NumNeg);
 
         // Sprite
-        NumNeg.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
+        NumNeg.prototype.spriteSheet = $('img.gettable.gettable-math').attr('src');
         NumNeg.prototype.spriteWidth = 16;
         NumNeg.prototype.spriteHeight = 16;
         NumNeg.prototype.spriteX = 0;
@@ -30,8 +30,8 @@ define(["jquery", "num", "scene", "draggable", "bounded", "collision"], function
 
             if (active) {
                 // Add an animation and start it
-                this.spriteAnimationAdd("rest", 0, 1, 3, 0.15);
-                this.spriteAnimate("rest");
+                this.spriteAnimationAdd('rest', 0, 1, 3, 0.15);
+                this.spriteAnimate('rest');
             }
         }
 

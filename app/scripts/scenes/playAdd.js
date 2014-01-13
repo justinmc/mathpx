@@ -3,14 +3,14 @@
     Main game, addition mode
 */
 /*global define */
-define(["jquery", "backbone", "questions", "question", "play", "victory", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Questions, Question, Play, Victory, Entity, Num, NumNeg, Text, Trash, Button) {
-    "use strict";
+define(['jquery', 'backbone', 'questions', 'question', 'play', 'victory', 'entity', 'num', 'numNeg', 'text', 'trash', 'button'], function ($, Backbone, Questions, Question, Play, Victory, Entity, Num, NumNeg, Text, Trash, Button) {
+    'use strict';
 
     return (function() {
         Play.extend(PlayAdd);
 
-        PlayAdd.prototype.name = "PlayAdd";
-        PlayAdd.prototype.route = "challenges/add/play";
+        PlayAdd.prototype.name = 'PlayAdd';
+        PlayAdd.prototype.route = 'challenges/add/play';
 
         PlayAdd.prototype.configLeft = 0;
         PlayAdd.prototype.configRight = 0;
@@ -18,11 +18,11 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
 
         function PlayAdd(engine, questions, id) {
             // Create the reset function
-            this.reset = (function(engine, questions, id) {
+            this.reset = function(engine, questions, id) {
                 this.engine.scenes[this.name] = new PlayAdd(engine, questions, id);
                 this.engine.changeScenes(this.name);
-            }).bind(this, engine, questions, id);
-            
+            }.bind(this, engine, questions, id);
+
             // If not given a set of questions, get them from localStorage
             if (typeof questions === 'undefined' || questions === null) {
                 questions = new Questions('questionsAddition');
@@ -37,11 +37,11 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
         };
 
         PlayAdd.prototype.setupNumBar = function(numL, numR) {
-            PlayAdd.__super__.setupNumBar.call(this, this.getQuestion().get("numL"), this.getQuestion().get("numR"));
+            PlayAdd.__super__.setupNumBar.call(this, this.getQuestion().get('numL'), this.getQuestion().get('numR'));
         };
 
         PlayAdd.prototype.setupAnswer = function(answer) {
-            PlayAdd.__super__.setupAnswer.call(this, "?");
+            PlayAdd.__super__.setupAnswer.call(this, '?');
         };
 
         // Reset the current scene
@@ -52,9 +52,9 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
 
         // Menu button click event
         Play.prototype.clickMenu = function() {
-            return (function(event) {
-                this.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
-            }).bind(this);
+            return function(event) {
+                this.engine.changeScenes('MenuChallengesQuestionsAdd', require('menuChallengesQuestionsAdd'));
+            }.bind(this);
         };
 
         // Next button click event
@@ -67,12 +67,12 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
                 if (nextId === null) {
                     // If all questions complete, go to victory
                     if (me.questions === null || me.questions.complete()) {
-                        me.engine.scenes.Victory = new Victory(me.engine, "Simple Addition");
-                        me.engine.changeScenes("Victory");
+                        me.engine.scenes.Victory = new Victory(me.engine, 'Simple Addition');
+                        me.engine.changeScenes('Victory');
                     }
                     // Otherwise go back to the menu
                     else {
-                        me.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
+                        me.engine.changeScenes('MenuChallengesQuestionsAdd', require('menuChallengesQuestionsAdd'));
                     }
 
                 }

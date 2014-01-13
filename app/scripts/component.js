@@ -1,6 +1,6 @@
 /*global define */
-define(["extendable"], function (Extendable) {
-    "use strict";
+define(['extendable'], function (Extendable) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -10,7 +10,7 @@ define(["extendable"], function (Extendable) {
         Component.prototype.entity = {};
 
         // The name to refer to this component
-        Component.prototype.name = "Component";
+        Component.prototype.name = 'Component';
 
         function Component(entity) {
             this.entity = entity;

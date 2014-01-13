@@ -3,12 +3,12 @@
     Collection of questions
 */
 /*global define */
-define(["backbone", "question", "localstorage"], function (Backbone, Question) {
-    "use strict";
+define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
+    'use strict';
 
     return Backbone.Collection.extend({
         model: Question,
-        localStorage: new Backbone.LocalStorage("Questions"),
+        localStorage: new Backbone.LocalStorage('Questions'),
 
         initialize: function(lsName) {
             // If a localstorage string was provided, set it
@@ -22,7 +22,7 @@ define(["backbone", "question", "localstorage"], function (Backbone, Question) {
             var complete = true;
             this.forEach(function(question) {
                 if (question.get('timeEnd') === null) {
-                   complete = false;
+                    complete = false;
                 }
             });
 

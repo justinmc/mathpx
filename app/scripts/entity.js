@@ -1,6 +1,6 @@
 /*global define */
-define(["jquery", "extendable"], function ($, Extendable) {
-    "use strict";
+define(['jquery', 'extendable'], function ($, Extendable) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -12,7 +12,7 @@ define(["jquery", "extendable"], function ($, Extendable) {
         Entity.prototype.y = 0;
         Entity.prototype.width = 0;
         Entity.prototype.height = 0;
-        Entity.prototype.color = "rgb(0, 0, 0)";
+        Entity.prototype.color = 'rgb(0, 0, 0)';
 
         // Components
         Entity.prototype.components = {};

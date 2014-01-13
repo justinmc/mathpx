@@ -3,8 +3,8 @@
     Creates a text object with an outline around it
 */
 /*global define */
-define(["jquery", "scene", "text"], function ($, Scene, Text) {
-    "use strict";
+define(['jquery', 'scene', 'text'], function ($, Scene, Text) {
+    'use strict';
 
     return (function() {
         Text.extend(Button);
@@ -13,7 +13,7 @@ define(["jquery", "scene", "text"], function ($, Scene, Text) {
         Text.prototype.scene = null;
         Text.prototype.height = null;
         Text.prototype.padding = 16;
-        Text.prototype.strokeStyle = "rgb(0, 0, 0)";
+        Text.prototype.strokeStyle = 'rgb(0, 0, 0)';
 
         function Button(x, y, width, height, text, font, fillStyle, callback, padding, strokeStyle) {
             Button.__super__.constructor.call(this, x, y, width, text, font, fillStyle);
@@ -23,10 +23,10 @@ define(["jquery", "scene", "text"], function ($, Scene, Text) {
             this.height = height;
 
             // Optional parameters
-            if (typeof padding !== "undefined") {
+            if (typeof padding !== 'undefined') {
                 this.padding = padding;
             }
-            if (typeof strokeStyle !== "undefined") {
+            if (typeof strokeStyle !== 'undefined') {
                 this.strokeStyle = strokeStyle;
             }
         }

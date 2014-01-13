@@ -1,12 +1,12 @@
 /*global define */
-define(["jquery", "extendable"], function ($, Extendable) {
-    "use strict";
+define(['jquery', 'extendable'], function ($, Extendable) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
         Extendable.extend(Scene);
 
-        Scene.prototype.route = "/";
+        Scene.prototype.route = '/';
 
         Scene.prototype.entities = [];
 
@@ -31,7 +31,7 @@ define(["jquery", "extendable"], function ($, Extendable) {
             var me = this;
             this.entities.forEach(function(elt) {
                 if (elt.display) {
-                    me.eventFire({type: "preRender", dt: dt});
+                    me.eventFire({type: 'preRender', dt: dt});
                     elt.render(ctx, dt);
                 }
             });
@@ -83,7 +83,7 @@ define(["jquery", "extendable"], function ($, Extendable) {
         // Gets the coordinates of an event on the canvas relative to the canvas
         Scene.prototype.getEventCoords = function(event) {
             // Only if we have ctx (have rendered)
-            if ("ctx" in this) {
+            if ('ctx' in this) {
                 var totalOffsetX = 0;
                 var totalOffsetY = 0;
                 var canvasX = 0;
@@ -93,7 +93,7 @@ define(["jquery", "extendable"], function ($, Extendable) {
                 // Get the direct event x/y
                 var eventX = 0;
                 var eventY = 0;
-                if (event.type === "touchstart" || event.type === "touchmove" || event.type === "touchend" || event.type === "touchcancel") {
+                if (event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'touchend' || event.type === 'touchcancel') {
                     var eventOriginal = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
                     eventX = eventOriginal.pageX;
                     eventY = eventOriginal.pageY;

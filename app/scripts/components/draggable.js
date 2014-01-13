@@ -3,15 +3,15 @@
     Makes the entity draggable with the mouse
 */
 /*global define, alert */
-define(["jquery", "scene", "component"], function ($, Scene, Component) {
-    "use strict";
+define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
+    'use strict';
 
     return (function() {
         // Inherit from the Component class
         Component.extend(Draggable);
 
         // The name to refer to this component
-        Draggable.prototype.name = "Draggable";
+        Draggable.prototype.name = 'Draggable';
 
         Draggable.prototype.draggingX = null;
         Draggable.prototype.draggingY = null;

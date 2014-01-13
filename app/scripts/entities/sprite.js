@@ -1,6 +1,6 @@
 /*global define */
-define(["jquery", "entity"], function ($, Entity) {
-    "use strict";
+define(['jquery', 'entity'], function ($, Entity) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -39,7 +39,7 @@ define(["jquery", "entity"], function ($, Entity) {
 
             // Load it's resource
             var me = this;
-            this.obj.addEventListener("load", function() {
+            this.obj.addEventListener('load', function() {
                 me.loading = false;
             }, false);
             this.obj.src = this.spriteSheet;
@@ -67,7 +67,7 @@ define(["jquery", "entity"], function ($, Entity) {
                             if (this.spriteAnimationRepetitions === 0) {
                                 // Call the callback if needed
                                 if (this.spriteAnimationCallback !== null) {
-                                    this.spriteAnimationCallback({type: "spriteAnimationEnd"}, this);
+                                    this.spriteAnimationCallback({type: 'spriteAnimationEnd'}, this);
                                 }
 
                                 // Reset parameters
@@ -117,7 +117,7 @@ define(["jquery", "entity"], function ($, Entity) {
 
         // Run an animation
         Sprite.prototype.spriteAnimate = function(name, repetitions, callback) {
-            if (typeof callback !== "undefined") {
+            if (typeof callback !== 'undefined') {
                 this.spriteAnimationCallback = callback;
             }
             if (repetitions === null) {

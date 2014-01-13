@@ -3,14 +3,14 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "backbone", "question", "questions", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "x", "tween"], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
-    "use strict";
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
+    'use strict';
 
     return (function() {
         Scene.extend(Play);
 
-        Play.prototype.name = "Play";
-        Play.prototype.route = "play";
+        Play.prototype.name = 'Play';
+        Play.prototype.route = 'play';
 
         // Current question set
         Play.prototype.questions = null;
@@ -68,7 +68,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             Play.__super__.constructor.call(this, engine);
 
             // If we were given a set of questions, save them
-            if (typeof questions !== "undefined" && questions !== null) {
+            if (typeof questions !== 'undefined' && questions !== null) {
                 this.questions = questions;
             }
             // Otherwise create an empty set of questions
@@ -77,12 +77,12 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             }
 
             // If we were given a question id, save it
-            if (typeof id !== "undefined" && id !== null && this.questions.length) {
+            if (typeof id !== 'undefined' && id !== null && this.questions.length) {
                 this.questionId = id;
 
                 // Set the timeStart on the question if not already set
-                if (!this.getQuestion().has("timeStart")) {
-                    this.getQuestion().set("timeStart", new Date().getTime());
+                if (!this.getQuestion().has('timeStart')) {
+                    this.getQuestion().set('timeStart', new Date().getTime());
                     this.getQuestion().save();
                 }
             }
@@ -99,7 +99,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
                 var numL = Math.floor(Math.random() * 10);
                 var numR = Math.floor(Math.random() * (10 - numL));
                 this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
-                this.questionId = this.questions.at(0).get("id");
+                this.questionId = this.questions.at(0).get('id');
             }
 
             // Reset objects for deep copy
@@ -117,37 +117,37 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             this.activeNumsANeg = [];
 
             // Create the lines
-            this.entityAdd(new Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, "rgb(255, 255, 255)"));
-            this.entityAdd(new Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, "rgb(255, 255, 255)"));
+            this.entityAdd(new Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
+            this.entityAdd(new Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
 
             // Create the number bar
-            this.textLeft = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, "0", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.textSign = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, "+", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.textRight = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, "0", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.textAnswer = this.entityAdd(new Text(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, "0", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.buttonGo = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "=", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickGo(), 16, "rgb(255, 255, 255)"));
-            this.buttonNext = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "->", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickNext(), 16, "rgb(255, 255, 255)"));
+            this.textLeft = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.textSign = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.textRight = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.textAnswer = this.entityAdd(new Text(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.buttonGo = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '=', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickGo(), 16, 'rgb(255, 255, 255)'));
+            this.buttonNext = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '->', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickNext(), 16, 'rgb(255, 255, 255)'));
             this.buttonNext.display = false;
-            this.buttonAgain = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, "Again", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickAgain(), 16, "rgb(255, 255, 255)"));
+            this.buttonAgain = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, 'Again', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickAgain(), 16, 'rgb(255, 255, 255)'));
             this.buttonAgain.display = false;
 
             // Create all possible toolbar entities 
-            this.toolbarNumLText = this.entityAdd(new Text(20, this.engine.ctx.canvas.height - 40, 100, "+", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.toolbarNumLText = this.entityAdd(new Text(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumL = this.entityAdd(new Num(50, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegLText = this.entityAdd(new Text(120, this.engine.ctx.canvas.height - 40, 100, "+", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.toolbarNumNegLText = this.entityAdd(new Text(120, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumNegL = this.entityAdd(new NumNeg(150, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumRText = this.entityAdd(new Text(350, this.engine.ctx.canvas.height - 40, 100, "-", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
-            this.toolbarNumNegRText = this.entityAdd(new Text(450, this.engine.ctx.canvas.height - 40, 100, "-", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.toolbarNumRText = this.entityAdd(new Text(350, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumNegRText = this.entityAdd(new Text(450, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumAText = this.entityAdd(new Text(670, this.engine.ctx.canvas.height - 40, 100, "-", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.toolbarNumAText = this.entityAdd(new Text(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegAText = this.entityAdd(new Text(770, this.engine.ctx.canvas.height - 40, 100, "-", "24px 'Press Start 2P'", "rgb(255, 255, 255)"));
+            this.toolbarNumNegAText = this.entityAdd(new Text(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 80));
-            this.entityAdd(new Button(10, 10, 60, 40, "Menu", "20px 'Press Start 2P'", "rgb(255, 255, 255)", this.clickMenu(), 16, "rgb(255, 255, 255)"));
+            this.entityAdd(new Button(10, 10, 60, 40, 'Menu', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickMenu(), 16, 'rgb(255, 255, 255)'));
 
             // Create the answer numbers
             this.answerNums = [];
@@ -204,7 +204,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
 
         Play.prototype.render = function(ctx, dt) {
             // Set the background
-            ctx.fillStyle = "rgb(87, 124, 75)";
+            ctx.fillStyle = 'rgb(87, 124, 75)';
             ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
 
             var leftCount = this.activeNumsL.length - this.activeNumsLNeg.length;
@@ -217,7 +217,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
 
                 // Text answer
                 if ((this.configAnswer === 0) && (this.getQuestion() !== null)) {
-                    this.textAnswer.text = this.getQuestion().get("numL") + this.getQuestion().get("numR");
+                    this.textAnswer.text = this.getQuestion().get('numL') + this.getQuestion().get('numR');
                 }
                 else if (this.configAnswer === 0) {
                     this.textAnswer.text = leftCount + rightCount;
@@ -232,10 +232,10 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
                 this.setupNums(this.answerNums, this.answerNumsNeg, leftCount + rightCount);
             }
             if (this.configLeft === 0) {
-                this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get("numL"));
+                this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get('numL'));
             }
             if (this.configRight === 0) {
-                this.setupNums(this.questionNumsR, this.questionNumsNegR, this.getQuestion().get("numR"));
+                this.setupNums(this.questionNumsR, this.questionNumsNegR, this.getQuestion().get('numR'));
             }
 
             // Render entities
@@ -254,29 +254,29 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             if (config === 0) {
                 num.display = false;
                 numNeg.display = false;
-                numText.text = "";
-                numNegText.text = "";
+                numText.text = '';
+                numNegText.text = '';
                 trash.display = false;
             }
             else if (config === 1) {
                 num.display = true;
                 numNeg.display = false;
-                numText.text = "+";
-                numNegText.text = "";
+                numText.text = '+';
+                numNegText.text = '';
                 trash.display = true;
             }
             else if (config === -1) {
                 num.display = false;
                 numNeg.display = true;
-                numText.text = "";
-                numNegText.text = "-";
+                numText.text = '';
+                numNegText.text = '-';
                 trash.display = true;
             }
             else {
                 num.display = true;
                 numNeg.display = true;
-                numText.text = "+";
-                numNegText.text = "-";
+                numText.text = '+';
+                numNegText.text = '-';
                 trash.display = true;
             }
         };
@@ -286,10 +286,10 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             if (this.modePlay) {
                 this.textLeft.text = numL;
                 if (numR < 0) {
-                    this.textSign.text = "-";
+                    this.textSign.text = '-';
                 }
                 else {
-                    this.textSign.text = "+";
+                    this.textSign.text = '+';
                 }
                 this.textRight.text = Math.abs(numR);
             }
@@ -424,15 +424,15 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
 
                         // Change the UI to the final mode
                         me.buttonGo.display = false;
-                        me.textLeft.text = "";
+                        me.textLeft.text = '';
                         me.textSign.text = sign * valueLR;
-                        me.textRight.text = "";
+                        me.textRight.text = '';
 
                         // If the question was correct
                         if ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer())) {
                             // Set the timeEnd on the question
-                            me.getQuestion().set("timeEnd", new Date().getTime());
-                            if (typeof me.questions.localStorage !== "undefined") {
+                            me.getQuestion().set('timeEnd', new Date().getTime());
+                            if (typeof me.questions.localStorage !== 'undefined') {
                                 me.getQuestion().save();
                             }
 
@@ -516,7 +516,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             return function(event, entity) {
                 entity.display = false;
                 me.entityRemove(entity);
-                if (typeof deferred !== "undefined") {
+                if (typeof deferred !== 'undefined') {
                     deferred.resolve();
                 }
             };
@@ -524,7 +524,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
         Play.prototype.numAnnihilateAnimate = function(deferred) {
             var me = this;
             return function(event, entity) {
-                entity.spriteAnimate("annihilate", 1, me.numAnnihilateFinish(deferred));
+                entity.spriteAnimate('annihilate', 1, me.numAnnihilateFinish(deferred));
             };
         };
 
@@ -532,7 +532,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
         Play.prototype.clickMenu = function() {
             var me = this;
             return function(event) {
-                me.engine.changeScenes("Menu", require('menu'));
+                me.engine.changeScenes('Menu', require('menu'));
             };
         };
 
@@ -565,7 +565,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             var me = this;
             this.entities.forEach(function(entity) {
                 if (entity.x < ctx.canvas.width / 3) {
-                    if ("value" in entity) {
+                    if ('value' in entity) {
                         count += entity.value;
                     }
                 }
@@ -580,7 +580,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             var me = this;
             this.entities.forEach(function(entity) {
                 if ((entity.x > ctx.canvas.width / 3) && (entity.x < 2 * ctx.canvas.width / 3)) {
-                    if ("value" in entity) {
+                    if ('value' in entity) {
                         count += entity.value;
                     }
                 }
@@ -595,7 +595,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             var me = this;
             this.entities.forEach(function(entity) {
                 if ((entity.x > 2 * ctx.canvas.width / 3) && (entity.x < ctx.canvas.width)) {
-                    if ("value" in entity) {
+                    if ('value' in entity) {
                         count += entity.value;
                     }
                 }
@@ -608,9 +608,9 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
         Play.prototype.modeChangeReview = function() {
             this.modePlay = false;
             this.buttonGo.display = false;
-            this.textLeft.text = "";
-            this.textSign.text = "";
-            this.textRight.text = "";
+            this.textLeft.text = '';
+            this.textSign.text = '';
+            this.textRight.text = '';
         };
 
         // Change the UI to review mode, for when an answer has been submitted
@@ -619,9 +619,9 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             this.buttonGo.display = true;
             this.buttonNext.display = false;
             this.buttonAgain.display = false;
-            this.textLeft.text = "wut";
-            this.textSign.text = "=";
-            this.textRight.text = "wuta";
+            this.textLeft.text = 'wut';
+            this.textSign.text = '=';
+            this.textRight.text = 'wuta';
         };
 
         // Get the current active question, or null if no questions
@@ -630,15 +630,15 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
                 return null;
             }
             else {
-            return this.questions.get(this.questionId);
+                return this.questions.get(this.questionId);
             }
         };
 
         // Get the next preset question id in the list, or null if none
         Play.prototype.getQuestionIdNext = function() {
             var qNext = this.questions.at(this.questions.indexOf(this.getQuestion()) + 1);
-            if (typeof qNext !== "undefined" && qNext !== null && qNext.get("preset")) {
-                return qNext.get("id");
+            if (typeof qNext !== 'undefined' && qNext !== null && qNext.get('preset')) {
+                return qNext.get('id');
             }
             else {
                 return null;
@@ -653,7 +653,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             this.removeFromArray(num, this.activeNumsRNeg);
             this.removeFromArray(num, this.activeNumsA);
             this.removeFromArray(num, this.activeNumsANeg);
-        }
+        };
 
         // Remove the given object from the given array, if it exists
         Play.prototype.removeFromArray = function(num, array) {
@@ -661,7 +661,7 @@ define(["jquery", "backbone", "question", "questions", "scene", "entity", "num",
             if (index > -1) {
                 array.splice(index, 1);
             }
-        }
+        };
 
         return Play;
 

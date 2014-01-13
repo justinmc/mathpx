@@ -3,15 +3,15 @@
     Allows moving animations
 */
 /*global define */
-define(["jquery", "component"], function ($, Component) {
-    "use strict";
+define(['jquery', 'component'], function ($, Component) {
+    'use strict';
 
     return (function() {
         // Inherit from the Component class
         Component.extend(Tween);
 
         // The name to refer to this component
-        Tween.prototype.name = "Tween";
+        Tween.prototype.name = 'Tween';
 
         // Parameters
         Tween.prototype.x = null;
@@ -31,7 +31,7 @@ define(["jquery", "component"], function ($, Component) {
             this.x = x;
             this.y = y;
 
-            if (typeof callback !== "undefined") {
+            if (typeof callback !== 'undefined') {
                 this.callback = callback;
             }
 

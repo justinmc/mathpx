@@ -3,8 +3,8 @@
     A positive number
 */
 /*global define */
-define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragCreate", "bounded", "collision"], function ($, Extendable, Scene, Entity, Sprite, Draggable, DragCreate, Bounded, Collision) {
-    "use strict";
+define(['jquery', 'extendable', 'scene', 'entity', 'sprite', 'draggable', 'dragCreate', 'bounded', 'collision'], function ($, Extendable, Scene, Entity, Sprite, Draggable, DragCreate, Bounded, Collision) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -17,7 +17,7 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
         Num.prototype.toolbar = null;
 
         // Sprite
-        Num.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
+        Num.prototype.spriteSheet = $('img.gettable.gettable-math').attr('src');
         Num.prototype.spriteWidth = 16;
         Num.prototype.spriteHeight = 16;
         Num.prototype.spriteX = 0;
@@ -37,19 +37,19 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
 
             // Add the collision component for colliding with the trash
             var me = this;
-            this.componentAdd(new Collision(this, "Trash", function(event, scene, entityCollided) {
+            this.componentAdd(new Collision(this, 'Trash', function(event, scene, entityCollided) {
                 scene.entities.splice(scene.entities.indexOf(me), 1);
                 scene.removeActiveNum(me);
-                entityCollided.spriteAnimate("eat", 1);
-            }, "mouseup"));
+                entityCollided.spriteAnimate('eat', 1);
+            }, 'mouseup'));
 
             // Add the annihilate animation
-            this.spriteAnimationAdd("annihilate", 0, 2, 3, 0.15);
+            this.spriteAnimationAdd('annihilate', 0, 2, 3, 0.15);
 
             if (active) {
                 // Add the rest animation and start it
-                this.spriteAnimationAdd("rest", 0, 0, 3, 0.15);
-                this.spriteAnimate("rest");
+                this.spriteAnimationAdd('rest', 0, 0, 3, 0.15);
+                this.spriteAnimate('rest');
 
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));

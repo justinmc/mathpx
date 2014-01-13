@@ -3,15 +3,15 @@
     Prevents moving outside the canvas
 */
 /*global define */
-define(["jquery", "component"], function ($, Component) {
-    "use strict";
+define(['jquery', 'component'], function ($, Component) {
+    'use strict';
 
     return (function() {
         // Inherit from the Component class
         Component.extend(Bounded);
 
         // The name to refer to this component
-        Bounded.prototype.name = "Bounded";
+        Bounded.prototype.name = 'Bounded';
 
         // The location to be bounded within
         Bounded.prototype.x = null;

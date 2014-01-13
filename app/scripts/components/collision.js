@@ -3,21 +3,21 @@
     Calls a callback when colliding with another entity
 */
 /*global define */
-define(["jquery", "scene", "component"], function ($, Scene, Component) {
-    "use strict";
+define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
+    'use strict';
 
     return (function() {
         // Inherit from the Component class
         Component.extend(Collision);
 
         // The name to refer to this component
-        Collision.prototype.name = "Collision";
+        Collision.prototype.name = 'Collision';
 
         // The function to call if a collision was detected
         Collision.prototype.callback = null;
 
         // The event to listen to and check for a collision
-        Collision.prototype.eventName = "preRender";
+        Collision.prototype.eventName = 'preRender';
 
         // The component on other entities that can be collided with
         // If none given, all can be collided with

@@ -1,22 +1,22 @@
 /*global define, alert */
-define(["backbone", "start", "menu", "menuChallenges", "menuChallengesQuestionsAdd", "menuChallengesQuestionsSub", "play", "playAdd", "playSub", "victory"], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Play, PlayAdd, PlaySub, Victory) {
-    "use strict";
+define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'play', 'playAdd', 'playSub', 'victory'], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Play, PlayAdd, PlaySub, Victory) {
+    'use strict';
 
     return Backbone.Router.extend({
 
         routes: {
-            "":                     "start",
-            "main":                 "main",
-            "challenges":           "challenges",
-            "challenges/add":       "challengesAdd",
-            "challenges/add/play":  "challengesAddPlay",
-            "challenges/sub":       "challengesSub",
-            "challenges/sub/play":  "challengesSubPlay",
-            "play":                 "play",
-            "free":                 "free",
-            "about":                "about",
-            "victory":              "victory",
-            "*path":                "start"
+            '':                     'start',
+            'main':                 'main',
+            'challenges':           'challenges',
+            'challenges/add':       'challengesAdd',
+            'challenges/add/play':  'challengesAddPlay',
+            'challenges/sub':       'challengesSub',
+            'challenges/sub/play':  'challengesSubPlay',
+            'play':                 'play',
+            'free':                 'free',
+            'about':                'about',
+            'victory':              'victory',
+            '*path':                'start'
         },
 
         // Must be created with an engine so that scenes can be changed
@@ -25,39 +25,39 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesQuestionsA
         },
 
         start: function() {
-            this.changeSceneTo("Start", Start);
+            this.changeSceneTo('Start', Start);
         },
 
         main: function() {
-            this.changeSceneTo("Menu", Menu);
+            this.changeSceneTo('Menu', Menu);
         },
 
         challenges: function() {
-            this.changeSceneTo("MenuChallenges", MenuChallenges);
+            this.changeSceneTo('MenuChallenges', MenuChallenges);
         },
 
         challengesAdd: function() {
-            this.changeSceneTo("MenuChallengesQuestionsAdd", MenuChallengesQuestionsAdd);
+            this.changeSceneTo('MenuChallengesQuestionsAdd', MenuChallengesQuestionsAdd);
         },
 
         challengesAddPlay: function() {
-            this.changeSceneTo("PlayAdd", PlayAdd);
+            this.changeSceneTo('PlayAdd', PlayAdd);
         },
 
         challengesSub: function() {
-            this.changeSceneTo("MenuChallengesQuestionsSub", MenuChallengesQuestionsSub);
+            this.changeSceneTo('MenuChallengesQuestionsSub', MenuChallengesQuestionsSub);
         },
 
         challengesSubPlay: function() {
-            this.changeSceneTo("PlaySub", PlaySub);
+            this.changeSceneTo('PlaySub', PlaySub);
         },
 
         play: function() {
-            this.changeSceneTo("Play", Play);
+            this.changeSceneTo('Play', Play);
         },
 
         victory: function() {
-            this.changeSceneTo("Victory", Victory);
+            this.changeSceneTo('Victory', Victory);
         },
 
         // Change the scene to the given scene via loading
@@ -69,7 +69,7 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesQuestionsA
 
             // Change to the scene
             this.engine.scenes.Loading.sceneNameChangeTo = name;
-            this.engine.changeScenes("Loading");
+            this.engine.changeScenes('Loading');
         },
 
     });

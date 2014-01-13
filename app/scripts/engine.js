@@ -1,6 +1,6 @@
 /*global define, alert */
-define(["jquery", "scene"], function ($, Scene) {
-    "use strict";
+define(['jquery', 'scene'], function ($, Scene) {
+    'use strict';
 
     return (function() {
 
@@ -24,32 +24,32 @@ define(["jquery", "scene"], function ($, Scene) {
 
             // Save the canvas and context
             this.canvas = canvas;
-            this.ctx = this.canvas.getContext("2d");
+            this.ctx = this.canvas.getContext('2d');
 
             // Add event listeners
             var me = this;
-            $(this.canvas).on("mousedown", function(event) {
+            $(this.canvas).on('mousedown', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("mousemove", function(event) {
+            $(this.canvas).on('mousemove', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("mouseup", function(event) {
+            $(this.canvas).on('mouseup', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("click", function(event) {
+            $(this.canvas).on('click', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("touchstart", function(event) {
+            $(this.canvas).on('touchstart', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("touchmove", function(event) {
+            $(this.canvas).on('touchmove', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(this.canvas).on("touchend", function(event) {
+            $(this.canvas).on('touchend', function(event) {
                 me.getSceneActive().eventFire(event);
             });
-            $(document).on("keyup", function(event) {
+            $(document).on('keyup', function(event) {
                 me.getSceneActive().eventFire(event);
             });
         }

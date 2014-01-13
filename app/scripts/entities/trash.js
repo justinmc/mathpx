@@ -3,8 +3,8 @@
     Trash can to remove numbers
 */
 /*global define */
-define(["jquery", "extendable", "entity", "sprite"], function ($, Extendable, Entity, Sprite) {
-    "use strict";
+define(['jquery', 'extendable', 'entity', 'sprite'], function ($, Extendable, Entity, Sprite) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -14,7 +14,7 @@ define(["jquery", "extendable", "entity", "sprite"], function ($, Extendable, En
         Trash.prototype.height = 64;
 
         // Sprite
-        Trash.prototype.spriteSheet = $("img.gettable.gettable-math").attr("src");
+        Trash.prototype.spriteSheet = $('img.gettable.gettable-math').attr('src');
         Trash.prototype.spriteWidth = 16;
         Trash.prototype.spriteHeight = 16;
         Trash.prototype.spriteX = 0;
@@ -26,9 +26,9 @@ define(["jquery", "extendable", "entity", "sprite"], function ($, Extendable, En
             Trash.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, this.spriteX, this.spriteY, this.spriteWidth, this.spriteHeight);
 
             // Add the Trash component for collision detection
-            this.componentAdd({name: "Trash"});
+            this.componentAdd({name: 'Trash'});
 
-            this.spriteAnimationAdd("eat", 0, 3, 3, 0.3);
+            this.spriteAnimationAdd('eat', 0, 3, 3, 0.3);
         }
 
         return Trash;

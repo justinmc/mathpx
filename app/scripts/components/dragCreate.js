@@ -4,15 +4,15 @@
     Ala getting something from a toolbar
 */
 /*global define, alert */
-define(["jquery", "scene", "component"], function ($, Scene, Component) {
-    "use strict";
+define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
+    'use strict';
 
     return (function() {
         // Inherit from the Component class
         Component.extend(DragCreate);
 
         // The name to refer to this component
-        DragCreate.prototype.name = "DragCreate";
+        DragCreate.prototype.name = 'DragCreate';
 
         // An entity to be created on drag, bound to its arguments
         // So could be passed as this for example: Entity.bind(this, 0, 0)
@@ -24,7 +24,7 @@ define(["jquery", "scene", "component"], function ($, Scene, Component) {
 
         function DragCreate(entity, EntityDragBind, callback) {
             this.EntityDragBind = EntityDragBind;
-            if (typeof callback !== "undefined") {
+            if (typeof callback !== 'undefined') {
                 this.callback = callback;
             }
 

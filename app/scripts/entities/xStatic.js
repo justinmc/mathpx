@@ -3,8 +3,8 @@
     A static check mark for marking question menu options
 */
 /*global define, $ */
-define(["sprite"], function (Sprite) {
-    "use strict";
+define(['sprite'], function (Sprite) {
+    'use strict';
 
     return (function() {
         // Inherit from the Extendable class
@@ -14,7 +14,7 @@ define(["sprite"], function (Sprite) {
         XStatic.prototype.height = 32;
 
         // Sprite
-        XStatic.prototype.spriteSheet = $("img.gettable.gettable-chalkboard").attr("src");
+        XStatic.prototype.spriteSheet = $('img.gettable.gettable-chalkboard').attr('src');
         XStatic.prototype.spriteWidth = 8;
         XStatic.prototype.spriteHeight = 8;
         XStatic.prototype.spriteX = 1;
