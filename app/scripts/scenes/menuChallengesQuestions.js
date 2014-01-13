@@ -64,11 +64,10 @@ define(["jquery", "scene", "playAdd", "sprite", "chalkTTT", "text", "button", "b
 
         // Click on a problem event
         MenuChallengesQuestions.prototype.clickQuestion = function(index) {
-            var me = this;
-            return function() {
-                me.engine.sceneAdd(new PlayAdd(me.engine, me.questions, index), "PlayAdd");
-                me.engine.changeScenes("PlayAdd");
-            };
+            return (function(index) {
+                this.engine.sceneAdd(new PlayAdd(this.engine, this.questions, index), "PlayAdd");
+                this.engine.changeScenes("PlayAdd");
+            }).bind(this, index);
         };
 
         // Back button click event

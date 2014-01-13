@@ -1,5 +1,5 @@
 /*global define, alert */
-define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "play", "playAdd", "playSub", "victory"], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesAdd, Play, PlayAdd, PlaySub, Victory) {
+define(["backbone", "start", "menu", "menuChallenges", "menuChallengesQuestionsAdd", "menuChallengesQuestionsSub", "play", "playAdd", "playSub", "victory"], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Play, PlayAdd, PlaySub, Victory) {
     "use strict";
 
     return Backbone.Router.extend({
@@ -11,7 +11,7 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "pla
             "challenges/add":       "challengesAdd",
             "challenges/add/play":  "challengesAddPlay",
             "challenges/sub":       "challengesSub",
-            "challenges/sub/play":  "challengesSub",
+            "challenges/sub/play":  "challengesSubPlay",
             "play":                 "play",
             "free":                 "free",
             "about":                "about",
@@ -37,7 +37,7 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "pla
         },
 
         challengesAdd: function() {
-            this.changeSceneTo("MenuChallengesAdd", MenuChallengesAdd);
+            this.changeSceneTo("MenuChallengesQuestionsAdd", MenuChallengesQuestionsAdd);
         },
 
         challengesAddPlay: function() {
@@ -45,7 +45,7 @@ define(["backbone", "start", "menu", "menuChallenges", "menuChallengesAdd", "pla
         },
 
         challengesSub: function() {
-            //this.changeSceneTo("MenuChallengesSub", MenuChallengesSub);
+            this.changeSceneTo("MenuChallengesQuestionsSub", MenuChallengesQuestionsSub);
         },
 
         challengesSubPlay: function() {

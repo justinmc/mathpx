@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "x", "tween"], function ($, Backbone, Question, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
+define(["jquery", "backbone", "question", "questions", "scene", "entity", "num", "numNeg", "text", "trash", "button", "check", "x", "tween"], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
     "use strict";
 
     return (function() {
@@ -64,8 +64,43 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.activeNumsA = [];
         Play.prototype.activeNumsANeg = [];
 
-        function Play(engine) {
+        function Play(engine, questions, id) {
             Play.__super__.constructor.call(this, engine);
+
+            // If we were given a set of questions, save them
+            if (typeof questions !== "undefined" && questions !== null) {
+                this.questions = questions;
+            }
+            // Otherwise create an empty set of questions
+            else {
+                this.questions = new Questions();
+            }
+
+            // If we were given a question id, save it
+            if (typeof id !== "undefined" && id !== null && this.questions.length) {
+                this.questionId = id;
+
+                // Set the timeStart on the question if not already set
+                if (!this.getQuestion().has("timeStart")) {
+                    this.getQuestion().set("timeStart", new Date().getTime());
+                    this.getQuestion().save();
+                }
+            }
+            // Otherwise if we have a set of quesions, use the first one not complete, else the last one
+            else if (this.questions.length > 0) {
+                var question = this.questions.findWhere({timeEnd: null});
+                if (typeof question === 'undefined') {
+                    question = this.questions.at(this.questions.length - 1);
+                }
+                this.questionId = question.get('id');
+            }
+            // Otherwise create a random question
+            else {
+                var numL = Math.floor(Math.random() * 10);
+                var numR = Math.floor(Math.random() * (10 - numL));
+                this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
+                this.questionId = this.questions.at(0).get("id");
+            }
 
             // Reset objects for deep copy
             this.questionNumsL = [];
@@ -155,12 +190,12 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 this.questionNumsR.push(this.entityAdd(num));
                 this.questionNumsR[i].display = false;
             }
-            this.questionNumsNegL = [];
+            this.questionNumsNegR = [];
             for (i = 0; i < 40; i++) {
                 coords = this.getNumPosRight(i);
                 numNeg = new NumNeg(coords.x, coords.y, null, null, null, null, false, false);
-                this.questionNumsNegL.push(this.entityAdd(numNeg));
-                this.questionNumsNegL[i].display = false;
+                this.questionNumsNegR.push(this.entityAdd(numNeg));
+                this.questionNumsNegR[i].display = false;
             }
 
             // Set up the UI
@@ -333,9 +368,9 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
 
                 // Get the correct numbers to animate
                 var numsL = me.activeNumsL.concat(me.getNumsRacked(me.questionNumsL));
-                var numsLNeg = me.activeNumsLNeg.concat(me.getNumsRacked(me.questionNumsLNeg));
+                var numsLNeg = me.activeNumsLNeg.concat(me.getNumsRacked(me.questionNumsNegL));
                 var numsR = me.activeNumsR.concat(me.getNumsRacked(me.questionNumsR));
-                var numsRNeg = me.activeNumsRNeg.concat(me.getNumsRacked(me.questionNumsRNeg));
+                var numsRNeg = me.activeNumsRNeg.concat(me.getNumsRacked(me.questionNumsNegR));
 
                 // Annihilate all active pos/neg nums in left and right and answer
                 var deferreds = me.sectionAnnihilate(numsL, numsLNeg);
@@ -429,7 +464,7 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
         Play.prototype.clickAgain = function() {
             var me = this;
             return function(event) {
-                me.restart();
+                me.reset();
             };
         };
 
@@ -569,26 +604,6 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
             return count;
         };
 
-        // Reset the current scene
-        Play.prototype.reset = function() {
-            this.engine.scenes[this.name] = new Play(this.engine);
-            this.engine.changeScenes(this.name);
-        };
-
-        // Restart the current problem
-        Play.prototype.restart = function() {
-            // Remove all active numbers
-            var activeNums = this.activeNumsA.concat(this.activeNumsANeg, this.activeNumsL, this.activeNumsLNeg, this.activeNumsR, this.activeNumsRNeg,
-                    this.questionNumsL, this.questionNumsLNeg, this.questionNumsR, this.questionNumsRNeg);
-            var me = this;
-            activeNums.forEach(function(elt) {
-                me.entityRemove(elt);
-            });
-
-            // Go back to play mode from final mode
-            this.modeChangePlay();
-        };
-
         // Change the UI to review mode, for when an answer has been submitted
         Play.prototype.modeChangeReview = function() {
             this.modePlay = false;
@@ -629,6 +644,24 @@ define(["jquery", "backbone", "question", "scene", "entity", "num", "numNeg", "t
                 return null;
             }
         };
+
+        // Remove the given num from any activeNum arrays it belongs to
+        Play.prototype.removeActiveNum = function(num) {
+            this.removeFromArray(num, this.activeNumsL);
+            this.removeFromArray(num, this.activeNumsLNeg);
+            this.removeFromArray(num, this.activeNumsR);
+            this.removeFromArray(num, this.activeNumsRNeg);
+            this.removeFromArray(num, this.activeNumsA);
+            this.removeFromArray(num, this.activeNumsANeg);
+        }
+
+        // Remove the given object from the given array, if it exists
+        Play.prototype.removeFromArray = function(num, array) {
+            var index = array.indexOf(num);
+            if (index > -1) {
+                array.splice(index, 1);
+            }
+        }
 
         return Play;
 

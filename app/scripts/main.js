@@ -16,6 +16,7 @@ require.config({
         menuChallenges: "scenes/menuChallenges",
         menuChallengesQuestions: "scenes/menuChallengesQuestions",
         menuChallengesQuestionsAdd: "scenes/menuChallengesQuestionsAdd",
+        menuChallengesQuestionsSub: "scenes/menuChallengesQuestionsSub",
         victory: "scenes/victory",
         loading: "scenes/loading",
         startChalk: "entities/startChalk",

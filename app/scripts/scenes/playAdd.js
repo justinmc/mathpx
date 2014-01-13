@@ -17,47 +17,24 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
         PlayAdd.prototype.configAnswer = 1;
 
         function PlayAdd(engine, questions, id) {
-            PlayAdd.__super__.constructor.call(this, engine);
-
-            // If we were given a set of questions, save them
-            if (typeof questions !== "undefined" && questions !== null) {
-                this.questions = questions;
-            }
-            // Otherwise create an empty set of questions
-            else {
-                this.questions = new Questions();
-            }
-
-            // If we were given a question id, save it
-            if (typeof id !== "undefined" && id !== null && this.questions.length) {
-                this.questionId = id;
-
-                // Set the timeStart on the question if not already set
-                if (!this.getQuestion().has("timeStart")) {
-                    this.getQuestion().set("timeStart", new Date().getTime());
-                    this.getQuestion().save();
-                }
-            }
-            // Otherwise if we have a set of quesions, use the first one
-            else if (this.questions.length > 0) {
-                this.questionId = this.questions.at(0).get("id");
-            }
-            // Otherwise create a random question
-            else {
-                var numL = Math.floor(Math.random() * 10);
-                var numR = Math.floor(Math.random() * (10 - numL));
-                this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
-                this.questionId = this.questions.at(0).get("id");
+            // Create the reset function
+            this.reset = (function(engine, questions, id) {
+                this.engine.scenes[this.name] = new PlayAdd(engine, questions, id);
+                this.engine.changeScenes(this.name);
+            }).bind(this, engine, questions, id);
+            
+            // If not given a set of questions, get them from localStorage
+            if (typeof questions === 'undefined' || questions === null) {
+                questions = new Questions('questionsAddition');
+                questions.fetch();
             }
 
-            // Set up the UI
-            this.setupUI();
+            PlayAdd.__super__.constructor.call(this, engine, questions, id);
         }
 
         PlayAdd.prototype.render = function(ctx, dt) {
             PlayAdd.__super__.render.call(this, ctx, dt);
         };
-
 
         PlayAdd.prototype.setupNumBar = function(numL, numR) {
             PlayAdd.__super__.setupNumBar.call(this, this.getQuestion().get("numL"), this.getQuestion().get("numR"));
@@ -75,10 +52,9 @@ define(["jquery", "backbone", "questions", "question", "play", "victory", "entit
 
         // Menu button click event
         Play.prototype.clickMenu = function() {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
-            };
+            return (function(event) {
+                this.engine.changeScenes("MenuChallengesQuestionsAdd", require("menuChallengesQuestionsAdd"));
+            }).bind(this);
         };
 
         // Next button click event

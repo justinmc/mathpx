@@ -15,8 +15,6 @@ define(["jquery", "scene", "menuChallengesQuestions", "playAdd", "sprite", "chal
         MenuChallengesQuestionsAdd.prototype.title = "Simple Addition";
 
         function MenuChallengesQuestionsAdd(engine, title, questions) {
-            MenuChallengesQuestionsAdd.__super__.constructor.call(this, engine);
-
             // Create the collection of problems
             this.questions = new Questions('questionsAddition');
             this.questions.fetch();
@@ -31,6 +29,8 @@ define(["jquery", "scene", "menuChallengesQuestions", "playAdd", "sprite", "chal
                 this.questions.create({numL: "3", numR: "3", preset: true});
                 this.questions.create({numL: "2", numR: "4", preset: true});
             }
+
+            MenuChallengesQuestionsAdd.__super__.constructor.call(this, engine);
         }
 
         return MenuChallengesQuestionsAdd;

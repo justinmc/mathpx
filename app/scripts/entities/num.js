@@ -37,24 +37,24 @@ define(["jquery", "extendable", "scene", "entity", "sprite", "draggable", "dragC
 
             // Add the collision component for colliding with the trash
             var me = this;
-            this.componentAdd(new Collision(this, "Trash", function(event, engine, entityCollided) {
-                engine.entities.splice(engine.entities.indexOf(me), 1);
+            this.componentAdd(new Collision(this, "Trash", function(event, scene, entityCollided) {
+                scene.entities.splice(scene.entities.indexOf(me), 1);
+                scene.removeActiveNum(me);
                 entityCollided.spriteAnimate("eat", 1);
             }, "mouseup"));
+
+            // Add the annihilate animation
+            this.spriteAnimationAdd("annihilate", 0, 2, 3, 0.15);
 
             if (active) {
                 // Add the rest animation and start it
                 this.spriteAnimationAdd("rest", 0, 0, 3, 0.15);
                 this.spriteAnimate("rest");
 
-                // Add the annihilate animation
-                this.spriteAnimationAdd("annihilate", 0, 2, 3, 0.15);
-
                 // Add the draggable component
                 this.componentAdd(new Draggable(this));
 
                 // Add the bounded component
-                console.log("bound at " + boundedX + ", " + boundedY + " w/h: " + boundedWidth + ", " + boundedHeight);
                 this.componentAdd(new Bounded(this, boundedX, boundedY, boundedWidth, boundedHeight));
             }
 

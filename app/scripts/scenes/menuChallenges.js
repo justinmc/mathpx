@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(["jquery", "questions", "scene", "menuChallengesQuestions", "menuChallengesQuestionsAdd", "sprite", "startChalk", "text", "button", "buttonBack"], function ($, Questions, Scene, MenuChallengesQuestions, menuChallengesQuestionsAdd, Sprite, MenuChalk, Text, Button, ButtonBack) {
+define(["jquery", "questions", "scene", "menuChallengesQuestions", "menuChallengesQuestionsAdd", "menuChallengesQuestionsSub", "sprite", "startChalk", "text", "button", "buttonBack"], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Sprite, MenuChalk, Text, Button, ButtonBack) {
     "use strict";
 
     return (function() {
@@ -57,25 +57,7 @@ define(["jquery", "questions", "scene", "menuChallengesQuestions", "menuChalleng
         MenuChallenges.prototype.clickSubtraction = function(event) {
             var me = this;
             return function(event) {
-                console.log('wut wut');
-                // Create the collection of problems
-                var questions = new Questions('questionsSubtraction');
-                questions.fetch();
-                if (!questions.length) {
-                    questions.reset();
-                    questions.create({numL: "8", numR: "-1", preset: true});
-                    questions.create({numL: "2", numR: "-2", preset: true});
-                    questions.create({numL: "3", numR: "-2", preset: true});
-                    questions.create({numL: "2", numR: "-3", preset: true});
-                    questions.create({numL: "1", numR: "-4", preset: true});
-                    questions.create({numL: "5", numR: "-1", preset: true});
-                    questions.create({numL: "3", numR: "-3", preset: true});
-                    questions.create({numL: "6", numR: "-4", preset: true});
-                }
-
-                // Change Scenes
-                me.engine.scenes["MenuChallengesQuestions"] = new MenuChallengesQuestions(me.engine, 'Simple Subtraction', questions);
-                me.engine.changeScenes("MenuChallengesQuestions");
+                me.engine.changeScenes("MenuChallengesQuestionsSub", MenuChallengesQuestionsSub);
             };
         };
 

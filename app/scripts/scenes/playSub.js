@@ -3,7 +3,7 @@
     Main game, subtraction mode
 */
 /*global define */
-define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Question, Play, Entity, Num, NumNeg, Text, Trash, Button) {
+define(["jquery", "backbone", "question", "questions", "play", "entity", "num", "numNeg", "text", "trash", "button"], function ($, Backbone, Question, Questions, Play, Entity, Num, NumNeg, Text, Trash, Button) {
     "use strict";
 
     return (function() {
@@ -12,38 +12,43 @@ define(["jquery", "backbone", "question", "play", "entity", "num", "numNeg", "te
         PlaySub.prototype.name = "PlaySub";
         PlaySub.prototype.route = "challenges/sub/play";
 
-        function PlaySub(engine) {
-            PlaySub.__super__.constructor.call(this, engine);
+        PlaySub.prototype.configLeft = 0;
+        PlaySub.prototype.configRight = 0;
+        PlaySub.prototype.configAnswer = 1;
 
-            // Set up the UI for subtract
-            this.toolbarNumL.display = true;
-            this.toolbarNumNegL.display = false;
-            this.toolbarNumLText.text = "+";
-            this.toolbarNumR.display = false;
-            this.toolbarNumNegR.display = true;
-            this.toolbarNumRText.text = "-";
-            this.toolbarTrashL.display = true;
-            this.toolbarTrashR.display = true;
+        function PlaySub(engine, questions, id) {
+            // Create the reset function
+            this.reset = (function(engine, questions, id) {
+                this.engine.scenes[this.name] = new PlaySub(engine, questions, id);
+                this.engine.changeScenes(this.name);
+            }).bind(this, engine, questions, id);
+
+            // If not given a set of questions, get them from localStorage
+            if (typeof questions === 'undefined' || questions === null) {
+                questions = new Questions('questionsSubtraction');
+                questions.fetch();
+            }
+
+            PlaySub.__super__.constructor.call(this, engine, questions, id);
         }
 
         PlaySub.prototype.render = function(ctx, dt) {
-            // If we need a question
-            if (this.question === null) {
-                var numL = Math.floor(Math.random() * 10);
-                var numR = -1 * Math.floor(Math.random() * 10);
-                this.question = new Question({mode: this.mode, numL: numL, numR: numR});
-                require("app").histories.add(this.question);
-            }
-
             PlaySub.__super__.render.call(this, ctx, dt);
         };
 
         PlaySub.prototype.setupNumBar = function(numL, numR) {
-            PlaySub.__super__.setupNumBar.call(this, this.question.get("numL"), this.question.get("numR"));
+            PlaySub.__super__.setupNumBar.call(this, this.getQuestion().get("numL"), this.getQuestion().get("numR"));
         };
 
         PlaySub.prototype.setupAnswer = function(answer) {
-            PlaySub.__super__.setupAnswer.call(this, this.question.get("numL") + this.question.get("numR"));
+            PlaySub.__super__.setupAnswer.call(this, this.getQuestion().get("numL") + this.getQuestion().get("numR"));
+        };
+
+        // Menu button click event
+        PlaySub.prototype.clickMenu = function() {
+            return (function(event) {
+                this.engine.changeScenes("MenuChallengesQuestionsSub", require("menuChallengesQuestionsSub"));
+            }).bind(this);
         };
 
         return PlaySub;
