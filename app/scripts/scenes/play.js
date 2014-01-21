@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween, DragCreate) {
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween, Draggable, DragCreate) {
     'use strict';
 
     return (function() {
@@ -612,8 +612,8 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.textSign.text = '';
             this.textRight.text = '';
 
-            // Stop all toolbar nums from creating further nums
-            this.toolbarNumsInactivate();
+            // Inactivate nums so the user can no longer move/create stuff
+            this.numsInactivate();
         };
 
         // Change the UI to normal active play mode
@@ -627,14 +627,30 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.textRight.text = 'wuta';
         };
 
-        // Inactivate all toolbar nums, so they no longer can create new nums
-        Play.prototype.toolbarNumsInactivate = function() {
+        // Inactivate all nums so the user can't keep playing around
+        Play.prototype.numsInactivate = function() {
+            // Inactivate all toolbar nums, so they no longer can create new nums
             this.toolbarNumL.componentRemove(DragCreate);
             this.toolbarNumR.componentRemove(DragCreate);
             this.toolbarNumA.componentRemove(DragCreate);
             this.toolbarNumNegL.componentRemove(DragCreate);
             this.toolbarNumNegR.componentRemove(DragCreate);
             this.toolbarNumNegA.componentRemove(DragCreate);
+
+            // Inactivate all active nums
+            this.entitiesRemoveComponents(this.activeNumsL, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsR, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsA, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegL, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegR, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegA, Draggable);
+        };
+
+        // Remove the give component type from all entities given in an array
+        Play.prototype.entitiesRemoveComponents = function(entities, Component) {
+            this.entities.forEach(function(entity) {
+                entity.componentRemove(Component);
+            });
         };
 
         // Get the current active question, or null if no questions
