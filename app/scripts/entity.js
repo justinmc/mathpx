@@ -42,6 +42,11 @@ define(['jquery', 'extendable'], function ($, Extendable) {
             this.components[component.name] = component;
         };
 
+        // Remove a component
+        Entity.prototype.componentRemove = function(component) {
+            delete this.components[component.name];
+        };
+
         return Entity;
 
     })();

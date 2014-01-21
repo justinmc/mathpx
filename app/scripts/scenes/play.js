@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween) {
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween, DragCreate) {
     'use strict';
 
     return (function() {
@@ -611,9 +611,12 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.textLeft.text = '';
             this.textSign.text = '';
             this.textRight.text = '';
+
+            // Stop all toolbar nums from creating further nums
+            this.toolbarNumsInactivate();
         };
 
-        // Change the UI to review mode, for when an answer has been submitted
+        // Change the UI to normal active play mode
         Play.prototype.modeChangePlay = function() {
             this.modePlay = true;
             this.buttonGo.display = true;
@@ -622,6 +625,16 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.textLeft.text = 'wut';
             this.textSign.text = '=';
             this.textRight.text = 'wuta';
+        };
+
+        // Inactivate all toolbar nums, so they no longer can create new nums
+        Play.prototype.toolbarNumsInactivate = function() {
+            this.toolbarNumL.componentRemove(DragCreate);
+            this.toolbarNumR.componentRemove(DragCreate);
+            this.toolbarNumA.componentRemove(DragCreate);
+            this.toolbarNumNegL.componentRemove(DragCreate);
+            this.toolbarNumNegR.componentRemove(DragCreate);
+            this.toolbarNumNegA.componentRemove(DragCreate);
         };
 
         // Get the current active question, or null if no questions
