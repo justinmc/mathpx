@@ -29,7 +29,7 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(centerX - 100, 70, 0, this.title, '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new Text(centerX - 150, 70, 0, this.title, '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
 
             // Create the buttons
             var me = this;
@@ -37,7 +37,11 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
                 // Get the button text, question mark for unplayed, problem for played
                 var problem = '?';
                 if (question.has('timeStart')) {
-                    problem = question.get('numL') + ' + ' + question.get('numR');
+                    var numR = ' + ' + question.get('numR');
+                    if (question.get('numR') < 0) {
+                        numR = ' - ' + Math.abs(question.get('numR'));
+                    }
+                    problem = question.get('numL') + numR;
                 }
 
                 // Get the position of the button

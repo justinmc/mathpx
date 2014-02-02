@@ -95,12 +95,12 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                 this.questionId = question.get('id');
             }
             // Otherwise create a random question
-            else {
+            /*else {
                 var numL = Math.floor(Math.random() * 10);
                 var numR = Math.floor(Math.random() * (10 - numL));
                 this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
                 this.questionId = this.questions.at(0).get('id');
-            }
+            }*/
 
             // Reset objects for deep copy
             this.questionNumsL = [];
@@ -428,21 +428,29 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                         me.textSign.text = sign * valueLR;
                         me.textRight.text = '';
 
-                        // If the question was correct
-                        if ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer())) {
-                            // Set the timeEnd on the question
-                            me.getQuestion().set('timeEnd', new Date().getTime());
-                            if (typeof me.questions.localStorage !== 'undefined') {
-                                me.getQuestion().save();
+                        // If the question was correct or there was no question
+                        if ((me.getQuestion() === null) || ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer()))) {
+                            // Set the timeEnd on the question if there is a question
+                            if (me.getQuestion() !== null) {
+                                me.getQuestion().set('timeEnd', new Date().getTime());
+                                if (typeof me.questions.localStorage !== 'undefined') {
+                                    me.getQuestion().save();
+                                }
+
+                                // Show the next button
+                                me.buttonNext.display = true;
+                            }
+                            else {
+                                // Show the again button
+                                me.buttonAgain.display = true;
                             }
 
                             // And show a check
                             me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
                             me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
-                            me.buttonNext.display = true;
                         }
                         // Otherwise show an X!
-                        else {
+                        else if (me.getQuestion() !== null) {
                             me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
                             me.buttonAgain.display = true;
                         }
@@ -616,17 +624,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.numsInactivate();
         };
 
-        // Change the UI to normal active play mode
-        Play.prototype.modeChangePlay = function() {
-            this.modePlay = true;
-            this.buttonGo.display = true;
-            this.buttonNext.display = false;
-            this.buttonAgain.display = false;
-            this.textLeft.text = 'wut';
-            this.textSign.text = '=';
-            this.textRight.text = 'wuta';
-        };
-
         // Inactivate all nums so the user can't keep playing around
         Play.prototype.numsInactivate = function() {
             // Inactivate all toolbar nums, so they no longer can create new nums
@@ -655,7 +652,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
 
         // Get the current active question, or null if no questions
         Play.prototype.getQuestion = function() {
-            if (this.questions === null) {
+            if (this.questions.length === 0) {
                 return null;
             }
             else {
@@ -691,6 +688,13 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                 array.splice(index, 1);
             }
         };
+
+        // Reset the current scene
+        Scene.prototype.reset = function() {
+            this.engine.scenes[this.name] = new Play(this.engine);
+            this.engine.changeScenes(this.name);
+        };
+
 
         return Play;
 
