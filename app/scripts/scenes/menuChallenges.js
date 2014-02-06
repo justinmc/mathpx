@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'sprite', 'startChalk', 'text', 'button', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Sprite, MenuChalk, Text, Button, ButtonBack) {
+define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'text', 'button', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, Text, Button, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -65,7 +65,7 @@ define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChalleng
         MenuChallenges.prototype.clickAdditionNeg = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes('PlayAddNeg');
+                me.engine.changeScenes('MenuChallengesQuestionsAddNeg', MenuChallengesQuestionsAddNeg);
             };
         };
 
@@ -73,7 +73,7 @@ define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChalleng
         MenuChallenges.prototype.clickSubtractionNeg = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes('PlaySubNeg');
+                me.engine.changeScenes('MenuChallengesQuestionsSubNeg', MenuChallengesQuestionsSubNeg);
             };
         };
 

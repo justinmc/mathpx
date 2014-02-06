@@ -1,22 +1,26 @@
 /*global define, alert */
-define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'play', 'playAdd', 'playSub', 'victory'], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, Play, PlayAdd, PlaySub, Victory) {
+define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victory'], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, Victory) {
     'use strict';
 
     return Backbone.Router.extend({
 
         routes: {
-            '':                     'start',
-            'main':                 'main',
-            'challenges':           'challenges',
-            'challenges/add':       'challengesAdd',
-            'challenges/add/play':  'challengesAddPlay',
-            'challenges/sub':       'challengesSub',
-            'challenges/sub/play':  'challengesSubPlay',
-            'play':                 'play',
-            'free':                 'free',
-            'about':                'about',
-            'victory':              'victory',
-            '*path':                'start'
+            '':                         'start',
+            'main':                     'main',
+            'challenges':               'challenges',
+            'challenges/add':           'challengesAdd',
+            'challenges/add/play':      'challengesAddPlay',
+            'challenges/sub':           'challengesSub',
+            'challenges/sub/play':      'challengesSubPlay',
+            'challenges/addneg':        'challengesAddNeg',
+            'challenges/addneg/play':   'challengesAddNegPlay',
+            'challenges/subneg':        'challengesSubNeg',
+            'challenges/subneg/play':   'challengesSubNegPlay',
+            'play':                     'play',
+            'free':                     'free',
+            'about':                    'about',
+            'victory':                  'victory',
+            '*path':                    'start'
         },
 
         // Must be created with an engine so that scenes can be changed
@@ -50,6 +54,22 @@ define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsA
 
         challengesSubPlay: function() {
             this.changeSceneTo('PlaySub', PlaySub);
+        },
+
+        challengesAddNeg: function() {
+            this.changeSceneTo('MenuChallengesQuestionsAddNeg', MenuChallengesQuestionsAddNeg);
+        },
+
+        challengesAddNegPlay: function() {
+            this.changeSceneTo('PlayAddNeg', PlayAddNeg);
+        },
+
+        challengesSubNeg: function() {
+            this.changeSceneTo('MenuChallengesQuestionsSubNeg', MenuChallengesQuestionsSubNeg);
+        },
+
+        challengesSubNegPlay: function() {
+            this.changeSceneTo('PlaySubNeg', PlaySubNeg);
         },
 
         play: function() {

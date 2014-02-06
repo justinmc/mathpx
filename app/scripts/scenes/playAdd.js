@@ -3,7 +3,7 @@
     Main game, addition mode
 */
 /*global define */
-define(['jquery', 'backbone', 'questions', 'question', 'play', 'victory', 'entity', 'num', 'numNeg', 'text', 'trash', 'button'], function ($, Backbone, Questions, Question, Play, Victory, Entity, Num, NumNeg, Text, Trash, Button) {
+define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play, Victory) {
     'use strict';
 
     return (function() {

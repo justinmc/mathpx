@@ -3,7 +3,7 @@
     Main game, subtraction mode
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'play', 'entity', 'num', 'numNeg', 'text', 'trash', 'button'], function ($, Backbone, Question, Questions, Play, Entity, Num, NumNeg, Text, Trash, Button) {
+define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play, Victory) {
     'use strict';
 
     return (function() {

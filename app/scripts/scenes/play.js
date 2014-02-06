@@ -143,7 +143,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.toolbarNumAText = this.entityAdd(new Text(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
             this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumNegAText = this.entityAdd(new Text(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 80));
