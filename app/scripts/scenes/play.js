@@ -88,13 +88,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                 }
                 this.questionId = question.get('id');
             }
-            // Otherwise create a random question
-            /*else {
-                var numL = Math.floor(Math.random() * 10);
-                var numR = Math.floor(Math.random() * (10 - numL));
-                this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
-                this.questionId = this.questions.at(0).get('id');
-            }*/
 
             // Set the timeStart on the question if not already set
             if (this.getQuestion() && !this.getQuestion().has('timeStart')) {
