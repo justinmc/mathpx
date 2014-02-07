@@ -26,8 +26,8 @@ define(['jquery', 'scene', 'menuChallengesQuestions', 'playAdd', 'sprite', 'chal
                 this.questions.create({numL: '2', numR: '3', preset: true});
                 this.questions.create({numL: '1', numR: '4', preset: true});
                 this.questions.create({numL: '5', numR: '1', preset: true});
+                this.questions.create({numL: '2', numR: '0', preset: true});
                 this.questions.create({numL: '3', numR: '3', preset: true});
-                this.questions.create({numL: '2', numR: '4', preset: true});
             }
 
             MenuChallengesQuestionsAdd.__super__.constructor.call(this, engine);

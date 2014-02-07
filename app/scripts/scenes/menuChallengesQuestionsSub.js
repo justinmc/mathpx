@@ -25,7 +25,7 @@ define(['jquery', 'scene', 'menuChallengesQuestions', 'playSub', 'sprite', 'chal
                 this.questions.create({numL: '3', numR: '-2', preset: true});
                 this.questions.create({numL: '4', numR: '-1', preset: true});
                 this.questions.create({numL: '4', numR: '-2', preset: true});
-                this.questions.create({numL: '5', numR: '-1', preset: true});
+                this.questions.create({numL: '5', numR: '-0', preset: true});
                 this.questions.create({numL: '3', numR: '-3', preset: true});
                 this.questions.create({numL: '6', numR: '-4', preset: true});
             }
