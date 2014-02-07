@@ -51,14 +51,14 @@ define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play,
         };
 
         // Menu button click event
-        Play.prototype.clickMenu = function() {
+        PlayAdd.prototype.clickMenu = function() {
             return function(event) {
                 this.engine.changeScenes('MenuChallengesQuestionsAdd', require('menuChallengesQuestionsAdd'));
             }.bind(this);
         };
 
         // Next button click event
-        Play.prototype.clickNext = function() {
+        PlayAdd.prototype.clickNext = function() {
             var me = this;
             return function(event) {
                 var nextId = me.getQuestionIdNext();

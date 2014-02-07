@@ -69,7 +69,6 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
         // Click on a problem event
         MenuChallengesQuestions.prototype.clickQuestion = function(index) {
             return function(index) {
-                console.log('lol click');
                 this.engine.sceneAdd(new PlayAdd(this.engine, this.questions, index), 'PlayAdd');
                 this.engine.changeScenes('PlayAdd');
             }.bind(this, index);
