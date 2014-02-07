@@ -79,12 +79,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             // If we were given a question id, save it
             if (typeof id !== 'undefined' && id !== null && this.questions.length) {
                 this.questionId = id;
-
-                // Set the timeStart on the question if not already set
-                if (!this.getQuestion().has('timeStart')) {
-                    this.getQuestion().set('timeStart', new Date().getTime());
-                    this.getQuestion().save();
-                }
             }
             // Otherwise if we have a set of quesions, use the first one not complete, else the last one
             else if (this.questions.length > 0) {
@@ -101,6 +95,12 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                 this.questions.create(new Question({mode: this.mode, numL: numL, numR: numR}));
                 this.questionId = this.questions.at(0).get('id');
             }*/
+
+            // Set the timeStart on the question if not already set
+            if (this.getQuestion() && !this.getQuestion().has('timeStart')) {
+                this.getQuestion().set('timeStart', new Date().getTime());
+                this.getQuestion().save();
+            }
 
             // Reset objects for deep copy
             this.questionNumsL = [];
@@ -418,8 +418,15 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                         me.sectionRack(numsLRRack, me.getNumPosLeft);
 
                         // Rack the answer nums
-                        var numsARack = me.activeNumsA.length ? me.activeNumsA : me.activeNumsANeg;
-                        var answer = numsARack.length;
+                        var numsARack, answer;
+                        if (me.activeNumsA.length) {
+                            numsARack = me.activeNumsA;
+                            answer = numsARack.length;
+                        }
+                        else {
+                            numsARack = me.activeNumsANeg;
+                            answer = -1 * numsARack.length;
+                        }
                         me.sectionRack(numsARack, me.getNumPosAnswer);
 
                         // Change the UI to the final mode

@@ -51,6 +51,33 @@ define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play,
             }.bind(this);
         };
 
+        // Next button click event
+        PlaySub.prototype.clickNext = function() {
+            var me = this;
+            return function(event) {
+                var nextId = me.getQuestionIdNext();
+
+                // If no next question
+                if (nextId === null) {
+                    // If all questions complete, go to victory
+                    if (me.questions === null || me.questions.complete()) {
+                        me.engine.scenes.Victory = new Victory(me.engine, 'Simple Subtraction');
+                        me.engine.changeScenes('Victory');
+                    }
+                    // Otherwise go back to the menu
+                    else {
+                        me.engine.changeScenes('MenuChallengesQuestionsSub', require('menuChallengesQuestionsSub'));
+                    }
+
+                }
+                // Otherwise go to the next question in the set
+                else {
+                    me.engine.scenes[me.name] = new PlaySub(me.engine, me.questions, me.getQuestionIdNext());
+                    me.engine.changeScenes(me.name);
+                }
+            };
+        };
+
         return PlaySub;
 
     })();
