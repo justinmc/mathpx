@@ -3,7 +3,7 @@
     The first, main menu
 */
 /*global define */
-define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'startChalk', 'text', 'button', 'buttonBack'], function ($, Scene, Play, MenuChallenges, Sprite, MenuChalk, Text, Button, ButtonBack) {
+define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'text', 'button', 'buttonBack'], function ($, Scene, Play, MenuChallenges, Sprite, ChalkHouse, Text, Button, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -20,7 +20,7 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'startChalk', 'te
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new MenuChalk(100, 180));
+            this.entityAdd(new ChalkHouse(740, 100));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);

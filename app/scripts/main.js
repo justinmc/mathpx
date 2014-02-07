@@ -26,6 +26,7 @@ require.config({
         startChalk: 'entities/startChalk',
         chalkTTT: 'entities/chalkTTT',
         chalkHeart: 'entities/chalkHeart',
+        chalkHouse: 'entities/chalkHouse',
         sprite: 'entities/sprite',
         text: 'entities/text',
         num: 'entities/num',

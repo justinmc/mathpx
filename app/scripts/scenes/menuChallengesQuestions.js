@@ -23,7 +23,7 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
             this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk animation!
-            this.entityAdd(new ChalkTTT(100, 180));
+            this.entityAdd(new ChalkTTT(550, 340));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
