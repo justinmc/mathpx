@@ -29,7 +29,7 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
             this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(centerX - 150, 70, 0, this.title, '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new Text(centerX - 120, 130, 0, this.title, '26px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
 
             // Create the buttons
             var me = this;
