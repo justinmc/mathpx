@@ -1,0 +1,23 @@
+{
+    // Required by Chrome
+    "manifest_version": 2,
+    "name": "Mathpx",
+    "version": "1.0",
+
+    // Recommended by Chrome
+    "default_locale": "en",
+    "description": "Mathpx is an app to help kids learn basic counting and math in the most natural way possible.  Instead of going years regurgitating numbers without understanding why, Mathpx was designed to make the connection between the problems written on paper to the fundamental concepts behind them.",
+    "icons": {},
+
+    // Firefox
+    "developer": {
+        "name": "Justin McCandless",
+        "url": "http://www.justinmccandless.com",
+    },
+    "launch_path": "/",
+
+    // Optional
+    "author": "Justin McCandless",
+    "homepage_url": "http://www.mathpx.com",
+    "offline_enabled": true,
+}
