@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'text', 'trash', 'button', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, Text, Trash, Button, Check, X, Tween, Draggable, DragCreate) {
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'button', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, Button, Check, X, Tween, Draggable, DragCreate) {
     'use strict';
 
     return (function() {
@@ -114,10 +114,10 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.entityAdd(new Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
 
             // Create the number bar
-            this.textLeft = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.textSign = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.textRight = this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.textAnswer = this.entityAdd(new Text(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.textLeft = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
+            this.textSign = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\''));
+            this.textRight = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\''));
+            this.textAnswer = this.entityAdd(new TextPx(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
             this.buttonGo = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '=', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickGo(), 16, 'rgb(255, 255, 255)'));
             this.buttonNext = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '->', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickNext(), 16, 'rgb(255, 255, 255)'));
             this.buttonNext.display = false;
@@ -125,17 +125,17 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.buttonAgain.display = false;
 
             // Create all possible toolbar entities 
-            this.toolbarNumLText = this.entityAdd(new Text(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumLText = this.entityAdd(new TextPx(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
             this.toolbarNumL = this.entityAdd(new Num(50, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegLText = this.entityAdd(new Text(120, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumNegLText = this.entityAdd(new TextPx(120, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
             this.toolbarNumNegL = this.entityAdd(new NumNeg(150, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumRText = this.entityAdd(new Text(350, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.toolbarNumNegRText = this.entityAdd(new Text(450, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumRText = this.entityAdd(new TextPx(350, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
+            this.toolbarNumNegRText = this.entityAdd(new TextPx(450, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
             this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumAText = this.entityAdd(new Text(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumAText = this.entityAdd(new TextPx(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
             this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegAText = this.entityAdd(new Text(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.toolbarNumNegAText = this.entityAdd(new TextPx(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
             this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));

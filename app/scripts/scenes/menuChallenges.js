@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'text', 'button', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, Text, Button, ButtonBack) {
+define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'textPx', 'textPxTitle', 'button', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, TextPx, TextPxTitle, Button, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -27,8 +27,8 @@ define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChalleng
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
-            this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(centerX - 30, 70, 0, 'Challenges', '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new TextPxTitle());
+            this.entityAdd(new TextPx(centerX - 30, 70, 400, 'Challenges', '28px \'Press Start 2P\''));
 
             // Create the buttons
             this.entityAdd(new Button(centerX, 120, 190, 40, 'Simple Addition', '20px \'Press Start 2P\'', this.colorText, this.clickAddition(), 16, this.colorText));

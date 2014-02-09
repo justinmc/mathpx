@@ -21,9 +21,9 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
             this.entityAdd(new ChalkHeart(240, 240));
 
             // Create the title
-            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 50, 0, 'Math Pix!', '32px \'Press Start 2P\''));
-            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 200, 0, 'Touch to', '20px \'Press Start 2P\''));
-            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 230, 0, 'Continue', '20px \'Press Start 2P\''));
+            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 50, 400, 'Mathpx!', '32px \'Press Start 2P\''));
+            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 200, 200, 'Touch to', '20px \'Press Start 2P\''));
+            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 230, 200, 'Continue', '20px \'Press Start 2P\''));
         }
 
         Start.prototype.render = function(ctx, dt) {
@@ -34,9 +34,11 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
             Start.__super__.render.call(this, ctx, dt);
         };
 
-        // Change to the main game scene on keyup/mouseup
+        // Change to the main game scene on enter/space keyup or mouseup
         Start.prototype.keyup = function(event) {
-            this.goNextScene();
+            if (event.keyCode === 13 || event.keyCode == 32) {
+                this.goNextScene();
+            }
         };
         Start.prototype.mouseup = function(event) {
             this.goNextScene();

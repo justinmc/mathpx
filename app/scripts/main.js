@@ -29,6 +29,8 @@ require.config({
         chalkHouse: 'entities/chalkHouse',
         sprite: 'entities/sprite',
         text: 'entities/text',
+        textPx: 'entities/textPx',
+        textPxTitle: 'entities/textPxTitle',
         num: 'entities/num',
         numNeg: 'entities/numNeg',
         trash: 'entities/trash',

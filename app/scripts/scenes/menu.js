@@ -3,7 +3,7 @@
     The first, main menu
 */
 /*global define */
-define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'text', 'button', 'buttonBack'], function ($, Scene, Play, MenuChallenges, Sprite, ChalkHouse, Text, Button, ButtonBack) {
+define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'textPx', 'textPxTitle', 'button', 'buttonBack'], function ($, Scene, Play, MenuChallenges, Sprite, ChalkHouse, TextPx, TextPxTitle, Button, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -25,13 +25,13 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
-            this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(centerX - 20, 70, 0, 'Main Menu', '28px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new TextPxTitle());
+            this.entityAdd(new TextPx(centerX - 20, 70, 300, 'Main Menu'));
 
             // Create the buttons
             this.entityAdd(new Button(centerX, 120, 190, 40, 'Challenges', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickChallenges(), 16, 'rgb(255, 255, 255)'));
             this.entityAdd(new Button(centerX, 200, 190, 40, 'Free Play', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickFree(), 16, 'rgb(255, 255, 255)'));
-            this.entityAdd(new Button(centerX, 280, 190, 40, 'About Math Pix', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickAbout(), 16, 'rgb(255, 255, 255)'));
+            this.entityAdd(new Button(centerX, 280, 190, 40, 'About Mathpx', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickAbout(), 16, 'rgb(255, 255, 255)'));
         }
 
         Menu.prototype.render = function(ctx, dt) {

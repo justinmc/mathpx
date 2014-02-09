@@ -3,15 +3,13 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, PlayAdd, Sprite, ChalkTTT, Text, Button, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'button', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, PlayAdd, Sprite, ChalkTTT, TextPx, TextPxTitle, Button, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
         Scene.extend(MenuChallengesQuestions);
 
         MenuChallengesQuestions.prototype.name = 'MenuChallengesQuestions';
-
-        MenuChallengesQuestions.prototype.colorText = 'rgb(255, 255, 255)';
 
         MenuChallengesQuestions.prototype.questions = null;
 
@@ -28,8 +26,8 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
-            this.entityAdd(new Text(700, 70, 0, 'Math Pix!', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(centerX - 120, 130, 0, this.title, '26px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new TextPxTitle());
+            this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
 
             // Create the buttons
             var me = this;
@@ -49,7 +47,7 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'text', 'button', 'b
                 var y = 200 + 60 * Math.floor(i / 4);
 
                 // Add the button
-                me.entityAdd(new Button(x, y, 100, 40, problem, '20px \'Press Start 2P\'', me.colorText, me.clickQuestion(question.get('id')), 16, me.colorText));
+                me.entityAdd(new Button(x, y, 100, 40, problem, '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', me.clickQuestion(question.get('id')), 16, 'rgb(255, 255, 255)'));
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {
