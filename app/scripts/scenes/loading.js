@@ -21,6 +21,9 @@ define(['jquery', 'scene', 'sprite', 'startChalk', 'text', 'button'], function (
             Loading.__super__.constructor.call(this, engine);
 
             // Get the url count
+            if (!urls) {
+                urls = [];
+            }
             this.urlCount = urls.length;
 
             // Create the title

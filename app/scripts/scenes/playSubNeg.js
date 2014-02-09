@@ -3,7 +3,7 @@
     Main game, subtraction mode with negative answers possible
 */
 /*global define */
-define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play, Victory) {
+define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
     'use strict';
 
     return (function() {
@@ -67,8 +67,7 @@ define(['jquery', 'questions', 'play', 'victory'], function ($, Questions, Play,
                 if (nextId === null) {
                     // If all questions complete, go to victory
                     if (me.questions === null || me.questions.complete()) {
-                        me.engine.scenes.Victory = new Victory(me.engine, 'Subtraction with Negatives');
-                        me.engine.changeScenes('Victory');
+                        me.engine.changeScenes('VictorySubNeg', require('victorySubNeg'));
                     }
                     // Otherwise go back to the menu
                     else {

@@ -1,5 +1,5 @@
 /*global define, alert */
-define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victory'], function (Backbone, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, Victory) {
+define(['backbone', 'loading', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Loading, Start, Menu, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -10,16 +10,19 @@ define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsA
             'challenges':               'challenges',
             'challenges/add':           'challengesAdd',
             'challenges/add/play':      'challengesAddPlay',
+            'challenges/add/victory':   'victoryAdd',
             'challenges/sub':           'challengesSub',
             'challenges/sub/play':      'challengesSubPlay',
+            'challenges/sub/victory':   'victorySub',
             'challenges/addneg':        'challengesAddNeg',
             'challenges/addneg/play':   'challengesAddNegPlay',
+            'challenges/addneg/victory':'victoryAddNeg',
             'challenges/subneg':        'challengesSubNeg',
             'challenges/subneg/play':   'challengesSubNegPlay',
+            'challenges/subneg/victory':'victorySubNeg',
             'play':                     'play',
             'free':                     'free',
             'about':                    'about',
-            'victory':                  'victory',
             '*path':                    'start'
         },
 
@@ -76,8 +79,20 @@ define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsA
             this.changeSceneTo('Play', Play);
         },
 
-        victory: function() {
-            this.changeSceneTo('Victory', Victory);
+        victoryAdd: function() {
+            this.changeSceneTo('VictoryAdd', VictoryAdd);
+        },
+
+        victorySub: function() {
+            this.changeSceneTo('VictorySub', VictorySub);
+        },
+
+        victoryAddNeg: function() {
+            this.changeSceneTo('VictoryAddNeg', VictoryAddNeg);
+        },
+
+        victorySubNeg: function() {
+            this.changeSceneTo('VictorySubNeg', VictorySubNeg);
         },
 
         // Change the scene to the given scene via loading
@@ -87,9 +102,12 @@ define(['backbone', 'start', 'menu', 'menuChallenges', 'menuChallengesQuestionsA
                 this.engine.sceneAdd(new Type(this.engine), name);
             }
 
-            // Change to the scene
+            // Change to the scene via Loading
+            if (!this.engine.scenes.hasOwnProperty(Loading.name)) {
+                this.engine.sceneAdd(new Loading(this.engine), Loading.name);
+            }
             this.engine.scenes.Loading.sceneNameChangeTo = name;
-            this.engine.changeScenes('Loading');
+            this.engine.changeScenes('Loading', Loading);
         },
 
     });
