@@ -24,8 +24,6 @@ body {
 
     .frame {
         display: inline-block;
-        padding: 8px;
-        background: #dfdfdf;
         font-family: 'Press Start 2P';
         font-size: 16pt;
     }
