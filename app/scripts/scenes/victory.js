@@ -3,7 +3,7 @@
     Shown after all problems completed
 */
 /*global define */
-define(['jquery', 'scene', 'menu', 'play', 'menuChallenges', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'button', 'buttonBack'], function ($, Scene, Menu, Play, MenuChallenges, Sprite, ChalkTTT, TextPx, TextPxTitle, Button, ButtonBack) {
+define(['jquery', 'scene', 'menu', 'play', 'menuChallenges', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Scene, Menu, Play, MenuChallenges, Sprite, ChalkTTT, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -41,7 +41,7 @@ define(['jquery', 'scene', 'menu', 'play', 'menuChallenges', 'sprite', 'chalkTTT
             this.entityAdd(new TextPx(centerX - 80, 130, 1000, 'CHALLENGE COMPLETE!'));
 
             // Create the buttons
-            this.entityAdd(new Button(centerX, 220, 190, 40, 'Challenges', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickChallenges(), 16, 'rgb(255, 255, 255)'));
+            this.entityAdd(new ButtonPx(centerX, 220, 'Challenges', this.clickChallenges()));
         }
 
         Victory.prototype.render = function(ctx, dt) {

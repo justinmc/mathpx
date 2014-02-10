@@ -43,6 +43,8 @@ require.config({
         x: 'entities/x',
         xStatic: 'entities/xStatic',
         button: 'entities/button',
+        buttonPx: 'entities/buttonPx',
+        buttonPxQ: 'entities/buttonPxQ',
         buttonBack: 'entities/buttonBack',
         tween: 'components/tween',
         draggable: 'components/draggable',

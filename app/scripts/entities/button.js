@@ -9,11 +9,11 @@ define(['jquery', 'scene', 'text'], function ($, Scene, Text) {
     return (function() {
         Text.extend(Button);
 
-        Text.prototype.callback = null;
-        Text.prototype.scene = null;
-        Text.prototype.height = null;
-        Text.prototype.padding = 16;
-        Text.prototype.strokeStyle = 'rgb(0, 0, 0)';
+        Button.prototype.callback = null;
+        Button.prototype.scene = null;
+        Button.prototype.height = null;
+        Button.prototype.padding = 16;
+        Button.prototype.strokeStyle = 'rgb(0, 0, 0)';
 
         function Button(x, y, width, height, text, font, fillStyle, callback, padding, strokeStyle) {
             Button.__super__.constructor.call(this, x, y, width, text, font, fillStyle);

@@ -3,7 +3,7 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'button', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, PlayAdd, Sprite, ChalkTTT, TextPx, TextPxTitle, Button, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, PlayAdd, Sprite, ChalkTTT, TextPx, TextPxTitle, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
@@ -44,10 +44,10 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTit
 
                 // Get the position of the button
                 var x = 200 + 160 * (i % 4);
-                var y = 200 + 60 * Math.floor(i / 4);
+                var y = 200 + 70 * Math.floor(i / 4);
 
                 // Add the button
-                me.entityAdd(new Button(x, y, 100, 40, problem, '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', me.clickQuestion(question.get('id')), 16, 'rgb(255, 255, 255)'));
+                me.entityAdd(new ButtonPxQ(x, y, problem, me.clickQuestion(question.get('id'))));
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {

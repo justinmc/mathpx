@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'button', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, Button, Check, X, Tween, Draggable, DragCreate) {
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'buttonPx', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, ButtonPx, Check, X, Tween, Draggable, DragCreate) {
     'use strict';
 
     return (function() {
@@ -118,10 +118,10 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.textSign = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\''));
             this.textRight = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\''));
             this.textAnswer = this.entityAdd(new TextPx(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
-            this.buttonGo = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '=', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickGo(), 16, 'rgb(255, 255, 255)'));
-            this.buttonNext = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, '->', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickNext(), 16, 'rgb(255, 255, 255)'));
+            this.buttonGo = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '=', this.clickGo(), 50, 40));
+            this.buttonNext = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '->', this.clickNext(), 50, 40));
             this.buttonNext.display = false;
-            this.buttonAgain = this.entityAdd(new Button(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 50, 40, 'Again', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickAgain(), 16, 'rgb(255, 255, 255)'));
+            this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain(), 60, 40, 'rgb(190, 190, 227)'));
             this.buttonAgain.display = false;
 
             // Create all possible toolbar entities 
@@ -140,7 +140,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 80));
-            this.entityAdd(new Button(10, 10, 60, 40, 'Menu', '20px \'Press Start 2P\'', 'rgb(255, 255, 255)', this.clickMenu(), 16, 'rgb(255, 255, 255)'));
+            this.entityAdd(new ButtonPx(10, 10, 'Menu', this.clickMenu(), 60, 40, 'rgb(190, 190, 227)'));
 
             // Create the answer numbers
             this.answerNums = [];

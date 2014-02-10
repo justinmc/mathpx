@@ -3,7 +3,7 @@
     The math type selection menu
 */
 /*global define */
-define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'textPx', 'textPxTitle', 'button', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, TextPx, TextPxTitle, Button, ButtonBack) {
+define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -31,10 +31,10 @@ define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChalleng
             this.entityAdd(new TextPx(centerX - 30, 70, 400, 'Challenges', '28px \'Press Start 2P\''));
 
             // Create the buttons
-            this.entityAdd(new Button(centerX, 120, 190, 40, 'Simple Addition', '20px \'Press Start 2P\'', this.colorText, this.clickAddition(), 16, this.colorText));
-            this.entityAdd(new Button(centerX, 200, 190, 40, 'Simple Subtraction', '20px \'Press Start 2P\'', this.colorText, this.clickSubtraction(), 16, this.colorText));
-            this.entityAdd(new Button(centerX, 280, 190, 40, 'Addition with Negatives', '20px \'Press Start 2P\'', this.colorText, this.clickAdditionNeg(), 16, this.colorText));
-            this.entityAdd(new Button(centerX, 360, 190, 40, 'Subtraction with Negatives', '20px \'Press Start 2P\'', this.colorText, this.clickSubtractionNeg(), 16, this.colorText));
+            this.entityAdd(new ButtonPx(centerX, 120, 'Simple Addition', this.clickAddition()));
+            this.entityAdd(new ButtonPx(centerX, 200, 'Simple Subtraction', this.clickSubtraction()));
+            this.entityAdd(new ButtonPx(centerX, 280, 'Addition with Negatives', this.clickAdditionNeg()));
+            this.entityAdd(new ButtonPx(centerX, 360, 'Subtraction with Negatives', this.clickSubtractionNeg()));
         }
 
         MenuChallenges.prototype.render = function(ctx, dt) {
