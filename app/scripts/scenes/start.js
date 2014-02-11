@@ -36,7 +36,7 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
 
         // Change to the main game scene on enter/space keyup or mouseup
         Start.prototype.keyup = function(event) {
-            if (event.keyCode === 13 || event.keyCode == 32) {
+            if (event.keyCode === 13 || event.keyCode === 32) {
                 this.goNextScene();
             }
         };

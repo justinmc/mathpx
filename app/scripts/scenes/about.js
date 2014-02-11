@@ -27,13 +27,13 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
 
             var p1 = 'Mathpx is an experiment with the goal of teaching kids in an afternoon what the school systems take years to teach.  By using game-like exploratory methods of learning in the place of memorization and testing, players will go from 1 + 1 to addition and subtraction of negatives at their own pace.';
             var line = 50;
-            this.entityAdd(new TextPx(60, 130, 830, p1.substr(0, line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(60, 165, 830, p1.substr(line,  line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(60, 200, 830, p1.substr(2 * line, line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(60, 235, 830, p1.substr(3 * line, line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(60, 270, 830, p1.substr(4 * line, line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(60, 305, 830, p1.substr(5 * line, line), '18px \'Press Start 2P\'')); 
-            this.entityAdd(new TextPx(90, 400, 400, 'Author: Justin McCandless', '18px \'Press Start 2P\'')); 
+            this.entityAdd(new TextPx(60, 130, 830, p1.substr(0, line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(60, 165, 830, p1.substr(line,  line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(60, 200, 830, p1.substr(2 * line, line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(60, 235, 830, p1.substr(3 * line, line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(60, 270, 830, p1.substr(4 * line, line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(60, 305, 830, p1.substr(5 * line, line), '18px \'Press Start 2P\''));
+            this.entityAdd(new TextPx(90, 400, 400, 'Author: Justin McCandless', '18px \'Press Start 2P\''));
 
             // Create the buttons
             this.entityAdd(new ButtonPx(600, 375, 'justinmccandless.com ->', this.clickAbout()));
