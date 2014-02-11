@@ -21,7 +21,7 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
             this.entityAdd(new ChalkHeart(240, 240));
 
             // Create the title
-            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3), 50, 400, 'Mathpx!', '32px \'Press Start 2P\''));
+            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3) - 20, 64, 400, 'Mathpx!', '50px \'Press Start 2P\''));
             this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 200, 200, 'Touch to', '20px \'Press Start 2P\''));
             this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 230, 200, 'Continue', '20px \'Press Start 2P\''));
         }
