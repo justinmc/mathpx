@@ -27,10 +27,6 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
         }
 
         Start.prototype.render = function(ctx, dt) {
-            // Set the background
-            ctx.fillStyle = 'rgb(255, 255, 255)';
-            ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
-
             Start.__super__.render.call(this, ctx, dt);
         };
 
@@ -40,7 +36,7 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
                 this.goNextScene();
             }
         };
-        Start.prototype.mouseup = function(event) {
+        Start.prototype.click = function(event) {
             this.goNextScene();
         };
 

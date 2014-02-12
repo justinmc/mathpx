@@ -108,10 +108,13 @@ define(['backbone', 'loading', 'start', 'menu', 'about', 'menuChallenges', 'menu
 
             // Change to the scene via Loading
             if (!this.engine.scenes.hasOwnProperty(Loading.name)) {
-                this.engine.sceneAdd(new Loading(this.engine), Loading.name);
+                this.engine.sceneAdd(new Loading(this.engine), Loading.name, name);
             }
-            this.engine.scenes.Loading.sceneNameChangeTo = name;
+            else {
+                this.engine.scenes.Loading.sceneNameChangeTo = name;
+            }
             this.engine.changeScenes('Loading', Loading);
+            this.engine.sceneActive = 'Loading';
         },
 
     });

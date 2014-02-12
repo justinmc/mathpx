@@ -1,5 +1,5 @@
 /*global define */
-define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading', 'entity', 'text', 'num', 'numNeg', 'trash'], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash) {
+define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading', 'entity', 'text', 'num', 'numNeg', 'trash', 'menu'], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash, Menu) {
     'use strict';
 
     var AppObj = (function() {
@@ -57,13 +57,6 @@ define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading
             this.engine = new Engine(this.canvas, this.changeScenesCallback());
             this.engine.sceneAdd(new Loading(this.engine, urls, 'Start'), 'Loading');
             this.engine.sceneAdd(new Start(this.engine), 'Start');
-            /*this.engine.sceneAdd(new Menu(this.engine));
-            this.engine.sceneAdd(new MenuChallenges(this.engine));
-            this.engine.sceneAdd(new MenuChallengesAdd(this.engine));
-            this.engine.sceneAdd(new Play(this.engine));
-            this.engine.sceneAdd(new PlayAdd(this.engine));
-            this.engine.sceneAdd(new PlaySub(this.engine));
-            */
 
             // Start the router
             this.router = new Router(this.engine);

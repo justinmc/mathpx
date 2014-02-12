@@ -12,6 +12,7 @@ define(['jquery', 'scene'], function ($, Scene) {
         Engine.prototype.scenes = {};
         Engine.prototype.sceneActive = null;
         Engine.prototype.changeScenesCallback = null;
+        Engine.prototype.sceneChanging = false;
 
         function Engine(canvas, changeScenesCallback) {
             // Save the changeScenes callback if given
@@ -80,7 +81,7 @@ define(['jquery', 'scene'], function ($, Scene) {
         // Changes to the new scene
         Engine.prototype.changeScenes = function(sceneName, SceneType, preserveSelf) {
             // Only change scenes if a valid sceneName was given
-            if (sceneName !== null && sceneName !== this.sceneActive) {
+            if (sceneName !== null && sceneName !== this.sceneActive && !this.sceneChanging) {
                 var sceneCurrent = this.sceneActive;
 
                 // If the scene doesn't already exist and SceneType was given, create it
@@ -90,17 +91,26 @@ define(['jquery', 'scene'], function ($, Scene) {
 
                 // If everything went well, change scenes
                 if (this.scenes.hasOwnProperty(sceneName)) {
-                    this.sceneActive = sceneName;
+                    this.sceneChanging = true;
 
-                    // Destroy the current scene unless preserveSelf
-                    if (preserveSelf === null || !preserveSelf && sceneCurrent !== null) {
-                        this.scenes[sceneCurrent].destroy();
-                    }
+                    var me = this;
+                    // Wait 50ms to avoid 'flash' between scenes
+                    window.setTimeout(function() {
+                        me.sceneActive = sceneName;
 
-                    // Call the callback if it was given
-                    if (this.changeScenesCallback !== null) {
-                        this.changeScenesCallback(this.getSceneActive());
-                    }
+                        // Destroy the current scene unless preserveSelf
+                        if ((preserveSelf === null || !preserveSelf) && sceneCurrent !== null) {
+                            console.log('destroy ', sceneCurrent);
+                            me.scenes[sceneCurrent].destroy();
+                        }
+
+                        // Call the callback if it was given
+                        if (me.changeScenesCallback !== null) {
+                            me.changeScenesCallback(me.getSceneActive());
+                        }
+
+                        me.sceneChanging = false;
+                    }, 50);
                 }
             }
         };

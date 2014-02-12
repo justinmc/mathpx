@@ -35,10 +35,6 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'about', 'sprite', 'chalkHo
         }
 
         Menu.prototype.render = function(ctx, dt) {
-            // Set the background
-            ctx.fillStyle = 'rgb(255, 255, 255)';
-            ctx.fillRect (0, 0, ctx.canvas.width, ctx.canvas.height);
-
             Menu.__super__.render.call(this, ctx, dt);
         };
 

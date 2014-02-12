@@ -17,7 +17,11 @@ define(['jquery', 'scene', 'sprite', 'startChalk', 'text', 'button'], function (
         Loading.prototype.urlCount = 0;
         Loading.prototype.urlsDone = 0;
 
-        function Loading(engine, urls) {
+        function Loading(engine, urls, sceneNameChangeTo) {
+            if (sceneNameChangeTo) {
+                this.sceneNameChangeTo = sceneNameChangeTo;
+            }
+
             Loading.__super__.constructor.call(this, engine);
 
             // Get the url count
