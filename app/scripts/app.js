@@ -81,7 +81,7 @@ define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading
                 var dt = (timeNow - me.timeThen) / 1000.0;
 
                 // Set the frame rate on the screen
-                if (me.frameCountTime === null) {
+                /*if (me.frameCountTime === null) {
                     me.frameCountTime = timeNow;
                 }
                 else if (timeNow - me.frameCountTime >= 1000) {
@@ -91,7 +91,7 @@ define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading
                 }
                 else {
                     me.frameCount++;
-                }
+                }*/
 
                 // Set the canvas size in case screen size/orientation changed
                 me.ctx.canvas.style.width = me.getCanvasWidthSized() + 'px';
