@@ -100,7 +100,6 @@ define(['jquery', 'scene'], function ($, Scene) {
 
                         // Destroy the current scene unless preserveSelf
                         if ((preserveSelf === null || !preserveSelf) && sceneCurrent !== null) {
-                            console.log('destroy ', sceneCurrent);
                             me.scenes[sceneCurrent].destroy();
                         }
 

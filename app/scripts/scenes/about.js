@@ -3,7 +3,7 @@
     About page!
 */
 /*global define */
-define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Scene, Play, AboutChallenges, Sprite, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'textPx', 'textPxTitle', 'textMultiline', 'buttonPx', 'buttonBack'], function ($, Scene, Play, AboutChallenges, Sprite, ChalkHouse, TextPx, TextPxTitle, TextMultiline, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -22,21 +22,18 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack()));
-            this.entityAdd(new TextPxTitle());
-            this.entityAdd(new TextPx(centerX - 10, 70, 300, 'About'));
+            this.entityAdd(new TextPx(centerX - 10, 70, 300, 'About Mathpx'));
 
-            var p1 = 'Mathpx is an experiment with the goal of teaching kids in an afternoon what the school systems take years to teach.  By using game-like exploratory methods of learning in the place of memorization and testing, players will go from 1 + 1 to addition and subtraction of negatives at their own pace.';
-            var line = 50;
-            this.entityAdd(new TextPx(60, 130, 830, p1.substr(0, line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(60, 165, 830, p1.substr(line,  line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(60, 200, 830, p1.substr(2 * line, line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(60, 235, 830, p1.substr(3 * line, line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(60, 270, 830, p1.substr(4 * line, line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(60, 305, 830, p1.substr(5 * line, line), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(90, 400, 400, 'Author: Justin McCandless', '18px \'Press Start 2P\''));
+            // Create the text
+            var p1 = 'Mathpx is an experiment with the goal of teaching kids in an afternoon what the school systems take years to teach.  By using game-like exploratory methods of learning in the place of memorization and testing, players will go from 1 + 1 to addition and subtraction of negatives at the pace of their own visual, deep understanding.';
+            this.entityAdd(new TextMultiline(60, 125, 830, p1, '18px \'Press Start 2P\'', 'rgb(255, 255, 255)', 50));
+            this.entityAdd(new TextPx(170, 380, 400, 'Author: Justin McCandless', '18px \'Press Start 2P\''));
+
+            // Create the pic
+            this.entityAdd(new Sprite(60, 320, 88, 101, $('img.gettable.gettable-portrait').attr('src'), 0, 0, 14, 16));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(600, 375, 'justinmccandless.com ->', this.clickAbout()));
+            this.entityAdd(new ButtonPx(650, 355, 'justinmccandless.com ->', this.clickAbout()));
         }
 
         About.prototype.render = function(ctx, dt) {
@@ -50,7 +47,7 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
         // About button click event
         About.prototype.clickAbout = function(event) {
             return function() {
-                console.log('clicked about');
+                window.open('http://www.justinmccandless.com', '_blank');
             };
         };
 

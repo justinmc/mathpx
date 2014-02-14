@@ -34,6 +34,7 @@ require.config({
         chalkHouse: 'entities/chalkHouse',
         sprite: 'entities/sprite',
         text: 'entities/text',
+        textMultiline: 'entities/textMultiline',
         textPx: 'entities/textPx',
         textPxTitle: 'entities/textPxTitle',
         num: 'entities/num',
