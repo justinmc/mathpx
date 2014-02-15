@@ -300,9 +300,6 @@ module.exports = function (grunt) {
             generate: {
                 options: {
                     basePath: 'dist/',
-                    network: ['http://fonts.googleapis.com/css?family=Press+Start+2P'],
-                    //fallback: ['/ /offline.html'],
-                    //exclude: ['js/jquery.min.js'],
                     preferOnline: true,
                     verbose: true,
                     timestamp: true,
