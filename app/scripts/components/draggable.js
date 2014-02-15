@@ -25,7 +25,6 @@ define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
         };
 
         Draggable.prototype.touchstart = function(event, scene) {
-            event.preventDefault();
             this.dragStart(event, scene);
         };
 
@@ -34,7 +33,6 @@ define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
         };
 
         Draggable.prototype.touchmove = function(event, scene) {
-            event.preventDefault();
             this.dragMove(event, scene);
         };
 
@@ -43,7 +41,6 @@ define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
         };
 
         Draggable.prototype.touchend = function(event, scene) {
-            event.preventDefault();
             this.dragEnd(event, scene);
         };
 

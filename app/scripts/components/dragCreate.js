@@ -32,7 +32,6 @@ define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
         }
 
         DragCreate.prototype.touchstart = function(event, scene) {
-            event.preventDefault();
             this.drag(event, scene);
         };
 
@@ -42,7 +41,7 @@ define(['jquery', 'scene', 'component'], function ($, Scene, Component) {
 
         DragCreate.prototype.drag = function(event, scene) {
             // Can't dragcreate hidden entities
-            if (this.entity.display) {
+            if (this.entity.display && !scene.dragging) {
                 var coords = scene.getEventCoords(event);
 
                 // Check to see if the entity was clicked
