@@ -3,7 +3,7 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'buttonPx', 'check', 'x', 'tween', 'draggable', 'dragCreate'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, ButtonPx, Check, X, Tween, Draggable, DragCreate) {
+define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'buttonPx', 'check', 'x', 'tween', 'draggable', 'dragCreate', 'bounded'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, ButtonPx, Check, X, Tween, Draggable, DragCreate, Bounded) {
     'use strict';
 
     return (function() {
@@ -126,13 +126,13 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
 
             // Create all possible toolbar entities 
             this.toolbarNumLText = this.entityAdd(new TextPx(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
-            this.toolbarNumL = this.entityAdd(new Num(50, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumL = this.entityAdd(new Num(50, this.engine.ctx.canvas.height - 80, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumNegLText = this.entityAdd(new TextPx(120, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
-            this.toolbarNumNegL = this.entityAdd(new NumNeg(150, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegL = this.entityAdd(new NumNeg(150, this.engine.ctx.canvas.height - 80, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumRText = this.entityAdd(new TextPx(350, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
             this.toolbarNumNegRText = this.entityAdd(new TextPx(450, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
-            this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 80, 0, 0, 2 * this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 80, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 80, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumAText = this.entityAdd(new TextPx(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
             this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
             this.toolbarNumNegAText = this.entityAdd(new TextPx(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
@@ -487,7 +487,9 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
                 var coords = {};
                 coords = getNumPos.call(me, answer++);
 
+                // Stop the bouncing animation, remove the bounded restriction, and tween to the position
                 entity.spriteAnimateStop();
+                entity.componentRemove(Bounded);
                 entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
             });
 
