@@ -285,6 +285,7 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'manifest.webapp',
                         'images/{,*/}*.{webp,gif}',
+                        'icon-*.png',
                         'styles/fonts/*'
                     ]
                 }, {
