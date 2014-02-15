@@ -6,8 +6,11 @@
 
     // Recommended by Chrome
     "default_locale": "en",
-    "description": "Mathpx is an app to help kids learn basic counting and math in the most natural way possible.  Instead of going years regurgitating numbers without understanding why, Mathpx was designed to make the connection between the problems written on paper to the fundamental concepts behind them.",
-    "icons": {},
+    "description": "Mathpx is an experiment to help kids learn basic counting and math in the most natural way possible.  Instead of going years regurgitating numbers without understanding why, Mathpx was designed to make the connection between the problems written on paper to the fundamental concepts behind them.",
+    "icons": {
+        "60": "images/icon-60.png",
+        "128": "images/icon-128.png",
+    },
 
     // Firefox
     "developer": {

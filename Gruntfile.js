@@ -296,6 +296,28 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        manifest: {
+            generate: {
+                options: {
+                    basePath: 'dist/',
+                    network: ['http://fonts.googleapis.com/css?family=Press+Start+2P'],
+                    //fallback: ['/ /offline.html'],
+                    //exclude: ['js/jquery.min.js'],
+                    preferOnline: true,
+                    verbose: true,
+                    timestamp: true,
+                    hash: true,
+                    master: ['index.html']
+                },
+                src: [
+                    '*.html',
+                    'scripts/*.js',
+                    'styles/*.css',
+                    'images/*.png'
+                ],
+                dest: 'dist/manifest.appcache'
+            }
+        },
         concurrent: {
             server: [
                 'coffee:dist',
@@ -354,7 +376,8 @@ module.exports = function (grunt) {
         'uglify',
         'copy',
         'rev',
-        'usemin'
+        'usemin',
+        'manifest'
     ]);
 
     grunt.registerTask('default', [
