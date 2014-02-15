@@ -283,7 +283,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,txt}',
                         '.htaccess',
-                        'manifest.json',
+                        'manifest.webapp',
                         'images/{,*/}*.{webp,gif}',
                         'styles/fonts/*'
                     ]
