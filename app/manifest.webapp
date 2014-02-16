@@ -3,8 +3,7 @@
     "name": "Mathpx",
     "version": "1.0",
 
-    "default_locale": "en",
-    "description": "Mathpx is an experiment to help teach kids basic counting and arithmetic in the most natural way possible.  Instead of going years memorizing problems without understanding why, Mathpx was designed to make the connection between the problems written on paper to the fundamental concepts behind them.",
+    "description": "Mathpx is an experiment to help teach kids basic counting and arithmetic in the most natural way possible.",
     "icons": {
         "32": "/icon-32.png",
         "60": "/icon-60.png",

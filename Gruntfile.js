@@ -295,13 +295,16 @@ module.exports = function (grunt) {
                     src: [
                         'generated/*'
                     ]
+                }, {
+                    src: '<%= yeoman.app %>/manifest.webapp',
+                    dest: '<%= yeoman.dist %>/manifest.json',
                 }]
             }
         },
         manifest: {
             generate: {
                 options: {
-                    basePath: 'dist/',
+                    basePath: '<%= yeoman.dist %>',
                     preferOnline: true,
                     verbose: true,
                     timestamp: true,
@@ -314,7 +317,18 @@ module.exports = function (grunt) {
                     'styles/*.css',
                     'images/*.png'
                 ],
-                dest: 'dist/manifest.appcache'
+                dest: '<%= yeoman.dist %>/manifest.appcache'
+            }
+        },
+        // package the app too
+        compress: {
+            main: {
+                options: {
+                    archive: '<%= yeoman.dist %>/mathpx.zip'
+                },
+                files: [
+                    {src: ['<%= yeoman.dist %>/**', '!<%= yeoman.dist %>/mathpx.zip'], dest: '/'},
+                ]
             }
         },
         concurrent: {
@@ -376,7 +390,8 @@ module.exports = function (grunt) {
         'copy',
         'rev',
         'usemin',
-        'manifest'
+        'manifest',
+        'compress'
     ]);
 
     grunt.registerTask('default', [
