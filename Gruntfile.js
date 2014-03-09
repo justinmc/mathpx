@@ -313,9 +313,9 @@ module.exports = function (grunt) {
                 },
                 src: [
                     '*.html',
-                    'scripts/*.js',
-                    'styles/*.css',
-                    'images/*.png'
+                    'scripts/**.js',
+                    'styles/**.css',
+                    'images/**.png'
                 ],
                 dest: '<%= yeoman.dist %>/manifest.appcache'
             }
