@@ -3,11 +3,11 @@
     About page!
 */
 /*global define */
-define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'textPx', 'textPxTitle', 'textMultiline', 'buttonPx', 'buttonBack'], function ($, Scene, Play, AboutChallenges, Sprite, ChalkHouse, TextPx, TextPxTitle, TextMultiline, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, AboutChallenges, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
-        Scene.extend(About);
+        hoopty.scenes.Scene.extend(About);
 
         About.prototype.name = 'About';
         About.prototype.route = 'about';
@@ -17,7 +17,7 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
 
             // Create the background image
             var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
@@ -26,11 +26,11 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'sprite', 'chalkHouse', 'te
 
             // Create the text
             var p1 = 'Mathpx is an experiment with the goal of teaching kids in an afternoon what the school systems take years to teach.  By using game-like exploratory methods of learning in the place of memorization and testing, players will go from 1 + 1 to addition and subtraction of negatives at the pace of their own visual, deep understanding.';
-            this.entityAdd(new TextMultiline(60, 125, 830, p1, '18px \'Press Start 2P\'', 'rgb(255, 255, 255)', 50));
+            this.entityAdd(new hoopty.entities.TextMultiline(60, 125, 830, p1, '18px \'Press Start 2P\'', 'rgb(255, 255, 255)', 50));
             this.entityAdd(new TextPx(170, 380, 400, 'Author: Justin McCandless', '18px \'Press Start 2P\''));
 
             // Create the pic
-            this.entityAdd(new Sprite(60, 320, 88, 101, $('img.gettable.gettable-portrait').attr('src'), 0, 0, 14, 16));
+            this.entityAdd(new hoopty.entities.Sprite(60, 320, 88, 101, $('img.gettable.gettable-portrait').attr('src'), 0, 0, 14, 16));
 
             // Create the buttons
             this.entityAdd(new ButtonPx(650, 355, 'justinmccandless.com ->', this.clickAbout()));

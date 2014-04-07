@@ -3,7 +3,7 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'scene', 'menuChallengesQuestions', 'playSub', 'sprite', 'chalkTTT', 'text', 'button', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, MenuChallengesQuestions, PlaySub, Sprite, ChalkTTT, Text, Button, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'menuChallengesQuestions', 'playSub', 'chalkTTT', 'checkStatic', 'questions'], function ($, MenuChallengesQuestions, PlaySub, ChalkTTT, CheckStatic, Questions) {
     'use strict';
 
     return (function() {

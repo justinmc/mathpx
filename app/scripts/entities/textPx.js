@@ -3,11 +3,11 @@
     The typical text setup for Mathpx
 */
 /*global define */
-define(['text'], function (Text) {
+define([], function () {
     'use strict';
 
     return (function() {
-        Text.extend(TextPx);
+        hoopty.entities.Text.extend(TextPx);
 
         TextPx.prototype.font = '28px \'Press Start 2P\'';
         TextPx.prototype.fillStyle = 'rgb(255, 255, 255)';

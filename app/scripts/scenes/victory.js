@@ -3,11 +3,11 @@
     Shown after all problems completed
 */
 /*global define */
-define(['jquery', 'scene', 'menu', 'play', 'menuChallenges', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Scene, Menu, Play, MenuChallenges, Sprite, ChalkTTT, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'menu', 'play', 'menuChallenges', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Menu, Play, MenuChallenges, ChalkTTT, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
-        Scene.extend(Victory);
+        hoopty.scenes.Scene.extend(Victory);
 
         Victory.prototype.name = 'Victory';
 
@@ -28,7 +28,7 @@ define(['jquery', 'scene', 'menu', 'play', 'menuChallenges', 'sprite', 'chalkTTT
 
             // Create the background image
             var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
             this.entityAdd(new ChalkTTT(380, 320));

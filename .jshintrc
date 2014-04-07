@@ -19,5 +19,6 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "boss": true
+    "boss": true,
+    "globals": {"hoopty": true}
 }

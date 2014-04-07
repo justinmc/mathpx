@@ -3,12 +3,12 @@
     A positive number
 */
 /*global define */
-define(['jquery', 'extendable', 'scene', 'entity', 'sprite', 'draggable', 'dragCreate', 'bounded', 'collision'], function ($, Extendable, Scene, Entity, Sprite, Draggable, DragCreate, Bounded, Collision) {
+define(['jquery', 'extendable'], function ($, Extendable) {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(Num);
+        hoopty.entities.Sprite.extend(Num);
 
         Num.prototype.width = 64;
         Num.prototype.height = 64;
@@ -37,7 +37,7 @@ define(['jquery', 'extendable', 'scene', 'entity', 'sprite', 'draggable', 'dragC
 
             // Add the collision component for colliding with the trash
             var me = this;
-            this.componentAdd(new Collision(this, 'Trash', function(event, scene, entityCollided) {
+            this.componentAdd(new hoopty.components.Collision(this, 'Trash', function(event, scene, entityCollided) {
                 scene.entities.splice(scene.entities.indexOf(me), 1);
                 scene.removeActiveNum(me);
                 entityCollided.spriteAnimate('eat', 1);
@@ -52,10 +52,10 @@ define(['jquery', 'extendable', 'scene', 'entity', 'sprite', 'draggable', 'dragC
                 this.spriteAnimate('rest');
 
                 // Add the draggable component
-                this.componentAdd(new Draggable(this));
+                this.componentAdd(new hoopty.components.Draggable(this));
 
                 // Add the bounded component
-                this.componentAdd(new Bounded(this, boundedX, boundedY, boundedWidth, boundedHeight));
+                this.componentAdd(new hoopty.components.Bounded(this, boundedX, boundedY, boundedWidth, boundedHeight));
             }
 
             // Don't count toolbar numbers
@@ -68,7 +68,7 @@ define(['jquery', 'extendable', 'scene', 'entity', 'sprite', 'draggable', 'dragC
                 }
 
                 // Add the dragCreate component
-                this.componentAdd(new DragCreate(this, this.dragCreateEntity, this.dragCreate));
+                this.componentAdd(new hoopty.components.DragCreate(this, this.dragCreateEntity, this.dragCreate));
             }
         }
 

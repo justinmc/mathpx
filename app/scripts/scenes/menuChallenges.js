@@ -3,11 +3,11 @@
     The math type selection menu
 */
 /*global define */
-define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'sprite', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Questions, Scene, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Sprite, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'questions', 'menuChallengesQuestions', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Questions, MenuChallengesQuestions, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
-        Scene.extend(MenuChallenges);
+        hoopty.scenes.Scene.extend(MenuChallenges);
 
         MenuChallenges.prototype.name = 'MenuChallenges';
         MenuChallenges.prototype.route = 'challenges';
@@ -19,7 +19,7 @@ define(['jquery', 'questions', 'scene', 'menuChallengesQuestions', 'menuChalleng
 
             // Create the background image
             var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
             this.entityAdd(new MenuChalk(100, 180));

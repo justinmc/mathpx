@@ -3,12 +3,12 @@
     A static check mark for marking question menu options
 */
 /*global define, $ */
-define(['sprite'], function (Sprite) {
+define([], function () {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(CheckStatic);
+        hoopty.entities.Sprite.extend(CheckStatic);
 
         CheckStatic.prototype.width = 32;
         CheckStatic.prototype.height = 32;

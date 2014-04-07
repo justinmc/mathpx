@@ -3,12 +3,12 @@
     Trash can to remove numbers
 */
 /*global define */
-define(['jquery', 'extendable', 'entity', 'sprite'], function ($, Extendable, Entity, Sprite) {
+define(['jquery', 'extendable'], function ($, Extendable) {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(Trash);
+        hoopty.entities.Sprite.extend(Trash);
 
         Trash.prototype.width = 64;
         Trash.prototype.height = 64;

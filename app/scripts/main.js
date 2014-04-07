@@ -1,5 +1,6 @@
 require.config({
     paths: {
+        hoopty: 'vendor/hoopty.min',
         jquery: '../bower_components/jquery/jquery',
         bootstrap: 'vendor/bootstrap',
         underscore: '../bower_components/underscore-amd/underscore-min',
@@ -32,7 +33,6 @@ require.config({
         chalkTTT: 'entities/chalkTTT',
         chalkHeart: 'entities/chalkHeart',
         chalkHouse: 'entities/chalkHouse',
-        sprite: 'entities/sprite',
         text: 'entities/text',
         textMultiline: 'entities/textMultiline',
         textPx: 'entities/textPx',
@@ -44,7 +44,6 @@ require.config({
         checkStatic: 'entities/checkStatic',
         x: 'entities/x',
         xStatic: 'entities/xStatic',
-        button: 'entities/button',
         buttonPx: 'entities/buttonPx',
         buttonPxQ: 'entities/buttonPxQ',
         buttonBack: 'entities/buttonBack',
@@ -69,6 +68,7 @@ require([
     'app',
     'jquery',
     'backbone',
+    'hoopty',
     'requestAnimationFrame.polyfill',
     'bootstrap'
 ],

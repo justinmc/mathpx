@@ -3,12 +3,12 @@
     A positive number
 */
 /*global define, $ */
-define(['sprite'], function (Sprite) {
+define([], function () {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(Check);
+        hoopty.entities.Sprite.extend(Check);
 
         Check.prototype.width = 64;
         Check.prototype.height = 64;

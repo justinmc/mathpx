@@ -3,11 +3,11 @@
     Mathpx style button
 */
 /*global define */
-define(['jquery', 'scene', 'button'], function ($, Scene, Button) {
+define(['jquery'], function ($) {
     'use strict';
 
     return (function() {
-        Button.extend(ButtonPx);
+        hoopty.entities.Button.extend(ButtonPx);
 
         ButtonPx.prototype.width = 190;
         ButtonPx.prototype.height = 40;
@@ -55,7 +55,7 @@ define(['jquery', 'scene', 'button'], function ($, Scene, Button) {
 
         // ButtonPx click event, has to check if click was inside the button!
         ButtonPx.prototype.click = function(event, scene) {
-            if (Scene.isInside(scene.getEventCoords(event), this) && this.display) {
+            if (hoopty.scenes.Scene.isInside(scene.getEventCoords(event), this) && this.display) {
                 this.callback(event);
             }
         };

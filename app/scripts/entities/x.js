@@ -3,12 +3,12 @@
     Animated thing to indicate an incorrect answer!
 */
 /*global define, $ */
-define(['sprite'], function (Sprite) {
+define([], function () {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(X);
+        hoopty.entities.Sprite.extend(X);
 
         X.prototype.width = 64;
         X.prototype.height = 64;

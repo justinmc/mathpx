@@ -3,11 +3,11 @@
     The first, main menu
 */
 /*global define */
-define(['jquery', 'scene', 'play', 'menuChallenges', 'about', 'sprite', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Scene, Play, MenuChallenges, About, Sprite, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
-        Scene.extend(Menu);
+        hoopty.scenes.Scene.extend(Menu);
 
         Menu.prototype.name = 'Menu';
         Menu.prototype.route = 'main';
@@ -17,7 +17,7 @@ define(['jquery', 'scene', 'play', 'menuChallenges', 'about', 'sprite', 'chalkHo
 
             // Create the background image
             var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
             this.entityAdd(new ChalkHouse(740, 100));

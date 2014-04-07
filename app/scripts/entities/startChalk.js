@@ -3,12 +3,12 @@
     An animated chalk drawing on the board, for the start scene
 */
 /*global define */
-define(['jquery', 'sprite'], function ($, Sprite) {
+define(['jquery'], function ($) {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(StartChalk);
+        hoopty.entities.Sprite.extend(StartChalk);
 
         StartChalk.prototype.width = 64;
         StartChalk.prototype.height = 64;

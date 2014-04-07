@@ -3,11 +3,11 @@
     The main game scene
 */
 /*global define */
-define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num', 'numNeg', 'textPx', 'trash', 'buttonPx', 'check', 'x', 'tween', 'draggable', 'dragCreate', 'bounded'], function ($, Backbone, Question, Questions, Scene, Entity, Num, NumNeg, TextPx, Trash, ButtonPx, Check, X, Tween, Draggable, DragCreate, Bounded) {
+define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx', 'trash', 'buttonPx', 'check', 'x'], function ($, Backbone, Question, Questions, Num, NumNeg, TextPx, Trash, ButtonPx, Check, X) {
     'use strict';
 
     return (function() {
-        Scene.extend(Play);
+        hoopty.scenes.Scene.extend(Play);
 
         Play.prototype.name = 'Play';
         Play.prototype.route = 'play';
@@ -110,8 +110,8 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
             this.activeNumsANeg = [];
 
             // Create the lines
-            this.entityAdd(new Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
-            this.entityAdd(new Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
+            this.entityAdd(new hoopty.entities.Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
+            this.entityAdd(new hoopty.entities.Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
 
             // Create the number bar
             this.textLeft = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
@@ -489,8 +489,8 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
 
                 // Stop the bouncing animation, remove the bounded restriction, and tween to the position
                 entity.spriteAnimateStop();
-                entity.componentRemove(Bounded);
-                entity.componentAdd(new Tween(entity, coords.x, coords.y, 20));
+                entity.componentRemove(hoopty.components.Bounded);
+                entity.componentAdd(new hoopty.components.Tween(entity, coords.x, coords.y, 20));
             });
 
             return answer;
@@ -513,11 +513,11 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
 
         // Annilate 2 given nums, and resolve deferred on complete
         Play.prototype.numAnnihilate = function(entity1, entity2, deferred) {
-            var midpoint = Scene.getMidpoint(entity1, entity2);
+            var midpoint = hoopty.scenes.Scene.getMidpoint(entity1, entity2);
             entity1.value = 0;
             entity2.value = 0;
-            entity1.componentAdd(new Tween(entity1, midpoint.x, midpoint.y, 20, this.numAnnihilateAnimate(deferred)));
-            entity2.componentAdd(new Tween(entity2, midpoint.x, midpoint.y, 20, this.numAnnihilateFinish()));
+            entity1.componentAdd(new hoopty.components.Tween(entity1, midpoint.x, midpoint.y, 20, this.numAnnihilateAnimate(deferred)));
+            entity2.componentAdd(new hoopty.components.Tween(entity2, midpoint.x, midpoint.y, 20, this.numAnnihilateFinish()));
         };
 
         // When nums collide
@@ -629,20 +629,20 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
         // Inactivate all nums so the user can't keep playing around
         Play.prototype.numsInactivate = function() {
             // Inactivate all toolbar nums, so they no longer can create new nums
-            this.toolbarNumL.componentRemove(DragCreate);
-            this.toolbarNumR.componentRemove(DragCreate);
-            this.toolbarNumA.componentRemove(DragCreate);
-            this.toolbarNumNegL.componentRemove(DragCreate);
-            this.toolbarNumNegR.componentRemove(DragCreate);
-            this.toolbarNumNegA.componentRemove(DragCreate);
+            this.toolbarNumL.componentRemove(hoopty.components.DragCreate);
+            this.toolbarNumR.componentRemove(hoopty.components.DragCreate);
+            this.toolbarNumA.componentRemove(hoopty.components.DragCreate);
+            this.toolbarNumNegL.componentRemove(hoopty.components.DragCreate);
+            this.toolbarNumNegR.componentRemove(hoopty.components.DragCreate);
+            this.toolbarNumNegA.componentRemove(hoopty.components.DragCreate);
 
             // Inactivate all active nums
-            this.entitiesRemoveComponents(this.activeNumsL, Draggable);
-            this.entitiesRemoveComponents(this.activeNumsR, Draggable);
-            this.entitiesRemoveComponents(this.activeNumsA, Draggable);
-            this.entitiesRemoveComponents(this.activeNumsNegL, Draggable);
-            this.entitiesRemoveComponents(this.activeNumsNegR, Draggable);
-            this.entitiesRemoveComponents(this.activeNumsNegA, Draggable);
+            this.entitiesRemoveComponents(this.activeNumsL, hoopty.components.Draggable);
+            this.entitiesRemoveComponents(this.activeNumsR, hoopty.components.Draggable);
+            this.entitiesRemoveComponents(this.activeNumsA, hoopty.components.Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegL, hoopty.components.Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegR, hoopty.components.Draggable);
+            this.entitiesRemoveComponents(this.activeNumsNegA, hoopty.components.Draggable);
         };
 
         // Remove the give component type from all entities given in an array
@@ -692,7 +692,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'scene', 'entity', 'num',
         };
 
         // Reset the current scene
-        Scene.prototype.reset = function() {
+        Play.prototype.reset = function() {
             this.engine.scenes[this.name] = new Play(this.engine);
             this.engine.changeScenes(this.name);
         };

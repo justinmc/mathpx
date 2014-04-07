@@ -3,11 +3,11 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, Scene, PlayAdd, Sprite, ChalkTTT, TextPx, TextPxTitle, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
-        Scene.extend(MenuChallengesQuestions);
+        hoopty.scenes.Scene.extend(MenuChallengesQuestions);
 
         MenuChallengesQuestions.prototype.name = 'MenuChallengesQuestions';
 
@@ -18,7 +18,7 @@ define(['jquery', 'scene', 'playAdd', 'sprite', 'chalkTTT', 'textPx', 'textPxTit
 
             // Create the background image
             var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk animation!
             this.entityAdd(new ChalkTTT(550, 340));

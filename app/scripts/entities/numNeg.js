@@ -3,7 +3,7 @@
     A negative number
 */
 /*global define */
-define(['jquery', 'num', 'scene', 'draggable', 'bounded', 'collision'], function ($, Num, Scene, Draggable, Bounded, Collision) {
+define(['jquery', 'num'], function ($, Num) {
     'use strict';
 
     return (function() {

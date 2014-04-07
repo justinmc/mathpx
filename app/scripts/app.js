@@ -1,5 +1,5 @@
 /*global define */
-define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading', 'entity', 'text', 'num', 'numNeg', 'trash', 'menu'], function ($, Backbone, Histories, Engine, Router, Start, Loading, Entity, Text, Num, NumNeg, Trash, Menu) {
+define(['jquery', 'backbone', 'histories', 'router', 'start', 'num', 'numNeg', 'trash', 'menu'], function ($, Backbone, Histories, Router, Start, Num, NumNeg, Trash, Menu) {
     'use strict';
 
     var AppObj = (function() {
@@ -54,8 +54,8 @@ define(['jquery', 'backbone', 'histories', 'engine', 'router', 'start', 'loading
             });
 
             // Start the engine
-            this.engine = new Engine(this.canvas, this.changeScenesCallback());
-            this.engine.sceneAdd(new Loading(this.engine, urls, 'Start'), 'Loading');
+            this.engine = new hoopty.Engine(this.canvas, this.changeScenesCallback());
+            this.engine.sceneAdd(new hoopty.scenes.Loading(this.engine, urls, 'Start'), 'Loading');
             this.engine.sceneAdd(new Start(this.engine), 'Start');
 
             // Start the router

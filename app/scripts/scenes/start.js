@@ -3,11 +3,11 @@
     The initial start scene
 */
 /*global define */
-define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($, Scene, Menu, Sprite, ChalkHeart, Text) {
+define(['jquery', 'menu', 'chalkHeart'], function ($, Menu, ChalkHeart) {
     'use strict';
 
     return (function() {
-        Scene.extend(Start);
+        hoopty.scenes.Scene.extend(Start);
 
         Start.prototype.name = 'Start';
 
@@ -15,16 +15,16 @@ define(['jquery', 'scene', 'menu', 'sprite', 'chalkHeart', 'text'], function ($,
             Start.__super__.constructor.call(this, engine);
 
             // Create the background image
-            this.entityAdd(new Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, $('img.gettable.gettable-classroom').attr('src'), 0, 0, 96, 64));
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, $('img.gettable.gettable-classroom').attr('src'), 0, 0, 96, 64));
 
             // Create the fun chalk dude!
             this.entityAdd(new ChalkHeart(240, 240));
 
             // Create the title
-            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3) - 20, 64, 400, 'Mathpx!', '50px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
-            this.entityAdd(new Text(Math.round(this.engine.ctx.canvas.width / 3) - 24, 60, 400, 'Mathpx!', '50px \'Press Start 2P\''));
-            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 200, 200, 'Touch to', '20px \'Press Start 2P\''));
-            this.entityAdd(new Text(this.engine.ctx.canvas.width - 180, 230, 200, 'Continue', '20px \'Press Start 2P\''));
+            this.entityAdd(new hoopty.entities.Text(Math.round(this.engine.ctx.canvas.width / 3) - 20, 64, 400, 'Mathpx!', '50px \'Press Start 2P\'', 'rgb(255, 255, 255)'));
+            this.entityAdd(new hoopty.entities.Text(Math.round(this.engine.ctx.canvas.width / 3) - 24, 60, 400, 'Mathpx!', '50px \'Press Start 2P\''));
+            this.entityAdd(new hoopty.entities.Text(this.engine.ctx.canvas.width - 180, 200, 200, 'Touch to', '20px \'Press Start 2P\''));
+            this.entityAdd(new hoopty.entities.Text(this.engine.ctx.canvas.width - 180, 230, 200, 'Continue', '20px \'Press Start 2P\''));
         }
 
         Start.prototype.render = function(ctx, dt) {

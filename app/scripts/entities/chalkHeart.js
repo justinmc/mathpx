@@ -3,12 +3,12 @@
     Animated tic tac toe chalk drawing
 */
 /*global define */
-define(['jquery', 'sprite'], function ($, Sprite) {
+define(['jquery'], function ($) {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(ChalkHeart);
+        hoopty.entities.Sprite.extend(ChalkHeart);
 
         ChalkHeart.prototype.width = 64;
         ChalkHeart.prototype.height = 64;

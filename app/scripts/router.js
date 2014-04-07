@@ -1,5 +1,5 @@
 /*global define, alert */
-define(['backbone', 'loading', 'start', 'menu', 'about', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Loading, Start, Menu, About, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
+define(['backbone', 'start', 'menu', 'about', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Start, Menu, About, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -107,13 +107,13 @@ define(['backbone', 'loading', 'start', 'menu', 'about', 'menuChallenges', 'menu
             }
 
             // Change to the scene via Loading
-            if (!this.engine.scenes.hasOwnProperty(Loading.name)) {
-                this.engine.sceneAdd(new Loading(this.engine), Loading.name, name);
+            if (!this.engine.scenes.hasOwnProperty(hoopty.scenes.Loading.name)) {
+                this.engine.sceneAdd(new hoopty.scenes.Loading(this.engine), hoopty.scenes.Loading.name, name);
             }
             else {
                 this.engine.scenes.Loading.sceneNameChangeTo = name;
             }
-            this.engine.changeScenes('Loading', Loading);
+            this.engine.changeScenes('Loading', hoopty.scenes.Loading);
             this.engine.sceneActive = 'Loading';
         },
 

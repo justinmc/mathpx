@@ -3,12 +3,12 @@
     Animated house chalk drawing
 */
 /*global define */
-define(['jquery', 'sprite'], function ($, Sprite) {
+define(['jquery'], function ($) {
     'use strict';
 
     return (function() {
         // Inherit from the Extendable class
-        Sprite.extend(ChalkHouse);
+        hoopty.entities.Sprite.extend(ChalkHouse);
 
         ChalkHouse.prototype.width = 64;
         ChalkHouse.prototype.height = 64;
