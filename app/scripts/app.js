@@ -69,51 +69,43 @@ define(['jquery', 'backbone', 'histories', 'router', 'start', 'num', 'numNeg', '
 
         // The main loop called at each iteration of the game
         App.prototype.render = function() {
-            (this.renderFactory())();
-        };
+            // Get the changed time in seconds since last render
+            var timeNow = Date.now();
+            var dt = (timeNow - this.timeThen) / 1000.0;
 
-        // Return an instance of the main function
-        App.prototype.renderFactory = function() {
-            var me = this;
-            return function() {
-                // Get the changed time in seconds since last render
-                var timeNow = Date.now();
-                var dt = (timeNow - me.timeThen) / 1000.0;
+            // Set the frame rate on the screen
+            /*if (this.frameCountTime === null) {
+                this.frameCountTime = timeNow;
+            }
+            else if (timeNow - this.frameCountTime >= 1000) {
+                $('.framecount').html(++this.frameCount + 'fps');
+                this.frameCountTime = null;
+                this.frameCount = 0;
+            }
+            else {
+                this.frameCount++;
+            }*/
 
-                // Set the frame rate on the screen
-                /*if (me.frameCountTime === null) {
-                    me.frameCountTime = timeNow;
-                }
-                else if (timeNow - me.frameCountTime >= 1000) {
-                    $('.framecount').html(++me.frameCount + 'fps');
-                    me.frameCountTime = null;
-                    me.frameCount = 0;
-                }
-                else {
-                    me.frameCount++;
-                }*/
+            // Set the canvas size in case screen size/orientation changed
+            this.ctx.canvas.style.width = this.getCanvasWidthSized() + 'px';
 
-                // Set the canvas size in case screen size/orientation changed
-                me.ctx.canvas.style.width = me.getCanvasWidthSized() + 'px';
+            // Position the container
+            $(this.container).css('margin-top', -1 * $(this.container).height() / 2);
 
-                // Position the container
-                $(me.container).css('margin-top', -1 * $(me.container).height() / 2);
+            // Reset the canvas
+            this.canvas.width = this.canvas.width;
 
-                // Reset the canvas
-                me.canvas.width = me.canvas.width;
+            // Disable image smoothing for pixel art
+            this.ctx.imageSmoothingEnabled = false;
+            this.ctx.mozImageSmoothingEnabled = false;
+            this.ctx.webkitImageSmoothingEnabled = false;
 
-                // Disable image smoothing for pixel art
-                me.ctx.imageSmoothingEnabled = false;
-                me.ctx.mozImageSmoothingEnabled = false;
-                me.ctx.webkitImageSmoothingEnabled = false;
+            // Render the game engine
+            this.engine.render(dt);
 
-                // Render the game engine
-                me.engine.render(dt);
-
-                // Continue the loop
-                me.timeThen = timeNow;
-                window.requestAnimationFrame(me.renderFactory());
-            };
+            // Continue the loop
+            this.timeThen = timeNow;
+            window.requestAnimationFrame(this.render.bind(this));
         };
 
         App.prototype.changeScenesCallback = function() {
