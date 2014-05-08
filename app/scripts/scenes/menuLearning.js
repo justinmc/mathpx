@@ -23,12 +23,12 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 20, 70, 300, 'Learning Mode'));
 
             // Create the big play button
-            this.entityAdd(new ButtonPx(centerX, 360, 'Play!', this.clickPlay()));
+            this.entityAdd(new ButtonPx(centerX, 360, 'Play!', this.clickPlay.bind(this)));
         }
 
         MenuLearning.prototype.render = function(ctx, dt) {
@@ -37,18 +37,12 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
 
         // On clicking the Play button
         MenuLearning.prototype.clickPlay = function() {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('Play', Play);
-            };
+            this.engine.changeScenes('Play', Play);
         };
 
         // Back button click
         MenuLearning.prototype.clickBack = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('Menu', require('menu'));
-            };
+            this.engine.changeScenes('Menu', require('menu'));
         };
 
         return MenuLearning;

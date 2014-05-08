@@ -26,15 +26,15 @@ define(['jquery', 'questions', 'menuChallengesQuestions', 'menuChallengesQuestio
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 30, 70, 400, 'Challenges', '28px \'Press Start 2P\''));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(centerX, 120, 'Simple Addition', this.clickAddition()));
-            this.entityAdd(new ButtonPx(centerX, 200, 'Simple Subtraction', this.clickSubtraction()));
-            this.entityAdd(new ButtonPx(centerX, 280, 'Addition with Negatives', this.clickAdditionNeg()));
-            this.entityAdd(new ButtonPx(centerX, 360, 'Subtraction with Negatives', this.clickSubtractionNeg()));
+            this.entityAdd(new ButtonPx(centerX, 120, 'Simple Addition', this.clickAddition.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 200, 'Simple Subtraction', this.clickSubtraction.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 280, 'Addition with Negatives', this.clickAdditionNeg.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 360, 'Subtraction with Negatives', this.clickSubtractionNeg.bind(this)));
         }
 
         MenuChallenges.prototype.render = function(ctx, dt) {
@@ -47,42 +47,27 @@ define(['jquery', 'questions', 'menuChallengesQuestions', 'menuChallengesQuestio
 
         // Addition button click event
         MenuChallenges.prototype.clickAddition = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuChallengesQuestionsAdd', MenuChallengesQuestionsAdd);
-            };
+            this.engine.changeScenes('MenuChallengesQuestionsAdd', MenuChallengesQuestionsAdd);
         };
 
         // Subtraction button click event
         MenuChallenges.prototype.clickSubtraction = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuChallengesQuestionsSub', MenuChallengesQuestionsSub);
-            };
+            this.engine.changeScenes('MenuChallengesQuestionsSub', MenuChallengesQuestionsSub);
         };
 
         // Addition Neg button click event
         MenuChallenges.prototype.clickAdditionNeg = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuChallengesQuestionsAddNeg', MenuChallengesQuestionsAddNeg);
-            };
+            this.engine.changeScenes('MenuChallengesQuestionsAddNeg', MenuChallengesQuestionsAddNeg);
         };
 
         // Subtraction Neg button click event
         MenuChallenges.prototype.clickSubtractionNeg = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuChallengesQuestionsSubNeg', MenuChallengesQuestionsSubNeg);
-            };
+            this.engine.changeScenes('MenuChallengesQuestionsSubNeg', MenuChallengesQuestionsSubNeg);
         };
 
         // About button click event
         MenuChallenges.prototype.clickBack = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('Menu', require('menu'));
-            };
+            this.engine.changeScenes('Menu', require('menu'));
         };
 
         return MenuChallenges;

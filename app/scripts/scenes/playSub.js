@@ -46,35 +46,30 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
 
         // Menu button click event
         PlaySub.prototype.clickMenu = function() {
-            return function(event) {
-                this.engine.changeScenes('MenuChallengesQuestionsSub', require('menuChallengesQuestionsSub'));
-            }.bind(this);
+            this.engine.changeScenes('MenuChallengesQuestionsSub', require('menuChallengesQuestionsSub'));
         };
 
         // Next button click event
         PlaySub.prototype.clickNext = function() {
-            var me = this;
-            return function(event) {
-                var nextId = me.getQuestionIdNext();
+            var nextId = this.getQuestionIdNext();
 
-                // If no next question
-                if (nextId === null) {
-                    // If all questions complete, go to victory
-                    if (me.questions === null || me.questions.complete()) {
-                        me.engine.changeScenes('VictorySub', require('victorySub'));
-                    }
-                    // Otherwise go back to the menu
-                    else {
-                        me.engine.changeScenes('MenuChallengesQuestionsSub', require('menuChallengesQuestionsSub'));
-                    }
-
+            // If no next question
+            if (nextId === null) {
+                // If all questions complete, go to victory
+                if (this.questions === null || this.questions.complete()) {
+                    this.engine.changeScenes('VictorySub', require('victorySub'));
                 }
-                // Otherwise go to the next question in the set
+                // Otherwise go back to the menu
                 else {
-                    me.engine.scenes[me.name] = new PlaySub(me.engine, me.questions, me.getQuestionIdNext());
-                    me.engine.changeScenes(me.name);
+                    this.engine.changeScenes('MenuChallengesQuestionsSub', require('menuChallengesQuestionsSub'));
                 }
-            };
+
+            }
+            // Otherwise go to the next question in the set
+            else {
+                this.engine.scenes[this.name] = new PlaySub(this.engine, this.questions, this.getQuestionIdNext());
+                this.engine.changeScenes(this.name);
+            }
         };
 
         return PlaySub;

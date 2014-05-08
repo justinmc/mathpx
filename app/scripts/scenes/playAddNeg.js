@@ -52,35 +52,30 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
 
         // Menu button click event
         PlayAddNeg.prototype.clickMenu = function() {
-            return function(event) {
-                this.engine.changeScenes('MenuChallengesQuestionsAddNeg', require('menuChallengesQuestionsAddNeg'));
-            }.bind(this);
+            this.engine.changeScenes('MenuChallengesQuestionsAddNeg', require('menuChallengesQuestionsAddNeg'));
         };
 
         // Next button click event
         PlayAddNeg.prototype.clickNext = function() {
-            var me = this;
-            return function(event) {
-                var nextId = me.getQuestionIdNext();
+            var nextId = this.getQuestionIdNext();
 
-                // If no next question
-                if (nextId === null) {
-                    // If all questions complete, go to victory
-                    if (me.questions === null || me.questions.complete()) {
-                        me.engine.changeScenes('VictoryAddNeg', require('victoryAddNeg'));
-                    }
-                    // Otherwise go back to the menu
-                    else {
-                        me.engine.changeScenes('MenuChallengesQuestionsAddNeg', require('menuChallengesQuestionsAddNeg'));
-                    }
-
+            // If no next question
+            if (nextId === null) {
+                // If all questions complete, go to victory
+                if (this.questions === null || this.questions.complete()) {
+                    this.engine.changeScenes('VictoryAddNeg', require('victoryAddNeg'));
                 }
-                // Otherwise go to the next question in the set
+                // Otherwise go back to the menu
                 else {
-                    me.engine.scenes[me.name] = new PlayAddNeg(me.engine, me.questions, me.getQuestionIdNext());
-                    me.engine.changeScenes(me.name);
+                    this.engine.changeScenes('MenuChallengesQuestionsAddNeg', require('menuChallengesQuestionsAddNeg'));
                 }
-            };
+
+            }
+            // Otherwise go to the next question in the set
+            else {
+                this.engine.scenes[this.name] = new PlayAddNeg(this.engine, this.questions, this.getQuestionIdNext());
+                this.engine.changeScenes(this.name);
+            }
         };
 
         return PlayAddNeg;

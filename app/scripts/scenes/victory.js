@@ -35,13 +35,13 @@ define(['jquery', 'menu', 'play', 'menuChallenges', 'chalkTTT', 'textPx', 'textP
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 160, 170, 1000, this.nameSection));
             this.entityAdd(new TextPx(centerX - 80, 130, 1000, 'CHALLENGE COMPLETE!'));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(centerX, 220, 'Challenges', this.clickChallenges()));
+            this.entityAdd(new ButtonPx(centerX, 220, 'Challenges', this.clickChallenges.bind(this)));
         }
 
         Victory.prototype.render = function(ctx, dt) {
@@ -54,18 +54,12 @@ define(['jquery', 'menu', 'play', 'menuChallenges', 'chalkTTT', 'textPx', 'textP
 
         // Back to menu button
         Victory.prototype.clickBack = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes(me.nameMenu, me.TypeMenu);
-            };
+            this.engine.changeScenes(this.nameMenu, this.TypeMenu);
         };
 
         // Challenges button click event
         Victory.prototype.clickChallenges = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('MenuChallenges', require('menuChallenges'));
-            };
+            this.engine.changeScenes('MenuChallenges', require('menuChallenges'));
         };
 
         return Victory;

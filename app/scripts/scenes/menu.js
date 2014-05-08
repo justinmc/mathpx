@@ -24,15 +24,15 @@ define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 20, 70, 300, 'Main Menu'));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(centerX, 120, 'Learning', this.clickLearning()));
-            this.entityAdd(new ButtonPx(centerX, 200, 'Challenges', this.clickChallenges()));
-            this.entityAdd(new ButtonPx(centerX, 280, 'Free Play', this.clickFree()));
-            this.entityAdd(new ButtonPx(centerX, 360, 'About Mathpx', this.clickAbout()));
+            this.entityAdd(new ButtonPx(centerX, 120, 'Learning', this.clickLearning.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 200, 'Challenges', this.clickChallenges.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 280, 'Free Play', this.clickFree.bind(this)));
+            this.entityAdd(new ButtonPx(centerX, 360, 'About Mathpx', this.clickAbout.bind(this)));
         }
 
         Menu.prototype.render = function(ctx, dt) {
@@ -41,42 +41,27 @@ define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse
 
         // Free Play button click event
         Menu.prototype.clickFree = function() {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('Play', Play);
-            };
+            this.engine.changeScenes('Play', Play);
         };
 
         // Clicking the Learning button
         Menu.prototype.clickLearning = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuLearning', MenuLearning);
-            };
+            this.engine.changeScenes('MenuLearning', MenuLearning);
         };
 
         // Challenges button click
         Menu.prototype.clickChallenges = function(event) {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('MenuChallenges', MenuChallenges);
-            };
+            this.engine.changeScenes('MenuChallenges', MenuChallenges);
         };
 
         // About button click
         Menu.prototype.clickAbout = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('About', About);
-            };
+            this.engine.changeScenes('About', About);
         };
 
         // Back button click
         Menu.prototype.clickBack = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('Start', require('start'));
-            };
+            this.engine.changeScenes('Start', require('start'));
         };
 
         return Menu;

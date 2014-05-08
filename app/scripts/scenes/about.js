@@ -21,7 +21,7 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPx(centerX - 10, 70, 300, 'About Mathpx'));
 
             // Create the text
@@ -33,7 +33,7 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
             this.entityAdd(new hoopty.entities.Sprite(60, 320, 88, 101, $('img.gettable.gettable-portrait').attr('src'), 0, 0, 14, 16));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(650, 355, 'justinmccandless.com ->', this.clickAbout()));
+            this.entityAdd(new ButtonPx(650, 355, 'justinmccandless.com ->', this.clickAbout));
         }
 
         About.prototype.render = function(ctx, dt) {
@@ -46,17 +46,12 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
 
         // About button click event
         About.prototype.clickAbout = function(event) {
-            return function() {
-                window.open('http://www.justinmccandless.com', '_blank');
-            };
+            window.open('http://www.justinmccandless.com', '_blank');
         };
 
         // Back button click event
         About.prototype.clickBack = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('Menu', require('menu'));
-            };
+            this.engine.changeScenes('Menu', require('menu'));
         };
 
         return About;

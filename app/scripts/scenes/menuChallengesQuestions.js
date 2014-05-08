@@ -25,7 +25,7 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', '
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
-            this.entityAdd(new ButtonBack(this.clickBack()));
+            this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
 
@@ -74,10 +74,7 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', '
 
         // Back button click event
         MenuChallengesQuestions.prototype.clickBack = function(event) {
-            var me = this;
-            return function() {
-                me.engine.changeScenes('MenuChallenges', require('menuChallenges'));
-            };
+            this.engine.changeScenes('MenuChallenges', require('menuChallenges'));
         };
 
         return MenuChallengesQuestions;

@@ -118,10 +118,10 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             this.textSign = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\''));
             this.textRight = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\''));
             this.textAnswer = this.entityAdd(new TextPx(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
-            this.buttonGo = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '=', this.clickGo(), 50, 40));
-            this.buttonNext = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '->', this.clickNext(), 50, 40));
+            this.buttonGo = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '=', this.clickGo.bind(this), 50, 40));
+            this.buttonNext = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '->', this.clickNext.bind(this), 50, 40));
             this.buttonNext.display = false;
-            this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain(), 60, 40, 'rgb(190, 190, 227)'));
+            this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain.bind(this), 60, 40, 'rgb(190, 190, 227)'));
             this.buttonAgain.display = false;
 
             // Create all possible toolbar entities 
@@ -140,7 +140,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
             this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 80));
-            this.entityAdd(new ButtonPx(10, 10, 'Menu', this.clickMenu(), 60, 40, 'rgb(190, 190, 227)'));
+            this.entityAdd(new ButtonPx(10, 10, 'Menu', this.clickMenu.bind(this), 60, 40, 'rgb(190, 190, 227)'));
 
             // Create the answer numbers
             this.answerNums = [];
@@ -354,126 +354,117 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Go button click event
         Play.prototype.clickGo = function() {
-            var me = this;
-            return function(event) {
-                // Remove the UI numbers
-                me.modeChangeReview();
+            // Remove the UI numbers
+            this.modeChangeReview();
 
-                // Get the correct numbers to animate
-                var numsL = me.activeNumsL.concat(me.getNumsRacked(me.questionNumsL));
-                var numsLNeg = me.activeNumsLNeg.concat(me.getNumsRacked(me.questionNumsNegL));
-                var numsR = me.activeNumsR.concat(me.getNumsRacked(me.questionNumsR));
-                var numsRNeg = me.activeNumsRNeg.concat(me.getNumsRacked(me.questionNumsNegR));
+            // Get the correct numbers to animate
+            var numsL = this.activeNumsL.concat(this.getNumsRacked(this.questionNumsL));
+            var numsLNeg = this.activeNumsLNeg.concat(this.getNumsRacked(this.questionNumsNegL));
+            var numsR = this.activeNumsR.concat(this.getNumsRacked(this.questionNumsR));
+            var numsRNeg = this.activeNumsRNeg.concat(this.getNumsRacked(this.questionNumsNegR));
 
-                // Annihilate all active pos/neg nums in left and right and answer
-                var deferreds = me.sectionAnnihilate(numsL, numsLNeg);
-                deferreds.concat(me.sectionAnnihilate(numsR, numsRNeg));
-                deferreds.concat(me.sectionAnnihilate(me.activeNumsA, me.activeNumsANeg));
+            // Annihilate all active pos/neg nums in left and right and answer
+            var deferreds = this.sectionAnnihilate(numsL, numsLNeg);
+            deferreds.concat(this.sectionAnnihilate(numsR, numsRNeg));
+            deferreds.concat(this.sectionAnnihilate(this.activeNumsA, this.activeNumsANeg));
 
-                // After left/right have annihilated individually, annihilate between left and right
-                $.when.apply($, deferreds).then(function() {
-                    // Get pos/neg nums out of remaining nums and annihilate them
-                    var numsLAnnihilated = numsL.length ? numsL : numsLNeg;
-                    var numsRAnnihilated = numsR.length ? numsR : numsRNeg;
-                    var numsLR = [];
-                    var numsLRNeg = [];
-                    var i, num;
-                    for (i in numsLAnnihilated) {
-                        num = numsLAnnihilated[i];
-                        if (num.value > 0) {
-                            numsLR.push(num);
-                        }
-                        else {
-                            numsLRNeg.push(num);
-                        }
+            // After left/right have annihilated individually, annihilate between left and right
+            $.when.apply($, deferreds).then(function() {
+                // Get pos/neg nums out of remaining nums and annihilate them
+                var numsLAnnihilated = numsL.length ? numsL : numsLNeg;
+                var numsRAnnihilated = numsR.length ? numsR : numsRNeg;
+                var numsLR = [];
+                var numsLRNeg = [];
+                var i, num;
+                for (i in numsLAnnihilated) {
+                    num = numsLAnnihilated[i];
+                    if (num.value > 0) {
+                        numsLR.push(num);
                     }
-                    for (i in numsRAnnihilated) {
-                        num = numsRAnnihilated[i];
-                        if (num.value > 0) {
-                            numsLR.push(num);
-                        }
-                        else {
-                            numsLRNeg.push(num);
-                        }
+                    else {
+                        numsLRNeg.push(num);
                     }
-                    var deferreds2 = me.sectionAnnihilate(numsLR, numsLRNeg);
+                }
+                for (i in numsRAnnihilated) {
+                    num = numsRAnnihilated[i];
+                    if (num.value > 0) {
+                        numsLR.push(num);
+                    }
+                    else {
+                        numsLRNeg.push(num);
+                    }
+                }
+                var deferreds2 = this.sectionAnnihilate(numsLR, numsLRNeg);
 
-                    // After everything has finished annihilating, rack up the remaining nums
-                    $.when.apply($, deferreds2).then(function() {
-                        // Rack the L/R nums
-                        var numsLRRack = numsLR;
-                        var sign = 1;
-                        if (numsLRNeg.length) {
-                            numsLRRack = numsLRNeg;
-                            sign = -1;
-                        }
-                        var valueLR = numsLRRack.length;
-                        me.sectionRack(numsLRRack, me.getNumPosLeft);
+                // After everything has finished annihilating, rack up the remaining nums
+                $.when.apply($, deferreds2).then(function() {
+                    // Rack the L/R nums
+                    var numsLRRack = numsLR;
+                    var sign = 1;
+                    if (numsLRNeg.length) {
+                        numsLRRack = numsLRNeg;
+                        sign = -1;
+                    }
+                    var valueLR = numsLRRack.length;
+                    this.sectionRack(numsLRRack, this.getNumPosLeft);
 
-                        // Rack the answer nums
-                        var numsARack, answer;
-                        if (me.activeNumsA.length) {
-                            numsARack = me.activeNumsA;
-                            answer = numsARack.length;
-                        }
-                        else {
-                            numsARack = me.activeNumsANeg;
-                            answer = -1 * numsARack.length;
-                        }
-                        me.sectionRack(numsARack, me.getNumPosAnswer);
+                    // Rack the answer nums
+                    var numsARack, answer;
+                    if (this.activeNumsA.length) {
+                        numsARack = this.activeNumsA;
+                        answer = numsARack.length;
+                    }
+                    else {
+                        numsARack = this.activeNumsANeg;
+                        answer = -1 * numsARack.length;
+                    }
+                    this.sectionRack(numsARack, this.getNumPosAnswer);
 
-                        // Change the UI to the final mode
-                        me.buttonGo.display = false;
-                        me.textLeft.text = '';
-                        me.textSign.text = sign * valueLR;
-                        me.textRight.text = '';
+                    // Change the UI to the final mode
+                    this.buttonGo.display = false;
+                    this.textLeft.text = '';
+                    this.textSign.text = sign * valueLR;
+                    this.textRight.text = '';
 
-                        // If the question was correct or there was no question
-                        if ((me.getQuestion() === null) || ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer()))) {
-                            // Set the timeEnd on the question if there is a question
-                            if (me.getQuestion() !== null) {
-                                me.getQuestion().set('timeEnd', new Date().getTime());
-                                if (typeof me.questions.localStorage !== 'undefined') {
-                                    me.getQuestion().save();
-                                }
-
-                                // Show the next button
-                                me.buttonNext.display = true;
-                            }
-                            else {
-                                // Show the again button
-                                me.buttonAgain.display = true;
+                    // If the question was correct or there was no question
+                    if ((this.getQuestion() === null) || ((this.getQuestion() !== null) && (answer === this.getQuestion().getAnswer()))) {
+                        // Set the timeEnd on the question if there is a question
+                        if (this.getQuestion() !== null) {
+                            this.getQuestion().set('timeEnd', new Date().getTime());
+                            if (typeof this.questions.localStorage !== 'undefined') {
+                                this.getQuestion().save();
                             }
 
-                            // And show a check
-                            me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
-                            me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
+                            // Show the next button
+                            this.buttonNext.display = true;
                         }
-                        // Otherwise show an X!
-                        else if (me.getQuestion() !== null) {
-                            me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
-                            me.buttonAgain.display = true;
+                        else {
+                            // Show the again button
+                            this.buttonAgain.display = true;
                         }
-                    });
+
+                        // And show a check
+                        this.entityAdd(new Check(this.textSign.x + 64, this.textSign.y - 32));
+                        this.entityAdd(new Check(this.textAnswer.x + 64, this.textAnswer.y - 32));
+                    }
+                    // Otherwise show an X!
+                    else if (this.getQuestion() !== null) {
+                        this.entityAdd(new X(this.textAnswer.x + 64, this.textAnswer.y - 32));
+                        this.buttonAgain.display = true;
+                    }
                 });
-            };
+            });
         };
 
         // Next button click event
         Play.prototype.clickNext = function() {
-            var me = this;
-            return function(event) {
-                this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
-                this.engine.changeScenes(this.name);
-            };
+            this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
+            this.engine.changeScenes(this.name);
         };
 
         // Again button click event
         Play.prototype.clickAgain = function() {
-            var me = this;
-            return function(event) {
-                me.reset();
-            };
+            this.reset();
         };
 
         // Rack up the given nums at the location given by the function getNumPos(index)
@@ -540,10 +531,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Menu button click event
         Play.prototype.clickMenu = function() {
-            var me = this;
-            return function(event) {
-                me.engine.changeScenes('Menu', require('menu'));
-            };
+            this.engine.changeScenes('Menu', require('menu'));
         };
 
         // Return the coords of a final static position for a number
