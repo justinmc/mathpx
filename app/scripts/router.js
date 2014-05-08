@@ -1,5 +1,5 @@
 /*global define, alert */
-define(['backbone', 'start', 'menu', 'about', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Start, Menu, About, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
+define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Start, Menu, About, MenuLearning, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -7,6 +7,7 @@ define(['backbone', 'start', 'menu', 'about', 'menuChallenges', 'menuChallengesQ
         routes: {
             '':                         'start',
             'main':                     'main',
+            'learning':                 'learning',
             'challenges':               'challenges',
             'challenges/add':           'challengesAdd',
             'challenges/add/play':      'challengesAddPlay',
@@ -37,6 +38,10 @@ define(['backbone', 'start', 'menu', 'about', 'menuChallenges', 'menuChallengesQ
 
         main: function() {
             this.changeSceneTo('Menu', Menu);
+        },
+
+        learning: function() {
+            this.changeSceneTo('MenuLearning', MenuLearning);
         },
 
         about: function() {

@@ -3,7 +3,7 @@
     The first, main menu
 */
 /*global define */
-define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, MenuLearning, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -51,7 +51,7 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
         Menu.prototype.clickLearning = function(event) {
             var me = this;
             return function(event) {
-                me.engine.changeScenes('MenuChallenges', MenuChallenges);
+                me.engine.changeScenes('MenuLearning', MenuLearning);
             };
         };
 
