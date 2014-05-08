@@ -29,9 +29,10 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
             this.entityAdd(new TextPx(centerX - 20, 70, 300, 'Main Menu'));
 
             // Create the buttons
-            this.entityAdd(new ButtonPx(centerX, 120, 'Challenges', this.clickChallenges()));
-            this.entityAdd(new ButtonPx(centerX, 200, 'Free Play', this.clickFree()));
-            this.entityAdd(new ButtonPx(centerX, 280, 'About Mathpx', this.clickAbout()));
+            this.entityAdd(new ButtonPx(centerX, 120, 'Learning', this.clickLearning()));
+            this.entityAdd(new ButtonPx(centerX, 200, 'Challenges', this.clickChallenges()));
+            this.entityAdd(new ButtonPx(centerX, 280, 'Free Play', this.clickFree()));
+            this.entityAdd(new ButtonPx(centerX, 360, 'About Mathpx', this.clickAbout()));
         }
 
         Menu.prototype.render = function(ctx, dt) {
@@ -46,7 +47,15 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
             };
         };
 
-        // Addition button click event
+        // Clicking the Learning button
+        Menu.prototype.clickLearning = function(event) {
+            var me = this;
+            return function(event) {
+                me.engine.changeScenes('MenuChallenges', MenuChallenges);
+            };
+        };
+
+        // Challenges button click
         Menu.prototype.clickChallenges = function(event) {
             var me = this;
             return function(event) {
@@ -54,7 +63,7 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
             };
         };
 
-        // About button click event
+        // About button click
         Menu.prototype.clickAbout = function(event) {
             var me = this;
             return function() {
@@ -62,7 +71,7 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
             };
         };
 
-        // Back button click event
+        // Back button click
         Menu.prototype.clickBack = function(event) {
             var me = this;
             return function() {
