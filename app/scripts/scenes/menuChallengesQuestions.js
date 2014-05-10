@@ -3,7 +3,7 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, ButtonPx, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
@@ -29,7 +29,10 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPxQ', '
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
 
-            // Create the buttons
+            // Create the mode button
+            this.entityAdd(new ButtonPx(this.engine.ctx.canvas.width - 250, 320, 'Quiz'));
+
+            // Create the problem buttons
             var me = this;
             this.questions.where({preset: true}).forEach(function(question, i) {
                 // Get the button text, question mark for unplayed, problem for played
