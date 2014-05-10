@@ -12,7 +12,7 @@ define([], function () {
         TextPx.prototype.font = '28px \'Press Start 2P\'';
         TextPx.prototype.fillStyle = 'rgb(255, 255, 255)';
 
-        function TextPx(x, y, width, text, font, fillStyle) {
+        function TextPx(x, y, width, text, font, fillStyle, textAlign) {
             if (!font) {
                 font = this.font;
             }
@@ -20,7 +20,7 @@ define([], function () {
                 fillStyle = this.fillStyle;
             }
 
-            TextPx.__super__.constructor.call(this, x, y, width, text, font, fillStyle);
+            TextPx.__super__.constructor.call(this, x, y, width, text, font, fillStyle, textAlign);
         }
 
         return TextPx;

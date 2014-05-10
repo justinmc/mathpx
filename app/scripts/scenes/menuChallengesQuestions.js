@@ -21,18 +21,13 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 
             this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk animation!
-            this.entityAdd(new ChalkTTT(550, 340));
+            this.entityAdd(new ChalkTTT(810, 250));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
             this.entityAdd(new ButtonBack(this.clickBack.bind(this)));
             this.entityAdd(new TextPxTitle());
             this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
-
-            // Create the mode button
-            this.entityAdd(new SpriteIcon(this.engine.ctx.canvas.width - 250, 350, 0, 0, function() {
-                console.log('lol');
-            }));
 
             // Create the problem buttons
             var me = this;
@@ -49,10 +44,12 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 
 
                 // Get the position of the button
                 var x = 200 + 160 * (i % 4);
-                var y = 200 + 70 * Math.floor(i / 4);
+                var y = 200 + 130 * Math.floor(i / 4);
 
-                // Add the button
-                me.entityAdd(new ButtonPxQ(x, y, problem, me.clickQuestion(question.get('id'))));
+                // Add the UI for the problem
+                me.entityAdd(new TextPx(x, y, 60, problem, null, null, 'center'));
+                me.entityAdd(new SpriteIcon(x - 40, y + 30, 0, 1, me.clickQuestion(question.get('id')))); 
+                me.entityAdd(new SpriteIcon(x + 14, y + 30, 0, 0, me.clickQuestion(question.get('id')))); 
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {
