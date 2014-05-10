@@ -3,7 +3,7 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, ButtonPx, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 'buttonPx', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, SpriteIcon, ButtonPx, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
@@ -30,8 +30,9 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'b
             this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
 
             // Create the mode button
-            spriteImage = $('img.gettable.gettable-icons').attr('src');
-            this.entityAdd(new hoopty.entities.Sprite(this.engine.ctx.canvas.width - 250, 350, 32, 32, spriteImage, 0, 0, 16, 16));
+            this.entityAdd(new SpriteIcon(this.engine.ctx.canvas.width - 250, 350, 0, 0, function() {
+                console.log('lol');
+            }));
 
             // Create the problem buttons
             var me = this;

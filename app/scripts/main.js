@@ -30,6 +30,7 @@ require.config({
         victoryAddNeg: 'scenes/victoryAddNeg',
         victorySubNeg: 'scenes/victorySubNeg',
         loading: 'scenes/loading',
+        spriteIcon: 'entities/spriteIcon',
         startChalk: 'entities/startChalk',
         chalkTTT: 'entities/chalkTTT',
         chalkHeart: 'entities/chalkHeart',
