@@ -29,7 +29,7 @@ define(['jquery'], function ($) {
             SpriteIcon.__super__.constructor.call(this, x, y, this.width, this.height, this.spriteSheet, spriteX, spriteY, this.spriteWidth, this.spriteHeight);
 
             // Add the click animation
-            this.spriteAnimationAdd('click', 0, 0, 3, 0.05);
+            this.spriteAnimationAdd('click', this.spriteX, this.spriteY, 3, 0.05);
         }
 
         SpriteIcon.prototype.render = function(ctx, dt) {
