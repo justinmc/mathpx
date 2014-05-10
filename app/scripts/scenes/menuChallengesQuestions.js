@@ -30,7 +30,8 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'buttonPx', 'b
             this.entityAdd(new TextPx(centerX - 120, 130, 800, this.title, '26px \'Press Start 2P\''));
 
             // Create the mode button
-            this.entityAdd(new ButtonPx(this.engine.ctx.canvas.width - 250, 320, 'Quiz'));
+            spriteImage = $('img.gettable.gettable-icons').attr('src');
+            this.entityAdd(new hoopty.entities.Sprite(this.engine.ctx.canvas.width - 250, 350, 32, 32, spriteImage, 0, 0, 16, 16));
 
             // Create the problem buttons
             var me = this;
