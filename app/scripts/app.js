@@ -55,8 +55,6 @@ define(['jquery', 'backbone', 'histories', 'router', 'start', 'num', 'numNeg', '
 
             // Start the engine
             this.engine = new hoopty.Engine(this.canvas, this.changeScenesCallback());
-            this.engine.sceneAdd(new hoopty.scenes.Loading(this.engine, urls, 'Start'), 'Loading');
-            this.engine.sceneAdd(new Start(this.engine), 'Start');
 
             // Start the router
             this.router = new Router(this.engine);

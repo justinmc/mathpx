@@ -113,7 +113,12 @@ define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 
 
             // Change to the scene via Loading
             if (!this.engine.scenes.hasOwnProperty(hoopty.scenes.Loading.name)) {
-                this.engine.sceneAdd(new hoopty.scenes.Loading(this.engine), hoopty.scenes.Loading.name, name);
+                var urls = [];
+                $('img').each(function(i, img) {
+                    urls.push($(img).attr('src'));
+                });
+                var loading = new hoopty.scenes.Loading(this.engine, urls, name);
+                this.engine.sceneAdd(loading, loading.name);
             }
             else {
                 this.engine.scenes.Loading.sceneNameChangeTo = name;
