@@ -14,6 +14,8 @@ define(['jquery', 'menuChallengesQuestions', 'playSub', 'chalkTTT', 'checkStatic
 
         MenuChallengesQuestionsSub.prototype.title = 'Simple Subtraction';
 
+        MenuChallengesQuestionsSub.prototype.Type = MenuChallengesQuestionsSub;
+
         function MenuChallengesQuestionsSub(engine, title, questions) {
             // Create the collection of problems
             this.questions = new Questions('questionsSubtraction');

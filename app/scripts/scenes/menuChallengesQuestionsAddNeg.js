@@ -13,6 +13,8 @@ define(['jquery', 'menuChallengesQuestions', 'playAddNeg', 'questions'], functio
 
         MenuChallengesQuestionsAddNeg.prototype.title = 'Addition with Negatives';
 
+        MenuChallengesQuestionsAddNeg.prototype.Type = MenuChallengesQuestionsAddNeg;
+
         function MenuChallengesQuestionsAddNeg(engine, title, questions) {
             // Create the collection of problems
             this.questions = new Questions('questionsAdditionNeg');

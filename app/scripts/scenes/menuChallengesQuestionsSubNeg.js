@@ -13,6 +13,8 @@ define(['jquery', 'menuChallengesQuestions', 'playSubNeg', 'questions'], functio
 
         MenuChallengesQuestionsSubNeg.prototype.title = 'Subtraction with Negatives';
 
+        MenuChallengesQuestionsSubNeg.prototype.Type = MenuChallengesQuestionsSubNeg;
+
         function MenuChallengesQuestionsSubNeg(engine, title, questions) {
             // Create the collection of problems
             this.questions = new Questions('questionsSubtractionNeg');

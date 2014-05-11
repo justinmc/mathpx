@@ -70,7 +70,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         Play.prototype.activeNumsA = [];
         Play.prototype.activeNumsANeg = [];
 
-        function Play(engine, questions, id) {
+        function Play(engine, questions, id, SceneBack) {
             Play.__super__.constructor.call(this, engine);
 
             // If we were given a set of questions, save them

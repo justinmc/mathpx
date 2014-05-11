@@ -12,13 +12,17 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
         PlayQuiz.prototype.name = 'PlayQuiz';
         PlayQuiz.prototype.route = 'quiz';
 
+        PlayQuiz.prototype.SceneBack = null;
+
         PlayQuiz.prototype.quiz = true;
 
         PlayQuiz.prototype.configLeft = 0;
         PlayQuiz.prototype.configRight = 0;
         PlayQuiz.prototype.configAnswer = 3;
 
-        function PlayQuiz(engine, questions, id) {
+        function PlayQuiz(engine, questions, id, SceneBack) {
+            this.SceneBack = SceneBack;
+
             // Create the reset function
             this.reset = function(engine, questions, id) {
                 this.engine.scenes[this.name] = new PlayQuiz(engine, questions, id);
@@ -54,7 +58,7 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
 
         // Menu button click event
         PlayQuiz.prototype.clickMenu = function() {
-            this.engine.changeScenes('MenuChallengesQuestionsAdd', require('menuChallengesQuestionsAdd'));
+            this.engine.changeScenes(this.SceneBack.name, this.SceneBack);
         };
 
         // Next button click event

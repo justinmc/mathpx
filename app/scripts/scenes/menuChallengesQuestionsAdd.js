@@ -14,6 +14,8 @@ define(['jquery', 'menuChallengesQuestions', 'playAdd', 'chalkTTT', 'checkStatic
 
         MenuChallengesQuestionsAdd.prototype.title = 'Simple Addition';
 
+        MenuChallengesQuestionsAdd.prototype.Type = MenuChallengesQuestionsAdd;
+
         function MenuChallengesQuestionsAdd(engine, title, questions) {
             // Create the collection of problems
             this.questions = new Questions('questionsAddition');

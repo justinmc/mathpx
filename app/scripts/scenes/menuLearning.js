@@ -3,7 +3,7 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -37,7 +37,8 @@ define(['jquery', 'play', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'te
 
         // On clicking the Play button
         MenuLearning.prototype.clickPlay = function() {
-            this.engine.changeScenes('Play', Play);
+            this.engine.scenes['PlayQuiz'] = new PlayQuiz(this.engine, null, null, MenuLearning); //this.questions, this.getQuestionIdNext());
+            this.engine.changeScenes('PlayQuiz');
         };
 
         // Back button click
