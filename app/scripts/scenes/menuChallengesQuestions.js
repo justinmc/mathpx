@@ -3,7 +3,7 @@
     The challenge question selection menu
 */
 /*global define */
-define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 'buttonPx', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayAdd, ChalkTTT, TextPx, TextPxTitle, SpriteIcon, ButtonPx, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
+define(['jquery', 'playQuiz', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 'buttonPx', 'buttonPxQ', 'buttonBack', 'checkStatic', 'questions'], function ($, PlayQuiz, PlayAdd, ChalkTTT, TextPx, TextPxTitle, SpriteIcon, ButtonPx, ButtonPxQ, ButtonBack, CheckStatic, Questions) {
     'use strict';
 
     return (function() {
@@ -49,7 +49,7 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 
                 // Add the UI for the problem
                 me.entityAdd(new TextPx(x, y, 60, problem, null, null, 'center'));
                 me.entityAdd(new SpriteIcon(x - 40, y + 30, 0, 1, me.clickQuestion(question.get('id')))); 
-                me.entityAdd(new SpriteIcon(x + 14, y + 30, 0, 0, me.clickQuestion(question.get('id')))); 
+                me.entityAdd(new SpriteIcon(x + 14, y + 30, 0, 0, me.clickQuestionQuiz(question.get('id')))); 
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {
@@ -71,6 +71,14 @@ define(['jquery', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 'spriteIcon', 
             return function(index) {
                 this.engine.sceneAdd(new PlayAdd(this.engine, this.questions, index), 'PlayAdd');
                 this.engine.changeScenes('PlayAdd');
+            }.bind(this, index);
+        };
+
+        // Click on a quiz problem event
+        MenuChallengesQuestions.prototype.clickQuestionQuiz = function(index) {
+            return function(index) {
+                this.engine.sceneAdd(new PlayQuiz(this.engine, this.questions, index), 'PlayQuiz');
+                this.engine.changeScenes('PlayQuiz');
             }.bind(this, index);
         };
 

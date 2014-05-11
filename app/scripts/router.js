@@ -1,5 +1,5 @@
 /*global define, alert */
-define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Start, Menu, About, MenuLearning, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
+define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'playQuiz', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function (Backbone, Start, Menu, About, MenuLearning, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, PlayQuiz, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -11,16 +11,21 @@ define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 
             'challenges':               'challenges',
             'challenges/add':           'challengesAdd',
             'challenges/add/play':      'challengesAddPlay',
+            'challenges/add/quiz':      'quiz',
             'challenges/add/victory':   'victoryAdd',
             'challenges/sub':           'challengesSub',
             'challenges/sub/play':      'challengesSubPlay',
+            'challenges/sub/quiz':      'quiz',
             'challenges/sub/victory':   'victorySub',
             'challenges/addneg':        'challengesAddNeg',
             'challenges/addneg/play':   'challengesAddNegPlay',
+            'challenges/addneg/quiz':      'quiz',
             'challenges/addneg/victory':'victoryAddNeg',
             'challenges/subneg':        'challengesSubNeg',
             'challenges/subneg/play':   'challengesSubNegPlay',
+            'challenges/subneg/quiz':      'quiz',
             'challenges/subneg/victory':'victorySubNeg',
+            'quiz':                     'quiz',
             'play':                     'play',
             'free':                     'free',
             'about':                    'about',
@@ -82,6 +87,10 @@ define(['backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 
 
         challengesSubNegPlay: function() {
             this.changeSceneTo('PlaySubNeg', PlaySubNeg);
+        },
+
+        quiz: function() {
+            this.changeSceneTo('PlayQuiz', PlayQuiz);
         },
 
         play: function() {

@@ -24,9 +24,14 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         // 0 = auto
         // 1 = user controlled positive
         // 2 = user controlled positive and negative
+        // 3 = user controlled direct input (quiz)
         Play.prototype.configLeft = 2;
         Play.prototype.configRight = 2;
         Play.prototype.configAnswer = 0;
+
+        // Quiz
+        Play.prototype.quiz = false;
+        Play.prototype.quizAnswerSelected = 0;
 
         // UI
         Play.prototype.textLeft = null;
@@ -123,6 +128,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             this.buttonNext.display = false;
             this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain.bind(this), 60, 40, 'rgb(190, 190, 227)'));
             this.buttonAgain.display = false;
+            this.quizInput = this.entityAdd(new hoopty.entities.TextInput(Math.round(2 * this.engine.ctx.canvas.width / 3) + 120, 10, 90, 38, '0', '24px \'Press Start 2P\'', null, null, null, null, 'rgb(191, 231, 178)', 'number'));
 
             // Create all possible toolbar entities 
             this.toolbarNumLText = this.entityAdd(new TextPx(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
@@ -215,20 +221,26 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                 else if (this.configAnswer === 0) {
                     this.textAnswer.text = leftCount + rightCount;
                 }
+                else if (this.configAnswer === 3) {
+                    this.textAnswer.text = '';
+                    this.quizInput.display = true;
+                }
                 else {
                     this.textAnswer.text = this.activeNumsA.length - this.activeNumsANeg.length;
                 }
             }
 
             // Render the count nums
-            if (this.configAnswer === 0) {
-                this.setupNums(this.answerNums, this.answerNumsNeg, leftCount + rightCount);
-            }
-            if (this.configLeft === 0) {
-                this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get('numL'));
-            }
-            if (this.configRight === 0) {
-                this.setupNums(this.questionNumsR, this.questionNumsNegR, this.getQuestion().get('numR'));
+            if (!this.quiz) {
+                if (this.configAnswer === 0) {
+                    this.setupNums(this.answerNums, this.answerNumsNeg, leftCount + rightCount);
+                }
+                if (this.configLeft === 0) {
+                    this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get('numL'));
+                }
+                if (this.configRight === 0) {
+                    this.setupNums(this.questionNumsR, this.questionNumsNegR, this.getQuestion().get('numR'));
+                }
             }
 
             // Render entities
@@ -244,7 +256,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Setup a given left/right/answer section UI
         Play.prototype.setupUISection = function(config, num, numNeg, numText, numNegText, trash) {
-            if (config === 0) {
+            if (config === 0 || config === 3) {
                 num.display = false;
                 numNeg.display = false;
                 numText.text = '';

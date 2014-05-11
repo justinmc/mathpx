@@ -14,6 +14,7 @@ require.config({
         playAddNeg: 'scenes/playAddNeg',
         playSub: 'scenes/playSub',
         playSubNeg: 'scenes/playSubNeg',
+        playQuiz: 'scenes/playQuiz',
         start: 'scenes/start',
         about: 'scenes/about',
         menu: 'scenes/menu',
