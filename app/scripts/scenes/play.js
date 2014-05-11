@@ -32,6 +32,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         // Quiz
         Play.prototype.quiz = false;
         Play.prototype.quizAnswerSelected = 0;
+        Play.prototype.quizInput = null;
 
         // UI
         Play.prototype.textLeft = null;
@@ -129,6 +130,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain.bind(this), 60, 40, 'rgb(190, 190, 227)'));
             this.buttonAgain.display = false;
             this.quizInput = this.entityAdd(new hoopty.entities.TextInput(Math.round(2 * this.engine.ctx.canvas.width / 3) + 120, 10, 90, 38, '0', '24px \'Press Start 2P\'', null, null, null, null, 'rgb(191, 231, 178)', 'number'));
+            this.quizInput.display = this.quiz;
 
             // Create all possible toolbar entities 
             this.toolbarNumLText = this.entityAdd(new TextPx(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
@@ -223,7 +225,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                 }
                 else if (this.configAnswer === 3) {
                     this.textAnswer.text = '';
-                    this.quizInput.display = true;
                 }
                 else {
                     this.textAnswer.text = this.activeNumsA.length - this.activeNumsANeg.length;
@@ -231,9 +232,16 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             }
 
             // Render the count nums
-            if (!this.quiz) {
-                if (this.configAnswer === 0) {
-                    this.setupNums(this.answerNums, this.answerNumsNeg, leftCount + rightCount);
+            if (!this.quiz || !this.modePlay) {
+                if (this.configAnswer === 0 || this.configAnswer === 3) {
+                    var countAnswer;
+                    if (this.getQuestion()) {
+                        countAnswer = this.getQuestion().getAnswer();
+                    }
+                    else {
+                        countAnswer = leftCount + rightCount;
+                    }
+                    this.setupNums(this.answerNums, this.answerNumsNeg, countAnswer);
                 }
                 if (this.configLeft === 0) {
                     this.setupNums(this.questionNumsL, this.questionNumsNegL, this.getQuestion().get('numL'));
@@ -366,19 +374,38 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Go button click event
         Play.prototype.clickGo = function() {
-            // Remove the UI numbers
-            this.modeChangeReview();
 
-            // Get the correct numbers to animate
+            // Change number bar to review mode
             var numsL = this.activeNumsL.concat(this.getNumsRacked(this.questionNumsL));
             var numsLNeg = this.activeNumsLNeg.concat(this.getNumsRacked(this.questionNumsNegL));
             var numsR = this.activeNumsR.concat(this.getNumsRacked(this.questionNumsR));
             var numsRNeg = this.activeNumsRNeg.concat(this.getNumsRacked(this.questionNumsNegR));
+            var numsA = this.activeNumsA.concat(this.getNumsRacked(this.questionNumsA));
+            var numsANeg = this.activeNumsANeg.concat(this.getNumsRacked(this.questionNumsNegA));
+            var leftCount = numsL.length - numsLNeg.length + numsR.length - numsRNeg.length;
+            this.modeChangeReview(leftCount);
+
+            // Check the guess with the answer, save the result, and show the x's or checks
+            var answerCount;
+            if (this.quiz) {
+                answerCount = parseInt(this.quizInput.input.value);
+            }
+            else {
+                answerCount = numsA.length - numsANeg.length;
+            }
+            this.checkAnswer(answerCount);
+
+            // Show racked numbers if needed and run annihilation/racking animation
+            this.runFinalNumAnimation(numsL, numsLNeg, numsR, numsRNeg, numsA, numsANeg);
+        };
+
+        // Run the final animation for the nums
+        Play.prototype.runFinalNumAnimation = function(numsL, numsLNeg, numsR, numsRNeg, numsA, numsANeg) {
 
             // Annihilate all active pos/neg nums in left and right and answer
             var deferreds = this.sectionAnnihilate(numsL, numsLNeg);
             deferreds.concat(this.sectionAnnihilate(numsR, numsRNeg));
-            deferreds.concat(this.sectionAnnihilate(this.activeNumsA, this.activeNumsANeg));
+            deferreds.concat(this.sectionAnnihilate(numsA, numsANeg));
 
             // After left/right have annihilated individually, annihilate between left and right
             var me = this;
@@ -413,31 +440,30 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                 $.when.apply($, deferreds2).then(function() {
                     // Rack the L/R nums
                     var numsLRRack = numsLR;
-                    var sign = 1;
                     if (numsLRNeg.length) {
                         numsLRRack = numsLRNeg;
-                        sign = -1;
                     }
-                    var valueLR = numsLRRack.length;
                     me.sectionRack(numsLRRack, me.getNumPosLeft);
 
                     // Rack the answer nums
-                    var numsARack, answer;
-                    if (me.activeNumsA.length) {
-                        numsARack = me.activeNumsA;
-                        answer = numsARack.length;
-                    }
-                    else {
-                        numsARack = me.activeNumsANeg;
-                        answer = -1 * numsARack.length;
-                    }
-                    me.sectionRack(numsARack, me.getNumPosAnswer);
+                    var numsAAnnihilated = numsA.length ? numsA : numsANeg;
+                    me.sectionRack(numsAAnnihilated, me.getNumPosAnswer);
 
-                    // Change the UI to the final mode
-                    me.buttonGo.display = false;
-                    me.textLeft.text = '';
-                    me.textSign.text = sign * valueLR;
-                    me.textRight.text = '';
+                    /*
+                    // Get the guess answer
+                    if (!me.quiz) {
+                        var numsARack;
+                        if (me.activeNumsA.length) {
+                            numsARack = me.activeNumsA;
+                            answer = numsARack.length;
+                        }
+                        else {
+                            numsARack = me.activeNumsANeg;
+                            answer = -1 * numsARack.length;
+                        }
+                        // Rack the answer nums
+                        me.sectionRack(numsARack, me.getNumPosAnswer);
+                    }
 
                     // If the question was correct or there was no question
                     if ((me.getQuestion() === null) || ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer()))) {
@@ -465,8 +491,39 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                         me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
                         me.buttonAgain.display = true;
                     }
+                    */
                 });
             });
+        };
+
+        // Check the result of the question and save it, and show the checks or x's
+        Play.prototype.checkAnswer = function(guess) {
+            // If the question was correct or there was no question (aka free play)
+            if ((this.getQuestion() === null) || ((this.getQuestion() !== null) && (guess === this.getQuestion().getAnswer()))) {
+                // Set the timeEnd on the question if there is a question
+                if (this.getQuestion() !== null) {
+                    this.getQuestion().set('timeEnd', new Date().getTime());
+                    if (typeof this.questions.localStorage !== 'undefined') {
+                        this.getQuestion().save();
+                    }
+
+                    // Show the next button
+                    this.buttonNext.display = true;
+                }
+                else {
+                    // Show the again button
+                    this.buttonAgain.display = true;
+                }
+
+                // And show a check
+                this.entityAdd(new Check(this.textSign.x + 64, this.textSign.y - 32));
+                this.entityAdd(new Check(this.textAnswer.x + 64, this.textAnswer.y - 32));
+            }
+            // Otherwise if there was a question, show an X!
+            else if (this.getQuestion() !== null) {
+                this.entityAdd(new X(this.textAnswer.x + 64, this.textAnswer.y - 32));
+                this.buttonAgain.display = true;
+            }
         };
 
         // Next button click event
@@ -616,15 +673,18 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         };
 
         // Change the UI to review mode, for when an answer has been submitted
-        Play.prototype.modeChangeReview = function() {
+        Play.prototype.modeChangeReview = function(leftCount) {
             this.modePlay = false;
             this.buttonGo.display = false;
-            this.textLeft.text = '';
-            this.textSign.text = '';
-            this.textRight.text = '';
 
-            // Inactivate nums so the user can no longer move/create stuff
-            this.numsInactivate();
+            if (!this.quiz) {
+                this.textLeft.text = '';
+                this.textSign.text = leftCount;
+                this.textRight.text = '';
+
+                // Inactivate nums so the user can no longer move/create stuff
+                this.numsInactivate();
+            }
         };
 
         // Inactivate all nums so the user can't keep playing around
