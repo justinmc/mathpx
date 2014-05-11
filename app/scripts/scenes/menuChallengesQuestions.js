@@ -48,8 +48,8 @@ define(['jquery', 'playQuiz', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 's
 
                 // Add the UI for the problem
                 me.entityAdd(new TextPx(x, y, 60, problem, null, null, 'center'));
-                me.entityAdd(new SpriteIcon(x - 40, y + 30, 0, 1, me.clickQuestion(question.get('id')))); 
-                me.entityAdd(new SpriteIcon(x + 14, y + 30, 0, 0, me.clickQuestionQuiz(question.get('id')))); 
+                me.entityAdd(new SpriteIcon(x - 40, y + 30, 0, 1, me.clickQuestion(question.get('id'))));
+                me.entityAdd(new SpriteIcon(x + 14, y + 30, 0, 0, me.clickQuestionQuiz(question.get('id'))));
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {

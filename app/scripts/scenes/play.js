@@ -388,7 +388,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             // Check the guess with the answer, save the result, and show the x's or checks
             var answerCount;
             if (this.quiz) {
-                answerCount = parseInt(this.quizInput.input.value);
+                answerCount = parseInt(this.quizInput.input.value, 10);
             }
             else {
                 answerCount = numsA.length - numsANeg.length;
