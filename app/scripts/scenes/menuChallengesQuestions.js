@@ -53,7 +53,10 @@ define(['jquery', 'playQuiz', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 's
 
                 // Add a check if the question is complete
                 if (question.has('timeEnd')) {
-                    me.entityAdd(new CheckStatic(x + 85, y - 25));
+                    me.entityAdd(new CheckStatic(x - 55, y + 15));
+                }
+                if (question.has('timeEndQuiz')) {
+                    me.entityAdd(new CheckStatic(x, y + 15));
                 }
             });
         }

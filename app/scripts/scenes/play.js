@@ -448,50 +448,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                     // Rack the answer nums
                     var numsAAnnihilated = numsA.length ? numsA : numsANeg;
                     me.sectionRack(numsAAnnihilated, me.getNumPosAnswer);
-
-                    /*
-                    // Get the guess answer
-                    if (!me.quiz) {
-                        var numsARack;
-                        if (me.activeNumsA.length) {
-                            numsARack = me.activeNumsA;
-                            answer = numsARack.length;
-                        }
-                        else {
-                            numsARack = me.activeNumsANeg;
-                            answer = -1 * numsARack.length;
-                        }
-                        // Rack the answer nums
-                        me.sectionRack(numsARack, me.getNumPosAnswer);
-                    }
-
-                    // If the question was correct or there was no question
-                    if ((me.getQuestion() === null) || ((me.getQuestion() !== null) && (answer === me.getQuestion().getAnswer()))) {
-                        // Set the timeEnd on the question if there is a question
-                        if (me.getQuestion() !== null) {
-                            me.getQuestion().set('timeEnd', new Date().getTime());
-                            if (typeof me.questions.localStorage !== 'undefined') {
-                                me.getQuestion().save();
-                            }
-
-                            // Show the next button
-                            me.buttonNext.display = true;
-                        }
-                        else {
-                            // Show the again button
-                            me.buttonAgain.display = true;
-                        }
-
-                        // And show a check
-                        me.entityAdd(new Check(me.textSign.x + 64, me.textSign.y - 32));
-                        me.entityAdd(new Check(me.textAnswer.x + 64, me.textAnswer.y - 32));
-                    }
-                    // Otherwise show an X!
-                    else if (me.getQuestion() !== null) {
-                        me.entityAdd(new X(me.textAnswer.x + 64, me.textAnswer.y - 32));
-                        me.buttonAgain.display = true;
-                    }
-                    */
                 });
             });
         };
@@ -502,7 +458,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             if ((this.getQuestion() === null) || ((this.getQuestion() !== null) && (guess === this.getQuestion().getAnswer()))) {
                 // Set the timeEnd on the question if there is a question
                 if (this.getQuestion() !== null) {
-                    this.getQuestion().set('timeEnd', new Date().getTime());
+                    this.getQuestion().end(this.quiz);
                     if (typeof this.questions.localStorage !== 'undefined') {
                         this.getQuestion().save();
                     }

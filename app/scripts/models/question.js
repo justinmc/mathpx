@@ -14,6 +14,7 @@ define(['backbone'], function (Backbone) {
             numR: 0,
             timeStart: null,
             timeEnd: null,
+            timeEndQuiz: null,
             preset: false,
         },
 
@@ -24,8 +25,14 @@ define(['backbone'], function (Backbone) {
             this.timeStart = new Date().getTime();
         },
 
-        end: function() {
-            this.timeEnd = new Date().getTime();
+        end: function(quiz) {
+            var timeEnd = new Date().getTime();
+            if (quiz) {
+                this.set('timeEndQuiz', timeEnd);
+            }
+            else {
+                this.set('timeEnd', timeEnd);
+            }
         },
 
         getAnswer: function() {
