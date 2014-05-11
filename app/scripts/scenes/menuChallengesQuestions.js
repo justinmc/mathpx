@@ -80,7 +80,9 @@ define(['jquery', 'playQuiz', 'playAdd', 'chalkTTT', 'textPx', 'textPxTitle', 's
         // Click on a quiz problem event
         MenuChallengesQuestions.prototype.clickQuestionQuiz = function(index) {
             return function(index) {
-                this.engine.sceneAdd(new PlayQuiz(this.engine, this.questions, index, this.Type), 'PlayQuiz');
+                var playQuiz = new PlayQuiz(this.engine, this.questions, index, this.Type);
+                playQuiz.route = this.route + '/quiz';
+                this.engine.sceneAdd(playQuiz, 'PlayQuiz');
                 this.engine.changeScenes('PlayQuiz');
             }.bind(this, index);
         };
