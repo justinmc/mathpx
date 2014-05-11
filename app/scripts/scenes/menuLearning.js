@@ -3,13 +3,16 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, Play, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
     'use strict';
 
     return (function() {
         hoopty.scenes.Scene.extend(MenuLearning);
 
         MenuLearning.prototype.name = 'MenuLearning';
+        MenuLearning.prototype.route = '/learning';
+
+        MenuLearning.prototype.questions = null;
 
         function MenuLearning(engine) {
             MenuLearning.__super__.constructor.call(this, engine);
@@ -29,16 +32,36 @@ define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', '
 
             // Create the big play button
             this.entityAdd(new ButtonPx(centerX, 360, 'Play!', this.clickPlay.bind(this)));
+
+            // Create the question collection
+            this.questions = new Questions('questionsLearning');
+            this.questions.fetch();
+            if (!this.questions.length) {
+                this.questions.reset();
+                this.createQuestion();
+            }
         }
 
         MenuLearning.prototype.render = function(ctx, dt) {
             MenuLearning.__super__.render.call(this, ctx, dt);
         };
 
-        // On clicking the Play button
+        // Intelligently create a new question for the user
+        MenuLearning.prototype.createQuestion = function() {
+            this.questions.createAddition();
+        };
+
+        // On clicking the Play button, create a new question and start playing with it
         MenuLearning.prototype.clickPlay = function() {
-            this.engine.scenes['PlayQuiz'] = new PlayQuiz(this.engine, null, null, MenuLearning); //this.questions, this.getQuestionIdNext());
-            this.engine.changeScenes('PlayQuiz');
+            var question = this.questions.createIntelligent();
+            this.engine.scenes['Play'] = new Play(this.engine, this.questions, question.get('id'), MenuLearning);
+            this.engine.scenes['Play'].route = '/learning/play';
+            this.engine.scenes['Play'].learning = true;
+            this.engine.scenes['Play'].configLeft = 0;
+            this.engine.scenes['Play'].configRight = 0;
+            this.engine.scenes['Play'].configAnswer = 2;
+            this.engine.scenes['Play'].setupUI();
+            this.engine.changeScenes('Play');
         };
 
         // Back button click

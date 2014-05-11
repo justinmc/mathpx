@@ -27,7 +27,25 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
             });
 
             return complete;
-        }
+        },
+
+        // Intelligently create a new question and add it and return it
+        createIntelligent: function() {
+            var left = Math.floor(Math.random() * 5);
+            var right = Math.floor(Math.random() * 5);
+            return this.create({numL: left, numR: right, preset: true});
+        },
+
+        // Intelligently get the next question to play
+        getNextIntelligent: function() {
+            var unanswered = this.findWhere({timeEnd: null});
+            if (unanswered) {
+                return this.createIntelligent();
+            }
+            else {
+                return unsanswered;
+            }
+        },
     });
 
 });

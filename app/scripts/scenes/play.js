@@ -19,6 +19,9 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         // True for play mode, false for done
         Play.prototype.modePlay = true;
 
+        // If playing a learning mode game
+        Play.prototype.learning = false;
+
         // UI Config
         // -1 = user controlled negative
         // 0 = auto
@@ -210,6 +213,13 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
             var leftCount = this.activeNumsL.length - this.activeNumsLNeg.length;
             var rightCount = this.activeNumsR.length - this.activeNumsRNeg.length;
+
+            if (this.configLeft === 0) {
+                leftCount = this.getQuestion().get('numL');
+            }
+            if (this.configRight === 0) {
+                rightCount = this.getQuestion().get('numR');
+            }
 
             // If playing, update the UI
             if (this.modePlay) {
@@ -484,8 +494,22 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Next button click event
         Play.prototype.clickNext = function() {
-            this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
-            this.engine.changeScenes(this.name);
+            // For not learning mode, simply get the next unanswered question in the set
+            if (!this.learning) {
+                this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
+                this.engine.changeScenes(this.name);
+            }
+            // For learning mode, get the next question intelligently
+            else {
+                var qNext = this.questions.getNextIntelligent();
+                if (qNext.get('timeEnd')) {
+                    this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'));
+                }
+                else {
+                    this.engine.scenes[this.name] = new Play(this.engine, this.questions, qNext.get('id'));
+                }
+                this.engine.changeScenes(this.name);
+            }
         };
 
         // Again button click event

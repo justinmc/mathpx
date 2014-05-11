@@ -38,7 +38,6 @@ define(['backbone'], function (Backbone) {
         getAnswer: function() {
             return parseInt(this.get('numL'), 10) + parseInt(this.get('numR'), 10);
         },
-
     });
 
 });
