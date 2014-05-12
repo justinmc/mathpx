@@ -3,7 +3,7 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, Play, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
+define(['jquery', 'playLearning', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
     'use strict';
 
     return (function() {
@@ -54,14 +54,8 @@ define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', '
         // On clicking the Play button, create a new question and start playing with it
         MenuLearning.prototype.clickPlay = function() {
             var question = this.questions.createIntelligent();
-            this.engine.scenes['Play'] = new Play(this.engine, this.questions, question.get('id'), MenuLearning);
-            this.engine.scenes['Play'].route = '/learning/play';
-            this.engine.scenes['Play'].learning = true;
-            this.engine.scenes['Play'].configLeft = 0;
-            this.engine.scenes['Play'].configRight = 0;
-            this.engine.scenes['Play'].configAnswer = 2;
-            this.engine.scenes['Play'].setupUI();
-            this.engine.changeScenes('Play');
+            this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, question.get('id'), MenuLearning);
+            this.engine.changeScenes('PlayLearning');
         };
 
         // Back button click

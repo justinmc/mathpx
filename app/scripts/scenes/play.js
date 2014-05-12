@@ -503,10 +503,10 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             else {
                 var qNext = this.questions.getNextIntelligent();
                 if (qNext.get('timeEnd')) {
-                    this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'));
+                    this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'), this.SceneBack);
                 }
                 else {
-                    this.engine.scenes[this.name] = new Play(this.engine, this.questions, qNext.get('id'));
+                    this.engine.scenes[this.name] = new Play(this.engine, this.questions, qNext.get('id'), this.SceneBack);
                 }
                 this.engine.changeScenes(this.name);
             }
