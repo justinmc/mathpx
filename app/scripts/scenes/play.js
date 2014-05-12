@@ -469,9 +469,6 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                 // Set the timeEnd on the question if there is a question
                 if (this.getQuestion() !== null) {
                     this.getQuestion().end(this.quiz);
-                    if (typeof this.questions.localStorage !== 'undefined') {
-                        this.getQuestion().save();
-                    }
 
                     // Show the next button
                     this.buttonNext.display = true;
@@ -489,6 +486,13 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             else if (this.getQuestion() !== null) {
                 this.entityAdd(new X(this.textAnswer.x + 64, this.textAnswer.y - 32));
                 this.buttonAgain.display = true;
+
+                // Save the fact that the user failed
+                this.getQuestion().fail(this.quiz);
+            }
+
+            if (typeof this.questions.localStorage !== 'undefined') {
+                this.getQuestion().save();
             }
         };
 

@@ -15,6 +15,8 @@ define(['backbone'], function (Backbone) {
             timeStart: null,
             timeEnd: null,
             timeEndQuiz: null,
+            fails: 0,
+            failsQuiz: 0,
             preset: false,
         },
 
@@ -32,6 +34,15 @@ define(['backbone'], function (Backbone) {
             }
             else {
                 this.set('timeEnd', timeEnd);
+            }
+        },
+
+        fail: function(quiz) {
+            if (quiz) {
+                this.set('failsQuiz', this.get('failsQuiz') + 1);
+            }
+            else {
+                this.set('fails', this.get('fails') + 1);
             }
         },
 
