@@ -38,14 +38,39 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
 
         // Intelligently get the next question to play
         getNextIntelligent: function() {
+            // Check status on addition of positives
+            console.log(this.getStatusAdd());
+
+            // If an unanswered question exists, get that
             var unanswered = this.findWhere({timeEnd: null});
             if (unanswered) {
-                return this.createIntelligent();
+                return unanswered;
             }
             else {
-                return unsanswered;
+                return this.createIntelligent();
             }
         },
+
+        // Returns true if this set has good results in addition, false otherwise
+        getStatusAdd: function() {
+            var score = 0;
+            this.forEach(function(model) {
+                // If this is the correct type of problem
+                if (model.get('numL') >= 0 && model.get('numR') >= 0) {
+                    // If it was answered correctly, add 2
+                    if (model.get('timeEnd')) {
+                        score = score + 2;
+                    }
+
+                    // If it was failed at least once, subtract 1
+                    if (model.get('fails')) {
+                        score--;
+                    }
+                }
+            });
+
+            return score >= 6;
+        }
     });
 
 });
