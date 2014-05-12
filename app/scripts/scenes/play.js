@@ -494,22 +494,9 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
 
         // Next button click event
         Play.prototype.clickNext = function() {
-            // For not learning mode, simply get the next unanswered question in the set
-            if (!this.learning) {
-                this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
-                this.engine.changeScenes(this.name);
-            }
-            // For learning mode, get the next question intelligently
-            else {
-                var qNext = this.questions.getNextIntelligent();
-                if (qNext.get('timeEnd')) {
-                    this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'), this.SceneBack);
-                }
-                else {
-                    this.engine.scenes[this.name] = new Play(this.engine, this.questions, qNext.get('id'), this.SceneBack);
-                }
-                this.engine.changeScenes(this.name);
-            }
+            // Get the next unanswered question in the set
+            this.engine.scenes[this.name] = new Play(this.engine, this.questions, this.getQuestionIdNext());
+            this.engine.changeScenes(this.name);
         };
 
         // Again button click event
