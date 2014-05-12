@@ -47,7 +47,6 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
         // Next button click event
         PlayLearning.prototype.clickNext = function() {
             var qNext = this.questions.getNextIntelligent();
-            console.log(this.questions, qNext);
             if (qNext.get('timeEnd')) {
                 this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'), this.SceneBack);
             }

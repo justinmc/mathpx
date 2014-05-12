@@ -38,7 +38,7 @@ define(['jquery', 'playLearning', 'playQuiz', 'menuChallenges', 'about', 'chalkH
             this.questions.fetch();
             if (!this.questions.length) {
                 this.questions.reset();
-                this.createQuestion();
+                this.getNextIntelligent();
             }
         }
 
@@ -46,16 +46,20 @@ define(['jquery', 'playLearning', 'playQuiz', 'menuChallenges', 'about', 'chalkH
             MenuLearning.__super__.render.call(this, ctx, dt);
         };
 
-        // Intelligently create a new question for the user
-        MenuLearning.prototype.createQuestion = function() {
-            this.questions.createIntelligent();
-        };
-
         // On clicking the Play button, create a new question and start playing with it
         MenuLearning.prototype.clickPlay = function() {
-            var question = this.questions.createIntelligent();
-            this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, question.get('id'), MenuLearning);
-            this.engine.changeScenes('PlayLearning');
+            var question = this.questions.getNextIntelligent();
+
+            // If the question has been answered correctly already, do a quiz version
+            if (question.get('timeEnd')) {
+                this.engine.scenes['PlayQuiz'] = new PlayQuiz(this.engine, this.questions, question.get('id'), MenuLearning);
+                this.engine.changeScenes('PlayQuiz');
+            }
+            // Otherwise use the question normally
+            else {
+                this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, question.get('id'), MenuLearning);
+                this.engine.changeScenes('PlayLearning');
+            }
         };
 
         // Back button click

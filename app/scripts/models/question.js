@@ -49,6 +49,46 @@ define(['backbone'], function (Backbone) {
         getAnswer: function() {
             return parseInt(this.get('numL'), 10) + parseInt(this.get('numR'), 10);
         },
+
+        // Return the score
+        getScore: function(quiz) {
+            var score = 0;
+
+            // If it was answered correctly, add 2
+            if (this.isEnded(quiz)) {
+                score = score + 2;
+            }
+
+            // If it was failed, subtract 1 for 1 fail, or 2 for 2 or more fails
+            if (this.getFails(quiz) >= 1) {
+                score--; 
+            }
+            if (this.getFails(quiz) >= 2) {
+                score--; 
+            }
+
+            return score;
+        },
+
+        // Returns true if ended, false otherwise
+        isEnded: function(quiz) {
+            if (quiz) {
+                return !!this.get('timeEndQuiz');
+            }
+            else {
+                return !!this.get('timeEnd');
+            }
+        },
+
+        // Returns fails or failsQuiz
+        getFails: function(quiz) {
+            if (quiz) {
+                return this.get('failsQuiz');
+            }
+            else {
+                return this.get('fails');
+            }
+        }
     });
 
 });
