@@ -48,7 +48,7 @@ define(['jquery', 'play', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', '
 
         // Intelligently create a new question for the user
         MenuLearning.prototype.createQuestion = function() {
-            this.questions.createAddition();
+            this.questions.createIntelligent();
         };
 
         // On clicking the Play button, create a new question and start playing with it
