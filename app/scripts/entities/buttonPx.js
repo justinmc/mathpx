@@ -23,7 +23,8 @@ define(['jquery'], function ($) {
 
         ButtonPx.prototype.clickedAgo = 0;
         ButtonPx.prototype.clickedStage = 0;
-        ButtonPx.prototype.event = null;
+
+        ButtonPx.prototype.pressed = false;
 
         function ButtonPx(x, y, text, callback, width, height, fillStyle) {
             if (!width) {
@@ -37,37 +38,23 @@ define(['jquery'], function ($) {
             }
 
             ButtonPx.__super__.constructor.call(this, x, y, width, height, text, this.font, fillStyle, callback, this.padding, this.strokeStyle);
+
+            // Set up pressed/depressed states
+            this.yPressed = this.y + this.pressOffset;
+            this.dOffsetPressed = this.dOffset - this.pressOffset;
+            this.yDepressed = this.y;
+            this.dOffsetDepressed = this.dOffset;
         }
 
         ButtonPx.prototype.render = function(ctx, dt) {
-            // Just clicked, press
-            if (this.clickedStage === 1) {
-                this.clickedAgo += dt;
-                this.y += this.pressOffset;
-                this.dOffset -= this.pressOffset;
-                this.clickedStage = 2;
+            // Set button pressed/depressed state
+            if (this.pressed) {
+                this.y = this.yPressed;
+                this.dOffset = this.dOffsetPressed;
             }
-            // Keep pressed for half of duration
-            else if (this.clickedStage === 2) {
-                this.clickedAgo += dt;
-
-                if (this.clickedAgo >= this.clickDuration / 2) {
-                    this.clickedStage = 3;
-                }
-            }
-            // Depress
-            else if (this.clickedStage === 3) {
-                this.clickedAgo += dt;
-                this.y -= this.pressOffset;
-                this.dOffset += this.pressOffset;
-
-                if (this.clickedAgo >= this.clickDuration) {
-                    this.clickedStage = 4;
-                }
-            }
-            // Call callback and be done
-            else if (this.clickedStage === 4) {
-                this.callback(this.event);
+            else {
+                this.y = this.yDepressed;
+                this.dOffset = this.dOffsetDepressed;
             }
 
             // Draw the button
@@ -109,10 +96,17 @@ define(['jquery'], function ($) {
         };
 
         // ButtonPx click event, has to check if click was inside the button!
-        ButtonPx.prototype.click = function(event, scene) {
+        ButtonPx.prototype.mousedown = function(event, scene) {
             if (hoopty.scenes.Scene.isInside(scene.getEventCoords(event), this) && this.display) {
-                this.event = event;
-                this.clickedStage = 1;
+                this.pressed = true;
+            }
+        };
+
+        // ButtonPx click event, has to check if click was inside the button!
+        ButtonPx.prototype.mouseup = function(event, scene) {
+            if (this.pressed) {
+                this.pressed = false;
+                this.callback(event);
             }
         };
 
