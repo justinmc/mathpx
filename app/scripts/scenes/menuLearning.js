@@ -3,7 +3,7 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'playLearning', 'playQuiz', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuiz, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
+define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuizLearning, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
     'use strict';
 
     return (function() {
@@ -52,8 +52,8 @@ define(['jquery', 'playLearning', 'playQuiz', 'menuChallenges', 'about', 'chalkH
 
             // If the question has been answered correctly already, do a quiz version
             if (question.get('timeEnd')) {
-                this.engine.scenes['PlayQuiz'] = new PlayQuiz(this.engine, this.questions, question.get('id'), MenuLearning);
-                this.engine.changeScenes('PlayQuiz');
+                this.engine.scenes['PlayQuizLearning'] = new PlayQuizLearning(this.engine, this.questions, question.get('id'), MenuLearning);
+                this.engine.changeScenes('PlayQuizLearning');
             }
             // Otherwise use the question normally
             else {

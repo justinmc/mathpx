@@ -9,6 +9,7 @@ define(['jquery', 'backbone', 'start', 'menu', 'about', 'menuLearning', 'menuCha
             'main':                     'main',
             'learning':                 'learning',
             'learning/play':            'learning',
+            'learning/quiz':            'learning',
             'challenges':               'challenges',
             'challenges/add':           'challengesAdd',
             'challenges/add/play':      'challengesAddPlay',

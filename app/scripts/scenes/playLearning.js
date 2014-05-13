@@ -3,7 +3,7 @@
     Main game, learning mode
 */
 /*global define */
-define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
+define(['jquery', 'questions', 'play', 'playQuizLearning'], function ($, Questions, Play, PlayQuizLearning) {
     'use strict';
 
     return (function() {
@@ -48,12 +48,13 @@ define(['jquery', 'questions', 'play'], function ($, Questions, Play) {
         PlayLearning.prototype.clickNext = function() {
             var qNext = this.questions.getNextIntelligent();
             if (qNext.get('timeEnd')) {
-                this.engine.scenes[this.name] = new PlayQuiz(this.engine, this.questions, qNext.get('id'), this.SceneBack);
+                this.engine.scenes['PlayQuizLearning'] = new PlayQuizLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.changeScenes('PlayQuizLearning');
             }
             else {
-                this.engine.scenes[this.name] = new PlayLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.changeScenes('PlayLearning');
             }
-            this.engine.changeScenes(this.name);
         };
 
         return PlayLearning;

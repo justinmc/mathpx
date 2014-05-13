@@ -34,9 +34,15 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
             // Use random signs if none given
             if (!signL) {
                 signL = Math.round(Math.random());
+                if (!signL) {
+                    signL = -1;
+                }
             }
             if (!signR) {
                 signR = Math.round(Math.random());
+                if (!signR) {
+                    signR = -1;
+                }
             }
 
             var left = signL * Math.floor(Math.random() * 5);
@@ -50,7 +56,6 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
             var statuses = this.getStatuses();
 
             // Get a question from the first problem area
-            console.log(statuses);
             if (!statuses.posPos) {
                 return this.createRandom(1, 1);
             }
@@ -76,7 +81,13 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
                 return this.getNextIntelligentQuizType(-1, -1);
             }
 
-            // If no problem areas, get a random question
+            // If no problem areas, check for unanswered quiz questions
+            var unanswereds = this.getUnansweredQuizType();
+            if (unanswereds.length) {
+                return unanswereds[0];
+            }
+
+            // If nothing else, get a random new question
             return this.createRandom();
         },
 
@@ -97,22 +108,22 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
                 if (model.get('timeEndQuiz')) {
                     return false;
                 }
-                if (signL) {
+                if (signL === 1) {
                     if (model.get('numL') < 0) {
                         return false;
                     }
                 }
-                if (!signL) {
+                if (signL === -1) {
                     if (model.get('numL') > 0) {
                         return false;
                     }
                 }
-                if (signR) {
+                if (signR === 1) {
                     if (model.get('numR') < 0) {
                         return false;
                     }
                 }
-                if (!signR) {
+                if (signR === -1) {
                     if (model.get('numR') > 0) {
                         return false;
                     }
