@@ -53,12 +53,12 @@ define(['jquery', 'questions', 'playQuiz', 'playLearning'], function ($, Questio
             var qNext = this.questions.getNextIntelligent();
             var name;
             if (qNext.get('timeEnd')) {
-                this.engine.scenes['PlayQuizLearning'] = new PlayQuizLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.scenes.PlayQuizLearning = new PlayQuizLearning(this.engine, this.questions, qNext.get('id'));
                 this.engine.changeScenes('PlayQuizLearning');
             }
             else {
                 var PlayLearning = require('playLearning');
-                this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.scenes.PlayLearning = new PlayLearning(this.engine, this.questions, qNext.get('id'));
                 this.engine.changeScenes('PlayLearning');
             }
         };

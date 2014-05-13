@@ -52,12 +52,12 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
 
             // If the question has been answered correctly already, do a quiz version
             if (question.get('timeEnd')) {
-                this.engine.scenes['PlayQuizLearning'] = new PlayQuizLearning(this.engine, this.questions, question.get('id'), MenuLearning);
+                this.engine.scenes.PlayQuizLearning = new PlayQuizLearning(this.engine, this.questions, question.get('id'), MenuLearning);
                 this.engine.changeScenes('PlayQuizLearning');
             }
             // Otherwise use the question normally
             else {
-                this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, question.get('id'), MenuLearning);
+                this.engine.scenes.PlayLearning = new PlayLearning(this.engine, this.questions, question.get('id'), MenuLearning);
                 this.engine.changeScenes('PlayLearning');
             }
         };

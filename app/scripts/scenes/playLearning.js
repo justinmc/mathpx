@@ -48,11 +48,11 @@ define(['jquery', 'questions', 'play', 'playQuizLearning'], function ($, Questio
         PlayLearning.prototype.clickNext = function() {
             var qNext = this.questions.getNextIntelligent();
             if (qNext.get('timeEnd')) {
-                this.engine.scenes['PlayQuizLearning'] = new PlayQuizLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.scenes.PlayQuizLearning = new PlayQuizLearning(this.engine, this.questions, qNext.get('id'));
                 this.engine.changeScenes('PlayQuizLearning');
             }
             else {
-                this.engine.scenes['PlayLearning'] = new PlayLearning(this.engine, this.questions, qNext.get('id'));
+                this.engine.scenes.PlayLearning = new PlayLearning(this.engine, this.questions, qNext.get('id'));
                 this.engine.changeScenes('PlayLearning');
             }
         };

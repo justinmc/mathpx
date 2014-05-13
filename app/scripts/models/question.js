@@ -61,10 +61,10 @@ define(['backbone'], function (Backbone) {
 
             // If it was failed, subtract 1 for 1 fail, or 2 for 2 or more fails
             if (this.getFails(quiz) >= 1) {
-                score--; 
+                score--;
             }
             if (this.getFails(quiz) >= 2) {
-                score--; 
+                score--;
             }
 
             return score;
