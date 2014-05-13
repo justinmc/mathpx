@@ -1,5 +1,5 @@
 /*global define, alert */
-define(['jquery', 'backbone', 'start', 'menu', 'about', 'menuLearning', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'playQuiz', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function ($, Backbone, Start, Menu, About, MenuLearning, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, PlayQuiz, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
+define(['jquery', 'backbone', 'start', 'menu', 'about', 'parents', 'menuLearning', 'menuChallenges', 'menuChallengesQuestionsAdd', 'menuChallengesQuestionsSub', 'menuChallengesQuestionsAddNeg', 'menuChallengesQuestionsSubNeg', 'playQuiz', 'play', 'playAdd', 'playAddNeg', 'playSub', 'playSubNeg', 'victoryAdd', 'victorySub', 'victoryAddNeg', 'victorySubNeg'], function ($, Backbone, Start, Menu, About, Parents, MenuLearning, MenuChallenges, MenuChallengesQuestionsAdd, MenuChallengesQuestionsSub, MenuChallengesQuestionsAddNeg, MenuChallengesQuestionsSubNeg, PlayQuiz, Play, PlayAdd, PlayAddNeg, PlaySub, PlaySubNeg, VictoryAdd, VictorySub, VictoryAddNeg, VictorySubNeg) {
     'use strict';
 
     return Backbone.Router.extend({
@@ -31,6 +31,7 @@ define(['jquery', 'backbone', 'start', 'menu', 'about', 'menuLearning', 'menuCha
             'play':                     'play',
             'free':                     'free',
             'about':                    'about',
+            'parents':                  'parents',
             '*path':                    'start'
         },
 
@@ -113,6 +114,10 @@ define(['jquery', 'backbone', 'start', 'menu', 'about', 'menuLearning', 'menuCha
 
         victorySubNeg: function() {
             this.changeSceneTo('VictorySubNeg', VictorySubNeg);
+        },
+
+        parents: function() {
+            this.changeSceneTo('Parents', Parents);
         },
 
         // Change the scene to the given scene via loading

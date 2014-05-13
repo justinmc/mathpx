@@ -19,6 +19,7 @@ require.config({
         playQuizLearning: 'scenes/playQuizLearning',
         start: 'scenes/start',
         about: 'scenes/about',
+        parents: 'scenes/parents',
         menu: 'scenes/menu',
         menuLearning: 'scenes/menuLearning',
         menuChallenges: 'scenes/menuChallenges',

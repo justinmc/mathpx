@@ -3,7 +3,7 @@
     The first, main menu
 */
 /*global define */
-define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, MenuLearning, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
+define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'parents', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack'], function ($, Play, MenuChallenges, MenuLearning, About, Parents, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack) {
     'use strict';
 
     return (function() {
@@ -33,6 +33,7 @@ define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse
             this.entityAdd(new ButtonPx(centerX, 200, 'Challenges', this.clickChallenges.bind(this)));
             this.entityAdd(new ButtonPx(centerX, 280, 'Free Play', this.clickFree.bind(this)));
             this.entityAdd(new ButtonPx(centerX, 360, 'About Mathpx', this.clickAbout.bind(this)));
+            this.entityAdd(new ButtonPx(700, 360, 'Parents', this.clickParents.bind(this)));
         }
 
         Menu.prototype.render = function(ctx, dt) {
@@ -57,6 +58,11 @@ define(['jquery', 'play', 'menuChallenges', 'menuLearning', 'about', 'chalkHouse
         // About button click
         Menu.prototype.clickAbout = function(event) {
             this.engine.changeScenes('About', About);
+        };
+
+        // Parents button click
+        Menu.prototype.clickParents = function(event) {
+            this.engine.changeScenes('Parents', Parents);
         };
 
         // Back button click
