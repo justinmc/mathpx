@@ -97,6 +97,12 @@ define(['jquery'], function ($) {
 
         // ButtonPx click event, has to check if click was inside the button!
         ButtonPx.prototype.mousedown = function(event, scene) {
+            this.press(event, scene);
+        };
+        ButtonPx.prototype.touchstart = function(event, scene) {
+            this.press(event, scene);
+        };
+        ButtonPx.prototype.press = function(event, scene) {
             if (hoopty.scenes.Scene.isInside(scene.getEventCoords(event), this) && this.display) {
                 this.pressed = true;
             }
@@ -104,10 +110,23 @@ define(['jquery'], function ($) {
 
         // ButtonPx click event, has to check if click was inside the button!
         ButtonPx.prototype.mouseup = function(event, scene) {
+            this.depress(event, scene);
+        };
+        ButtonPx.prototype.touchend = function(event, scene) {
+            this.depress(event, scene);
+        };
+        ButtonPx.prototype.depress = function(event, scene) {
             if (this.pressed) {
                 this.pressed = false;
-                this.callback(event);
+
+                if (hoopty.scenes.Scene.isInside(scene.getEventCoords(event), this) && this.display) {
+                    this.callback(event);
+                }
             }
+        };
+
+        // Ignore click event
+        ButtonPx.prototype.click = function(event, scene) {
         };
 
         return ButtonPx;
