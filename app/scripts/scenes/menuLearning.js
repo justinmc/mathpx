@@ -38,7 +38,7 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
             this.questions.fetch();
             if (!this.questions.length) {
                 this.questions.reset();
-                this.getNextIntelligent();
+                this.questions.getNextIntelligent();
             }
         }
 
