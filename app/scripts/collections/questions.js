@@ -132,37 +132,54 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
             });
         },
 
-        // Returns true if this set has good results in addition, false otherwise
-        getStatuses: function() {
+        // Returns the player's score in each area
+        getScores: function() {
             var score = {
-                posPos: 0,
-                posPosQ: 0,
-                posNeg: 0,
-                posNegQ: 0,
-                negPos: 0,
-                negPosQ: 0,
-                negNeg: 0,
-                negNegQ: 0
+                posPos: null,
+                posPosQ: null,
+                posNeg: null,
+                posNegQ: null,
+                negPos: null,
+                negPosQ: null,
+                negNeg: null,
+                negNegQ: null
             };
 
+            var me = this;
             this.forEach(function(model) {
                 if (model.get('numL') >= 0 && model.get('numR') >= 0) {
-                    score.posPos = score.posPos + model.getScore();
-                    score.posPosQ = score.posPosQ + model.getScore(true);
+                    score.posPos = me.updateScore(score.posPos, model.getScore());
+                    score.posPosQ = me.updateScore(score.posPosQ, model.getScore(true));
                 }
                 if (model.get('numL') >= 0 && model.get('numR') <= 0) {
-                    score.posNeg = score.posNeg + model.getScore();
-                    score.posNegQ = score.posNegQ + model.getScore(true);
+                    score.posNeg = me.updateScore(score.posNeg, model.getScore());
+                    score.posNegQ = me.updateScore(score.posNegQ, model.getScore(true));
                 }
                 if (model.get('numL') <= 0 && model.get('numR') >= 0) {
-                    score.negPos = score.negPos + model.getScore();
-                    score.negPosQ = score.negPosQ + model.getScore(true);
+                    score.negPos = me.updateScore(score.negPos, model.getScore());
+                    score.negPosQ = me.updateScore(score.negPosQ, model.getScore(true));
                 }
                 if (model.get('numL') <= 0 && model.get('numR') <= 0) {
-                    score.negNeg = score.negNeg + model.getScore();
-                    score.negNegQ = score.negNegQ + model.getScore(true);
+                    score.negNeg = me.updateScore(score.negNeg, model.getScore());
+                    score.negNegQ = me.updateScore(score.negNegQ, model.getScore(true));
                 }
             });
+
+            return score;
+        },
+
+        updateScore: function(score, scoreModel) {
+            if (scoreModel !== null) {
+                return score += scoreModel;
+            }
+            else {
+                return null;
+            }
+        },
+
+        // Returns object representing the player's competency in each area
+        getStatuses: function() {
+            var score = this.getScores();
 
             // Create statuses from scores
             var statuses = {};

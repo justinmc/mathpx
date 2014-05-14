@@ -67,6 +67,11 @@ define(['backbone'], function (Backbone) {
                 score--;
             }
 
+            // If it was never attempted, return null
+            if (score === 0 && !this.isEnded(quiz) && this.getFails(quiz) === 0) {
+                score = null;
+            }
+
             return score;
         },
 

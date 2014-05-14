@@ -26,18 +26,23 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
 
             // Create the subtitle text
             var p1 = 'Here\'s some info on how your child is doing based on data gathered in Learning mode:';
-            this.entityAdd(new hoopty.entities.TextMultiline(60, 140, 830, p1, '18px \'Press Start 2P\'', 'rgb(255, 255, 255)', 50));
+            this.entityAdd(new hoopty.entities.TextMultiline(60, 125, 830, p1, '18px \'Press Start 2P\'', 'rgb(255, 255, 255)', 50));
 
             // Get the data
             var questions = new Questions('questionsLearning');
             questions.fetch();
-            var statuses = questions.getStatuses();
+            var scores = questions.getScores();
 
             // Create the feedback text
-            this.entityAdd(new TextPx(70, 250, 800, 'Simple Addition: ' + this.statusToText(statuses.posPos), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(70, 300, 800, 'Simple Subtraction: ' + this.statusToText(statuses.posNeg), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(70, 350, 800, 'Addition with Negatives: ' + this.statusToText(statuses.posNeg), '18px \'Press Start 2P\''));
-            this.entityAdd(new TextPx(70, 400, 800, 'Subtraction with Negatives: ' + this.statusToText(statuses.negNeg), '18px \'Press Start 2P\''));
+            console.log(scores);
+            this.entityAdd(new TextPx(70, 210, 150, 'Simple Addition: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(220, 210, 620, this.getStatusText(scores.posPos, scores.posPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
+            this.entityAdd(new TextPx(70, 280, 150, 'Simple Subtraction: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(220, 280, 620, this.getStatusText(scores.posNeg, scores.posNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
+            this.entityAdd(new TextPx(70, 350, 150, 'Addition with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(220, 350, 620, this.getStatusText(scores.negPos, scores.negPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
+            this.entityAdd(new TextPx(70, 420, 150, 'Subtraction with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(220, 420, 620, this.getStatusText(scores.negNeg, scores.negNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
         }
 
         Parents.prototype.render = function(ctx, dt) {
@@ -49,12 +54,24 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
         };
 
         // Get a string describing the player's status
-        Parents.prototype.statusToText = function(score) {
-            if (score) {
-                return 'Your child isn\'t bad.';
+        Parents.prototype.getStatusText = function(score, scoreQ) {
+            if (score === null) {
+                return 'Your child hasn\'t attempted any of these yet.';
+            }
+            else if (score >= 6 && scoreQ === null) {
+                return 'Your child is doing very well with visual problems. You should encourage him or her to try some written problems.';
+            }
+            else if (score && scoreQ === null) {
+                return 'Your child is progressing well using visual problems.';
+            }
+            else if (score && scoreQ >= 6) {
+                return 'Your child is doing very well in both visual and written problems. You could try more advanced problems with him or her in Free Play or outside of Mathpx.';
+            }
+            else if (score && !scoreQ) {
+                return 'Your child is understanding the visual problems but not the written ones. You should work with him or her to make the connection between the two.';
             }
             else {
-                return 'Your child needs help.';
+                return 'Your child has missed a few of these problems and might need help figuring out how the visual game works here.';
             }
         };
 
