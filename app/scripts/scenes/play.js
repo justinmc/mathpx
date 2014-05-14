@@ -118,40 +118,44 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
             this.activeNumsA = [];
             this.activeNumsANeg = [];
 
+            // Create the background image
+            var spriteImage = $('img.gettable.gettable-chalkboard-bg').attr('src');
+            this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
+
             // Create the lines
             this.entityAdd(new hoopty.entities.Entity(this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
             this.entityAdd(new hoopty.entities.Entity(2 * this.engine.ctx.canvas.width / 3, 100, 4, this.engine.ctx.canvas.height - 200, 'rgb(255, 255, 255)'));
 
             // Create the number bar
-            this.textLeft = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
-            this.textSign = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 3), 40, 100, '+', '24px \'Press Start 2P\''));
-            this.textRight = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 2), 40, 100, '0', '24px \'Press Start 2P\''));
-            this.textAnswer = this.entityAdd(new TextPx(Math.round(5 * this.engine.ctx.canvas.width / 6), 40, 100, '0', '24px \'Press Start 2P\''));
-            this.buttonGo = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '=', this.clickGo.bind(this), 50, 40));
-            this.buttonNext = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, '->', this.clickNext.bind(this), 50, 40));
+            this.textLeft = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 6), 60, 100, '0', '24px \'Press Start 2P\''));
+            this.textSign = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 3), 60, 100, '+', '24px \'Press Start 2P\''));
+            this.textRight = this.entityAdd(new TextPx(Math.round(this.engine.ctx.canvas.width / 2), 60, 100, '0', '24px \'Press Start 2P\''));
+            this.textAnswer = this.entityAdd(new TextPx(Math.round(5 * this.engine.ctx.canvas.width / 6), 60, 100, '0', '24px \'Press Start 2P\''));
+            this.buttonGo = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 30, '=', this.clickGo.bind(this), 50, 40));
+            this.buttonNext = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 30, '->', this.clickNext.bind(this), 50, 40));
             this.buttonNext.display = false;
-            this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 10, 'Again', this.clickAgain.bind(this), 60, 40, 'rgb(190, 190, 227)'));
+            this.buttonAgain = this.entityAdd(new ButtonPx(Math.round(2 * this.engine.ctx.canvas.width / 3), 30, 'Again', this.clickAgain.bind(this), 60, 40, 'rgb(190, 190, 227)'));
             this.buttonAgain.display = false;
-            this.quizInput = this.entityAdd(new hoopty.entities.TextInput(Math.round(2 * this.engine.ctx.canvas.width / 3) + 120, 10, 90, 38, '0', '24px \'Press Start 2P\'', null, null, null, null, 'rgb(191, 231, 178)', 'number'));
+            this.quizInput = this.entityAdd(new hoopty.entities.TextInput(Math.round(2 * this.engine.ctx.canvas.width / 3) + 120, 30, 90, 38, '0', '24px \'Press Start 2P\'', null, null, null, null, 'rgb(191, 231, 178)', 'number'));
             this.quizInput.display = this.quiz;
 
             // Create all possible toolbar entities 
-            this.toolbarNumLText = this.entityAdd(new TextPx(20, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
-            this.toolbarNumL = this.entityAdd(new Num(50, this.engine.ctx.canvas.height - 80, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegLText = this.entityAdd(new TextPx(120, this.engine.ctx.canvas.height - 40, 100, '+', '24px \'Press Start 2P\''));
-            this.toolbarNumNegL = this.entityAdd(new NumNeg(150, this.engine.ctx.canvas.height - 80, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumRText = this.entityAdd(new TextPx(350, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
-            this.toolbarNumNegRText = this.entityAdd(new TextPx(450, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
-            this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 80, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 80, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumAText = this.entityAdd(new TextPx(670, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
-            this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarNumNegAText = this.entityAdd(new TextPx(770, this.engine.ctx.canvas.height - 40, 100, '-', '24px \'Press Start 2P\''));
-            this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 80, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
-            this.toolbarTrashL = this.entityAdd(new Trash(234, this.engine.ctx.canvas.height - 80));
-            this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 80));
-            this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 80));
-            this.entityAdd(new ButtonPx(10, 10, 'Menu', this.clickMenu.bind(this), 60, 40, 'rgb(190, 190, 227)'));
+            this.toolbarNumLText = this.entityAdd(new TextPx(50, this.engine.ctx.canvas.height - 60, 100, '+', '24px \'Press Start 2P\''));
+            this.toolbarNumL = this.entityAdd(new Num(70, this.engine.ctx.canvas.height - 100, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegLText = this.entityAdd(new TextPx(140, this.engine.ctx.canvas.height - 60, 100, '+', '24px \'Press Start 2P\''));
+            this.toolbarNumNegL = this.entityAdd(new NumNeg(165, this.engine.ctx.canvas.height - 100, 0, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumRText = this.entityAdd(new TextPx(356, this.engine.ctx.canvas.height - 60, 120, '-', '24px \'Press Start 2P\''));
+            this.toolbarNumNegRText = this.entityAdd(new TextPx(456, this.engine.ctx.canvas.height - 60, 100, '-', '24px \'Press Start 2P\''));
+            this.toolbarNumR = this.entityAdd(new Num(380, this.engine.ctx.canvas.height - 100, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegR = this.entityAdd(new NumNeg(480, this.engine.ctx.canvas.height - 100, this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumAText = this.entityAdd(new TextPx(670, this.engine.ctx.canvas.height - 60, 100, '-', '24px \'Press Start 2P\''));
+            this.toolbarNumA = this.entityAdd(new Num(700, this.engine.ctx.canvas.height - 100, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarNumNegAText = this.entityAdd(new TextPx(770, this.engine.ctx.canvas.height - 60, 100, '-', '24px \'Press Start 2P\''));
+            this.toolbarNumNegA = this.entityAdd(new NumNeg(800, this.engine.ctx.canvas.height - 100, 2 * this.engine.ctx.canvas.width / 3, 0, this.engine.ctx.canvas.width / 3, this.engine.ctx.canvas.height, true, false));
+            this.toolbarTrashL = this.entityAdd(new Trash(244, this.engine.ctx.canvas.height - 104));
+            this.toolbarTrashR = this.entityAdd(new Trash(560, this.engine.ctx.canvas.height - 104));
+            this.toolbarTrashA = this.entityAdd(new Trash(880, this.engine.ctx.canvas.height - 104));
+            this.entityAdd(new ButtonPx(48, 30, 'Menu', this.clickMenu.bind(this), 60, 40, 'rgb(190, 190, 227)'));
 
             // Create the answer numbers
             this.answerNums = [];
@@ -491,7 +495,7 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
                 this.getQuestion().fail(this.quiz);
             }
 
-            if (typeof this.questions.localStorage !== 'undefined') {
+            if (this.getQuestion() !== null && typeof this.questions.localStorage !== 'undefined') {
                 this.getQuestion().save();
             }
         };
@@ -578,22 +582,22 @@ define(['jquery', 'backbone', 'question', 'questions', 'num', 'numNeg', 'textPx'
         // Return the coords of a final static position for a number
         Play.prototype.getNumPosAnswer = function(i) {
             var coords = {x: 0, y: 0};
-            coords.x = this.engine.ctx.canvas.width - (3 * this.engine.ctx.canvas.width / 12) + 40 * (i % 5);
-            coords.y = 60 + 60 * Math.floor(i / 5);
+            coords.x = this.engine.ctx.canvas.width - 300 + 40 * (i % 5);
+            coords.y = 90 + 60 * Math.floor(i / 5);
 
             return coords;
         };
         Play.prototype.getNumPosRight = function(i) {
             var coords = {x: 0, y: 0};
             coords.x = (this.engine.ctx.canvas.width / 3) + 10 + 40 * (i % 5);
-            coords.y = 60 + 60 * Math.floor(i / 5);
+            coords.y = 90 + 60 * Math.floor(i / 5);
 
             return coords;
         };
         Play.prototype.getNumPosLeft = function(i) {
             var coords = {x: 0, y: 0};
-            coords.x = 40 * (i % 5);
-            coords.y = 60 + 60 * Math.floor(i / 5);
+            coords.x = 60 + 40 * (i % 5);
+            coords.y = 90 + 60 * Math.floor(i / 5);
 
             return coords;
         };
