@@ -3,7 +3,7 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuizLearning, MenuChallenges, About, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
+define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuizLearning, MenuChallenges, About, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
     'use strict';
 
     return (function() {
@@ -22,7 +22,7 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
             this.entityAdd(new hoopty.entities.Sprite(0, 0, this.engine.ctx.canvas.width, this.engine.ctx.canvas.height, spriteImage, 0, 0, 96, 64));
 
             // Create the fun chalk dude!
-            this.entityAdd(new ChalkHouse(740, 100));
+            this.entityAdd(new MenuChalk(100, 180));
 
             // Create the title
             var centerX = Math.round(this.engine.ctx.canvas.width / 3);
@@ -32,6 +32,17 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
 
             // Create the big play button
             this.entityAdd(new ButtonPx(centerX, 360, 'Play!', this.clickPlay.bind(this)));
+
+            // Create the progress bars
+            var spriteImageMath = $('img.gettable.gettable-math').attr('src');
+            this.entityAdd(new hoopty.entities.Sprite(240, 120, 32, 32, spriteImageMath, 0, 0, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(254, 126, 32, 32, spriteImageMath, 0, 0, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(240, 170, 32, 32, spriteImageMath, 0, 0, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(254, 176, 32, 32, spriteImageMath, 0, 1, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(240, 220, 32, 32, spriteImageMath, 0, 1, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(254, 226, 32, 32, spriteImageMath, 0, 0, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(240, 270, 32, 32, spriteImageMath, 0, 1, 16, 16));
+            this.entityAdd(new hoopty.entities.Sprite(254, 276, 32, 32, spriteImageMath, 0, 1, 16, 16));
 
             // Create the question collection
             this.questions = new Questions('questionsLearning');
