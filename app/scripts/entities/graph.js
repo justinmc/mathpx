@@ -59,7 +59,7 @@ define(['jquery'], function ($) {
             ctx.moveTo(x, this.yOriginal);
             ctx.lineTo(x, this.yOriginal + this.graphHeight);
             ctx.stroke();
-            
+
             // Draw the notches
             ctx.moveTo(x - this.notchLength / 2, this.yOriginal);
             ctx.lineTo(x + this.notchLength / 2, this.yOriginal);
