@@ -3,7 +3,7 @@
     Feedback page for parents
 */
 /*global define */
-define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, Play, AboutChallenges, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
+define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'graph', 'questions'], function ($, Play, AboutChallenges, ChalkHouse, TextPx, TextPxTitle, ButtonPx, ButtonBack, Graph, Questions) {
     'use strict';
 
     return (function() {
@@ -35,14 +35,20 @@ define(['jquery', 'play', 'menuChallenges', 'chalkHouse', 'textPx', 'textPxTitle
 
             // Create the feedback text
             console.log(scores);
-            this.entityAdd(new TextPx(70, 210, 150, 'Simple Addition: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
-            this.entityAdd(new hoopty.entities.TextMultiline(220, 210, 620, this.getStatusText(scores.posPos, scores.posPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
-            this.entityAdd(new TextPx(70, 280, 150, 'Simple Subtraction: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
-            this.entityAdd(new hoopty.entities.TextMultiline(220, 280, 620, this.getStatusText(scores.posNeg, scores.posNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
-            this.entityAdd(new TextPx(70, 350, 150, 'Addition with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
-            this.entityAdd(new hoopty.entities.TextMultiline(220, 350, 620, this.getStatusText(scores.negPos, scores.negPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
-            this.entityAdd(new TextPx(70, 420, 150, 'Subtraction with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
-            this.entityAdd(new hoopty.entities.TextMultiline(220, 420, 620, this.getStatusText(scores.negNeg, scores.negNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 70, 20));
+            this.entityAdd(new TextPx(90, 195, 150, 'Simple Addition: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(240, 195, 620, this.getStatusText(scores.posPos, scores.posPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
+            this.entityAdd(new TextPx(90, 265, 150, 'Simple Subtraction: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(240, 265, 620, this.getStatusText(scores.posNeg, scores.posNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
+            this.entityAdd(new TextPx(90, 335, 150, 'Addition with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(240, 335, 620, this.getStatusText(scores.negPos, scores.negPosQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
+            this.entityAdd(new TextPx(90, 405, 150, 'Subtraction with Negatives: ', '18px \'Press Start 2P\'', 'rgb(190, 190, 227)'));
+            this.entityAdd(new hoopty.entities.TextMultiline(240, 405, 620, this.getStatusText(scores.negNeg, scores.negNegQ), '14px \'Press Start 2P\'', 'rgb(255, 255, 255)', 60, 20));
+
+            // Create the graphs
+            this.entityAdd(new Graph(60, 184, scores.posPos + scores.posPosQ));
+            this.entityAdd(new Graph(60, 254, scores.posNeg + scores.posNegQ));
+            this.entityAdd(new Graph(60, 324, scores.negPos + scores.negPosQ));
+            this.entityAdd(new Graph(60, 394, scores.negNeg + scores.negNegQ));
         }
 
         Parents.prototype.render = function(ctx, dt) {
