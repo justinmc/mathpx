@@ -151,15 +151,15 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
                     score.posPos = me.updateScore(score.posPos, model.getScore());
                     score.posPosQ = me.updateScore(score.posPosQ, model.getScore(true));
                 }
-                if (model.get('numL') >= 0 && model.get('numR') <= 0) {
+                if (model.get('numL') >= 0 && model.get('numR') <= 0 && model.get('numL') > model.get('numR') && model.get('numL') + model.get('numR') >= 0) {
                     score.posNeg = me.updateScore(score.posNeg, model.getScore());
                     score.posNegQ = me.updateScore(score.posNegQ, model.getScore(true));
                 }
-                if (model.get('numL') <= 0 && model.get('numR') >= 0) {
+                if (model.get('numL') < 0 && model.get('numR') >= 0) {
                     score.negPos = me.updateScore(score.negPos, model.getScore());
                     score.negPosQ = me.updateScore(score.negPosQ, model.getScore(true));
                 }
-                if (model.get('numL') <= 0 && model.get('numR') <= 0) {
+                if (model.get('numL') <= 0 && model.get('numR') <= 0 && !(model.get('numL') === 0 && model.get('numR') === 0)) {
                     score.negNeg = me.updateScore(score.negNeg, model.getScore());
                     score.negNegQ = me.updateScore(score.negNegQ, model.getScore(true));
                 }
@@ -170,10 +170,10 @@ define(['backbone', 'question', 'localstorage'], function (Backbone, Question) {
 
         updateScore: function(score, scoreModel) {
             if (scoreModel !== null) {
-                return score += scoreModel;
+                return score + scoreModel;
             }
             else {
-                return null;
+                return score;
             }
         },
 

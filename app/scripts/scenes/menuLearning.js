@@ -71,6 +71,9 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
             if (scoreNorm > 1) {
                 scoreNorm = 1;
             }
+            else if (scoreNorm < 0) {
+                scoreNorm = 0;
+            }
 
             return scoreNorm;
         };
