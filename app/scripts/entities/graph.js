@@ -56,11 +56,14 @@ define(['jquery'], function ($) {
             // Draw the line
             ctx.strokeStyle = 'rgb(255, 255, 255)';
             ctx.lineWidth = 3;
+            ctx.beginPath();
             ctx.moveTo(x, this.yOriginal);
             ctx.lineTo(x, this.yOriginal + this.graphHeight);
+            ctx.closePath();
             ctx.stroke();
 
             // Draw the notches
+            ctx.beginPath();
             ctx.moveTo(x - this.notchLength / 2, this.yOriginal);
             ctx.lineTo(x + this.notchLength / 2, this.yOriginal);
             ctx.stroke();
@@ -69,6 +72,7 @@ define(['jquery'], function ($) {
             ctx.stroke();
             ctx.moveTo(x - this.notchLength / 2, this.yOriginal + this.graphHeight);
             ctx.lineTo(x + this.notchLength / 2, this.yOriginal + this.graphHeight);
+            ctx.closePath();
             ctx.stroke();
 
             // Draw the sprite

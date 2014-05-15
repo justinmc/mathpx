@@ -35,6 +35,7 @@ require.config({
         victorySubNeg: 'scenes/victorySubNeg',
         loading: 'scenes/loading',
         graph: 'entities/graph',
+        bar: 'entities/bar',
         spriteIcon: 'entities/spriteIcon',
         startChalk: 'entities/startChalk',
         chalkTTT: 'entities/chalkTTT',

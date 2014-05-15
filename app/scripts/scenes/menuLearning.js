@@ -3,7 +3,7 @@
    The menu for the Learning mode
 */
 /*global define */
-define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions'], function ($, PlayLearning, PlayQuizLearning, MenuChallenges, About, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions) {
+define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about', 'startChalk', 'textPx', 'textPxTitle', 'buttonPx', 'buttonBack', 'questions', 'bar'], function ($, PlayLearning, PlayQuizLearning, MenuChallenges, About, MenuChalk, TextPx, TextPxTitle, ButtonPx, ButtonBack, Questions, Bar) {
     'use strict';
 
     return (function() {
@@ -33,7 +33,7 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
             // Create the big play button
             this.entityAdd(new ButtonPx(centerX, 360, 'Play!', this.clickPlay.bind(this)));
 
-            // Create the progress bars
+            // Create the progress bar labels
             var spriteImageMath = $('img.gettable.gettable-math').attr('src');
             this.entityAdd(new hoopty.entities.Sprite(240, 120, 32, 32, spriteImageMath, 0, 0, 16, 16));
             this.entityAdd(new hoopty.entities.Sprite(254, 126, 32, 32, spriteImageMath, 0, 0, 16, 16));
@@ -44,6 +44,17 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
             this.entityAdd(new hoopty.entities.Sprite(240, 270, 32, 32, spriteImageMath, 0, 1, 16, 16));
             this.entityAdd(new hoopty.entities.Sprite(254, 276, 32, 32, spriteImageMath, 0, 1, 16, 16));
 
+            // Get the data
+            var questions = new Questions('questionsLearning');
+            questions.fetch();
+            var scores = questions.getScores();
+
+            // Create the progress bars
+            this.entityAdd(new Bar(300, 120, this.getScoreBar(scores.posPos, scores.posPosQ)));
+            this.entityAdd(new Bar(300, 170, this.getScoreBar(scores.posNeg, scores.posNegQ)));
+            this.entityAdd(new Bar(300, 220, this.getScoreBar(scores.negPos, scores.negPosQ)));
+            this.entityAdd(new Bar(300, 270, this.getScoreBar(scores.negNeg, scores.negNegQ)));
+
             // Create the question collection
             this.questions = new Questions('questionsLearning');
             this.questions.fetch();
@@ -52,6 +63,17 @@ define(['jquery', 'playLearning', 'playQuizLearning', 'menuChallenges', 'about',
                 this.questions.getNextIntelligent();
             }
         }
+
+        // Get a score normalized from 0 to 1 including quiz and regular
+        MenuLearning.prototype.getScoreBar = function(score, scoreQ) {
+            var scoreNorm = (score + scoreQ) / 12;
+
+            if (scoreNorm > 1) {
+                scoreNorm = 1;
+            }
+
+            return scoreNorm;
+        };
 
         MenuLearning.prototype.render = function(ctx, dt) {
             MenuLearning.__super__.render.call(this, ctx, dt);
