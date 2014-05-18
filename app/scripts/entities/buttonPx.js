@@ -100,6 +100,10 @@ define(['jquery'], function ($) {
             this.press(event, scene);
         };
         ButtonPx.prototype.touchstart = function(event, scene) {
+            if (hoopty.scenes.Scene.isInside(scene.getEventCoords(event), this) && this.display) {
+                event.preventDefault();
+            }
+
             this.press(event, scene);
         };
         ButtonPx.prototype.press = function(event, scene) {
